@@ -17,8 +17,7 @@ const GITHUB_CLIENT_SECRET = process.env.GITHUB_CLIENT_SECRET || 'your_github_cl
 
 const googleClient = new OAuth2Client(
   GOOGLE_CLIENT_ID,
-  GOOGLE_CLIENT_SECRET,
-  process.env.NODE_ENV === 'production' ? (process.env.BACKEND_URL + '/api/auth/google/callback') : 'http://localhost:3001/api/auth/google/callback'
+  GOOGLE_CLIENT_SECRET
 );
 const app = express();
 const cors = require('cors');
@@ -1477,7 +1476,12 @@ async function handleOAuthUserLogin(email, name) {
 
 // Google OAuth Login
 app.get('/api/auth/google', (req, res) => {
-  const url = googleClient.generateAuthUrl({
+  const protocol = req.headers['x-forwarded-proto'] || req.protocol;
+  const host = req.get('host');
+  const redirectUri = `${protocol}://${host}/api/auth/google/callback`;
+  
+  const tempClient = new OAuth2Client(GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, redirectUri);
+  const url = tempClient.generateAuthUrl({
     access_type: 'offline',
     scope: ['https://www.googleapis.com/auth/userinfo.profile', 'https://www.googleapis.com/auth/userinfo.email']
   });
@@ -1492,11 +1496,16 @@ app.get('/api/auth/google/callback', async (req, res) => {
   }
 
   try {
-    const { tokens } = await googleClient.getToken(code);
-    googleClient.setCredentials(tokens);
+    const protocol = req.headers['x-forwarded-proto'] || req.protocol;
+    const host = req.get('host');
+    const redirectUri = `${protocol}://${host}/api/auth/google/callback`;
+    const tempClient = new OAuth2Client(GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, redirectUri);
+
+    const { tokens } = await tempClient.getToken(code);
+    tempClient.setCredentials(tokens);
 
     // Verify ID Token to get user info
-    const ticket = await googleClient.verifyIdToken({
+    const ticket = await tempClient.verifyIdToken({
       idToken: tokens.id_token,
       audience: GOOGLE_CLIENT_ID
     });
