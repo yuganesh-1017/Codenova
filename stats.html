@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CodeNova | Performance Analytics</title>
+  <!-- Google Fonts for Outfit and Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
+  <!-- Dynamic Data Synchronization -->
+  <script src="storage.js?v=19"></script>
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="dashboard.css?v=19">
+  <style>
+    .stats-main-card {
+      padding: 24px !important;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+    .stats-progress-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      padding-bottom: 16px;
+    }
+    .stats-progress-header h2 {
+      font-family: var(--font-title);
+      font-size: 18px;
+      font-weight: 600;
+      color: white;
+    }
+    .stats-grid-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+    .stats-column-box {
+      background: rgba(255, 255, 255, 0.01);
+      border: 1px solid rgba(255, 255, 255, 0.04);
+      border-radius: 14px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      text-align: center;
+    }
+    .stats-column-box h3 {
+      font-family: var(--font-title);
+      font-size: 15px;
+      font-weight: 600;
+      color: white;
+    }
+    .stats-ratio-val {
+      font-family: var(--font-title);
+      font-size: 28px;
+      font-weight: 700;
+    }
+    .progress-bar-track {
+      width: 100%;
+      height: 8px;
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 4px;
+      overflow: hidden;
+      margin-top: 6px;
+    }
+    .progress-bar-fill {
+      height: 100%;
+      border-radius: 4px;
+    }
+    .fill-easy { background: var(--color-green); width: 60%; }
+    .fill-medium { background: #f59e0b; width: 36%; }
+    .fill-hard { background: var(--color-red); width: 13.3%; }
+
+    /* CSS Bar charts showing weekly activity logs */
+    .activity-chart-box {
+      margin-top: 10px;
+      background: rgba(255, 255, 255, 0.015);
+      border: 1px solid rgba(255, 255, 255, 0.04);
+      border-radius: 16px;
+      padding: 24px;
+    }
+    .activity-chart-box h3 {
+      font-family: var(--font-title);
+      font-size: 16px;
+      font-weight: 600;
+      color: white;
+      margin-bottom: 20px;
+    }
+    .chart-columns-container {
+      height: 160px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-around;
+      padding: 0 10px;
+      border-bottom: 1.5px solid rgba(255, 255, 255, 0.08);
+    }
+    .chart-bar-col {
+      width: 24px;
+      border-top-left-radius: 6px;
+      border-top-right-radius: 6px;
+      background: linear-gradient(180deg, var(--color-pink), var(--color-purple));
+      position: relative;
+      cursor: pointer;
+      transition: opacity 0.2s ease;
+    }
+    .chart-bar-col:hover {
+      opacity: 0.8;
+    }
+    .bar-tooltip {
+      position: absolute;
+      top: -28px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(18, 10, 34, 0.95);
+      border: 1px solid rgba(168, 85, 247, 0.25);
+      border-radius: 4px;
+      padding: 2px 6px;
+      font-size: 10.5px;
+      font-weight: 600;
+      color: white;
+      pointer-events: none;
+      white-space: nowrap;
+      opacity: 0;
+      transition: opacity 0.25s ease;
+    }
+    .chart-bar-col:hover .bar-tooltip {
+      opacity: 1;
+    }
+    .chart-labels-row {
+      display: flex;
+      justify-content: space-around;
+      margin-top: 8px;
+      color: var(--text-dimmed);
+      font-size: 11.5px;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <!-- Top Navigation Header -->
+  <header class="dashboard-header">
+    <div class="header-left">
+      <a href="dashboard.html" class="logo-link">
+        <svg class="logo-small" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="23" y="23" width="54" height="54" rx="14" transform="rotate(45 50 50)" stroke="url(#settingsLogoGrad)" stroke-width="5" />
+          <path d="M 44 42 L 36 50 L 44 58" stroke="#f472b6" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" />
+          <path d="M 56 42 L 64 50 L 56 58" stroke="#f472b6" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+        <span class="logo-text">Code<span class="highlight">Nova</span></span>
+      </a>
+    </div>
+
+    <nav class="header-nav">
+      <a href="dashboard.html" class="nav-item">Explore</a>
+      <a href="problems.html" class="nav-item">Problems</a>
+      <a href="memory_create.html" class="nav-item">Memory Code</a>
+      <a href="memory_storage.html" class="nav-item">Memory Storage</a>
+      <a href="stats.html" class="nav-item active">Roadmap</a>
+    </nav>
+
+    <div class="header-right">
+
+
+      <button class="notification-btn" aria-label="Notifications">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9" />
+          <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0" />
+        </svg>
+        <span class="notification-dot"></span>
+      </button>
+
+      <a href="profile.html" class="profile-avatar" title="View Profile">
+        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="50" cy="50" r="50" fill="url(#avatarGrad)" />
+          <circle cx="50" cy="52" r="24" fill="#ffedd5" />
+          <circle cx="42" cy="50" r="3" fill="#1e1b4b" />
+          <circle cx="58" cy="50" r="3" fill="#1e1b4b" />
+          <path d="M 24 46 C 24 28, 76 28, 76 46 C 76 56, 68 52, 68 62 C 60 54, 50 62, 40 54 C 32 62, 24 56, 24 46 Z" fill="url(#hairGrad)" />
+          <path d="M 32 36 L 40 46 L 48 38 L 52 46 L 60 38 L 68 46 L 72 38" fill="none" stroke="url(#hairGrad)" stroke-width="5" stroke-linecap="round" />
+        </svg>
+      </a>
+    </div>
+  </header>
+
+  <!-- Content Layout Grid -->
+  <div class="dashboard-container">
+    <!-- LEFT SIDEBAR -->
+    <aside class="sidebar-left">
+      <nav class="sidebar-nav">
+        <a href="dashboard.html" class="sidebar-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          <span>Home</span>
+        </a>
+        <a href="problems.html" class="sidebar-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M9 17V7h6v10"/></svg>
+          <span>Problems</span>
+        </a>
+
+        <a href="discuss.html" class="sidebar-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          <span>Discuss</span>
+        </a>
+        <a href="bookmarks.html" class="sidebar-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"/></svg>
+          <span>Bookmarks</span>
+        </a>
+        <a href="stats.html" class="sidebar-item active">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+          <span>Stats</span>
+        </a>
+        <a href="profile.html" class="sidebar-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          <span>Profile</span>
+        </a>
+        <a href="settings.html" class="sidebar-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+          <span>Settings</span>
+        </a>
+      </nav>
+    </aside>
+
+    <!-- MIDDLE COLUMN: STATS OVERVIEW -->
+    <main class="main-content">
+      <section class="card stats-main-card">
+        <div class="stats-progress-header">
+          <h2>Difficulty Progress Breakdowns</h2>
+          <span style="font-size:13.5px; font-weight:600; color:var(--color-pink);">Overall Ratio: 41.4%</span>
+        </div>
+
+        <div class="stats-grid-row">
+          <!-- Easy -->
+          <div class="stats-column-box">
+            <h3>Easy Challenges</h3>
+            <span class="stats-ratio-val" style="color: var(--color-green);">18 / 30</span>
+            <div class="progress-bar-track">
+              <div class="progress-bar-fill fill-easy"></div>
+            </div>
+            <span style="font-size:11px; color:var(--text-muted);">60.0% Done</span>
+          </div>
+
+          <!-- Medium -->
+          <div class="stats-column-box">
+            <h3>Medium Challenges</h3>
+            <span class="stats-ratio-val" style="color: #f59e0b;">9 / 25</span>
+            <div class="progress-bar-track">
+              <div class="progress-bar-fill fill-medium"></div>
+            </div>
+            <span style="font-size:11px; color:var(--text-muted);">36.0% Done</span>
+          </div>
+
+          <!-- Hard -->
+          <div class="stats-column-box">
+            <h3>Hard Challenges</h3>
+            <span class="stats-ratio-val" style="color: var(--color-red);">2 / 15</span>
+            <div class="progress-bar-track">
+              <div class="progress-bar-fill fill-hard"></div>
+            </div>
+            <span style="font-size:11px; color:var(--text-muted);">13.3% Done</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Activity Weekly Chart -->
+      <section class="activity-chart-box">
+        <h3>Submissions Heat Calendar (Past Week)</h3>
+        
+        <div class="chart-columns-container">
+          <!-- Mon -->
+          <div class="chart-bar-col" style="height: 40px;">
+            <div class="bar-tooltip">2 Submissions</div>
+          </div>
+          <!-- Tue -->
+          <div class="chart-bar-col" style="height: 20px;">
+            <div class="bar-tooltip">1 Submission</div>
+          </div>
+          <!-- Wed -->
+          <div class="chart-bar-col" style="height: 80px;">
+            <div class="bar-tooltip">4 Submissions</div>
+          </div>
+          <!-- Thu -->
+          <div class="chart-bar-col" style="height: 120px;">
+            <div class="bar-tooltip">6 Submissions</div>
+          </div>
+          <!-- Fri -->
+          <div class="chart-bar-col" style="height: 60px;">
+            <div class="bar-tooltip">3 Submissions</div>
+          </div>
+          <!-- Sat -->
+          <div class="chart-bar-col" style="height: 10px;">
+            <div class="bar-tooltip">0 Submissions</div>
+          </div>
+          <!-- Sun -->
+          <div class="chart-bar-col" style="height: 140px;">
+            <div class="bar-tooltip">7 Submissions</div>
+          </div>
+        </div>
+        
+        <div class="chart-labels-row">
+          <span>MON</span>
+          <span>TUE</span>
+          <span>WED</span>
+          <span>THU</span>
+          <span>FRI</span>
+          <span>SAT</span>
+          <span>SUN</span>
+        </div>
+      </section>
+    </main>
+
+    <!-- RIGHT COLUMN -->
+    <aside class="sidebar-right">
+
+    </aside>
+  </div>
+  
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      fetch('/api/problems')
+        .then(res => res.json())
+        .then(problems => {
+          calculateStats(problems);
+        })
+        .catch(err => {
+          console.warn('Failed to load stats from API, using fallback calculations:', err);
+          calculateStats(FALLBACK_PROBLEMS);
+        });
+
+      function calculateStats(problems) {
+        const solvedList = getSolved();
+        
+        // Merge offline custom problems in calculations
+        const localCustoms = JSON.parse(localStorage.getItem('custom_problems') || '{}');
+        const customProbs = Object.values(localCustoms);
+        
+        const mergedProblems = [...problems];
+        customProbs.forEach(cp => {
+          if (!mergedProblems.some(p => p.id === cp.id)) {
+            mergedProblems.push(cp);
+          }
+        });
+
+        let easyTotal = 0, easySolved = 0;
+        let mediumTotal = 0, mediumSolved = 0;
+        let hardTotal = 0, hardSolved = 0;
+
+        mergedProblems.forEach(prob => {
+          const diff = prob.difficulty.toLowerCase();
+          const isSolved = solvedList.includes(prob.id);
+          if (diff === 'easy') {
+            easyTotal++;
+            if (isSolved) easySolved++;
+          } else if (diff === 'medium') {
+            mediumTotal++;
+            if (isSolved) mediumSolved++;
+          } else if (diff === 'hard') {
+            hardTotal++;
+            if (isSolved) hardSolved++;
+          }
+        });
+
+        const totalSolved = easySolved + mediumSolved + hardSolved;
+        const totalProblems = easyTotal + mediumTotal + hardTotal;
+        const overallRatio = totalProblems > 0 ? ((totalSolved / totalProblems) * 100).toFixed(1) : 0;
+
+        // 1. Update overall ratio header
+        const ratioSpan = document.querySelector('.stats-progress-header span');
+        if (ratioSpan) {
+          ratioSpan.textContent = `Overall Ratio: ${overallRatio}%`;
+        }
+
+        const boxes = document.querySelectorAll('.stats-column-box');
+        if (boxes.length >= 3) {
+          // Update Easy
+          const easyRatioText = easyTotal > 0 ? ((easySolved / easyTotal) * 100).toFixed(1) : 0;
+          boxes[0].querySelector('.stats-ratio-val').textContent = `${easySolved} / ${easyTotal}`;
+          boxes[0].querySelector('.progress-bar-fill').className = 'progress-bar-fill'; // reset to avoid animation delay differences
+          boxes[0].querySelector('.progress-bar-fill').style.width = `${easyRatioText}%`;
+          boxes[0].querySelector('.progress-bar-fill').style.background = 'var(--color-green)';
+          boxes[0].querySelector('span:last-child').textContent = `${easyRatioText}% Done`;
+
+          // Update Medium
+          const mediumRatioText = mediumTotal > 0 ? ((mediumSolved / mediumTotal) * 100).toFixed(1) : 0;
+          boxes[1].querySelector('.stats-ratio-val').textContent = `${mediumSolved} / ${mediumTotal}`;
+          boxes[1].querySelector('.progress-bar-fill').className = 'progress-bar-fill';
+          boxes[1].querySelector('.progress-bar-fill').style.width = `${mediumRatioText}%`;
+          boxes[1].querySelector('.progress-bar-fill').style.background = '#f59e0b';
+          boxes[1].querySelector('span:last-child').textContent = `${mediumRatioText}% Done`;
+
+          // Update Hard
+          const hardRatioText = hardTotal > 0 ? ((hardSolved / hardTotal) * 100).toFixed(1) : 0;
+          boxes[2].querySelector('.stats-ratio-val').textContent = `${hardSolved} / ${hardTotal}`;
+          boxes[2].querySelector('.progress-bar-fill').className = 'progress-bar-fill';
+          boxes[2].querySelector('.progress-bar-fill').style.width = `${hardRatioText}%`;
+          boxes[2].querySelector('.progress-bar-fill').style.background = 'var(--color-red)';
+          boxes[2].querySelector('span:last-child').textContent = `${hardRatioText}% Done`;
+        }
+      }
+    });
+  </script>
+</body>
+</html>

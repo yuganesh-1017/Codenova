@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CodeNova | Admin Control Center</title>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@400;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+  <script src="storage.js?v=19"></script>
+  <link rel="stylesheet" href="dashboard.css?v=19">
+  <style>
+    body {
+      background: linear-gradient(135deg, #09090e 0%, #11111d 100%);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .admin-workspace {
+      display: grid;
+      grid-template-columns: 1fr 1.1fr;
+      gap: 30px;
+      max-width: 1400px;
+      margin: 40px auto;
+      padding: 0 30px;
+      flex: 1;
+      width: 100%;
+    }
+
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-card);
+      border-radius: 16px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+
+    .admin-left-col, .admin-right-col {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    /* Tab Controls */
+    .tab-header-row {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 8px;
+    }
+
+    .admin-tab-btn {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      color: var(--text-muted);
+      border-radius: 10px;
+      padding: 10px 20px;
+      font-family: var(--font-title);
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.25s ease;
+    }
+
+    .admin-tab-btn.active {
+      background: var(--grad-btn);
+      border-color: transparent;
+      color: white;
+      box-shadow: 0 4px 15px rgba(236, 72, 153, 0.25);
+    }
+
+    /* User Directory Table */
+    .user-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 16px;
+    }
+
+    .user-table th {
+      text-align: left;
+      font-family: var(--font-title);
+      font-size: 13.5px;
+      font-weight: 600;
+      color: var(--text-muted);
+      padding: 12px 16px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .user-table td {
+      padding: 14px 16px;
+      font-size: 13.5px;
+      color: var(--text-main);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+    }
+
+    .user-table tr:hover td {
+      background: rgba(168, 85, 247, 0.04);
+    }
+
+    .inspect-btn {
+      background: rgba(168, 85, 247, 0.1);
+      border: 1px solid rgba(168, 85, 247, 0.3);
+      color: #c084fc;
+      border-radius: 6px;
+      padding: 6px 12px;
+      font-size: 12px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .inspect-btn:hover {
+      background: rgba(168, 85, 247, 0.2);
+      border-color: rgba(168, 85, 247, 0.5);
+      color: white;
+    }
+
+    /* Code Viewer Accordion */
+    .code-accordion-item {
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 8px;
+      margin-bottom: 10px;
+      overflow: hidden;
+    }
+
+    .code-accordion-header {
+      background: rgba(255, 255, 255, 0.02);
+      padding: 12px 16px;
+      font-size: 13.5px;
+      font-weight: 600;
+      color: white;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .code-accordion-header:hover {
+      background: rgba(168, 85, 247, 0.05);
+    }
+
+    .code-accordion-content {
+      display: none;
+      padding: 16px;
+      background: #070314;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .code-accordion-content pre {
+      margin: 0;
+      font-family: 'Fira Code', monospace;
+      font-size: 12.5px;
+      color: #e2e8f0;
+      white-space: pre-wrap;
+    }
+
+    /* Global Question Form */
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 13.5px;
+      font-weight: 500;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+
+    .form-group input, .form-group textarea, .form-group select {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 8px;
+      padding: 10px 14px;
+      color: white;
+      font-family: var(--font-body);
+      font-size: 13.5px;
+      outline: none;
+      transition: all 0.2s;
+    }
+
+    .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+      border-color: var(--color-purple);
+      box-shadow: 0 0 10px rgba(168, 85, 247, 0.2);
+    }
+
+    .form-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 12px;
+      margin-top: 10px;
+    }
+
+    .submit-btn {
+      background: var(--grad-btn);
+      border: none;
+      border-radius: 8px;
+      padding: 12px 24px;
+      color: white;
+      font-family: var(--font-title);
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(236, 72, 153, 0.3);
+      transition: all 0.2s;
+    }
+
+    .submit-btn:hover {
+      box-shadow: 0 6px 20px rgba(236, 72, 153, 0.45);
+      transform: translateY(-1px);
+    }
+
+    /* Grid layout for parameters */
+    .grid-row-3 {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 8px;
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="dashboard-header">
+    <div class="header-left">
+      <a href="#" class="logo-link">
+        <svg class="logo-small" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="adminLogoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#a855f7" />
+              <stop offset="100%" stop-color="#ec4899" />
+            </linearGradient>
+          </defs>
+          <rect x="23" y="23" width="54" height="54" rx="14" transform="rotate(45 50 50)" stroke="url(#adminLogoGrad)" stroke-width="5" />
+          <path d="M 44 42 L 36 50 L 44 58" stroke="#f472b6" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" />
+          <path d="M 56 42 L 64 50 L 56 58" stroke="#f472b6" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+        <span class="logo-text">Code<span class="highlight">Nova</span> <span style="font-size: 11px; font-weight:600; background:rgba(236, 72, 153, 0.15); color:#ec4899; padding:2px 8px; border-radius:10px; margin-left:6px; letter-spacing:0.5px; text-transform:uppercase;">Admin</span></span>
+      </a>
+    </div>
+
+    <nav class="header-nav">
+    </nav>
+
+    <div class="header-right"></div>
+  </header>
+
+  <!-- Content Container -->
+  <div class="admin-workspace">
+    <!-- LEFT PANEL: USER LIST or FORGE QUESTION -->
+    <div class="admin-left-col">
+      <div class="tab-header-row">
+        <button class="admin-tab-btn active" id="tabUsersBtn">Users Directory</button>
+        <button class="admin-tab-btn" id="tabForgeBtn">Forge Global Problem</button>
+      </div>
+
+      <!-- TAB 1: USERS LIST -->
+      <div class="card" id="usersPanel">
+        <h2>Users Overview</h2>
+        <p style="font-size: 13px; color: var(--text-muted); margin-top: 4px; margin-bottom: 12px;">Auditing user submissions and private memory statistics.</p>
+        
+        <table class="user-table">
+          <thead>
+            <tr>
+              <th>User Name</th>
+              <th>Email</th>
+              <th style="text-align: center;">Solved</th>
+              <th style="text-align: center;">Custom</th>
+              <th style="text-align: right;">Action</th>
+            </tr>
+          </thead>
+          <tbody id="userTableBody">
+            <tr>
+              <td colspan="5" style="text-align: center; color: var(--text-muted); padding: 30px;">Loading registered coders...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- TAB 2: FORGE GLOBAL PROBLEM -->
+      <div class="card" id="forgePanel" style="display: none;">
+        <h2>Forge Global Problem</h2>
+        <p style="font-size: 13px; color: var(--text-muted); margin-top: 4px; margin-bottom: 20px;">Deploy a new programming challenge accessible to everyone.</p>
+
+        <form id="globalProblemForm">
+          <div class="form-group">
+            <label for="problemTitle">Problem Title</label>
+            <input type="text" id="problemTitle" placeholder="e.g. Rotate Array Right" required>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+            <div class="form-group">
+              <label for="problemDifficulty">Difficulty</label>
+              <select id="problemDifficulty">
+                <option value="easy">Easy</option>
+                <option value="medium">Medium</option>
+                <option value="hard">Hard</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="problemCategory">Category</label>
+              <select id="problemCategory">
+                <option value="arrays">Arrays</option>
+                <option value="strings">Strings</option>
+                <option value="math">Math</option>
+                <option value="loops">Loops</option>
+                <option value="recursion">Recursion</option>
+                <option value="searching">Searching</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="problemFuncName">Target Function Name</label>
+            <input type="text" id="problemFuncName" placeholder="e.g. rotateArray" required>
+          </div>
+
+          <div class="form-group">
+            <label for="problemRetType">Return Type</label>
+            <select id="problemRetType">
+              <option value="int">Integer (int)</option>
+              <option value="double">Decimal (double)</option>
+              <option value="string">String (string)</option>
+              <option value="bool">Boolean (bool)</option>
+              <option value="vector<int>">Integer Array (vector&lt;int&gt;)</option>
+              <option value="vector<string>">String Array (vector&lt;string&gt;)</option>
+              <option value="vector<vector<int>>">2D Integer Array (vector&lt;vector&lt;int&gt;&gt;)</option>
+              <option value="vector<vector<string>>">2D String Array (vector&lt;vector&lt;string&gt;&gt;)</option>
+              <option value="ListNode">Linked List Node (ListNode)</option>
+              <option value="TreeNode">Binary Tree Node (TreeNode)</option>
+              <option value="map">Key-Value Map (Map)</option>
+              <option value="json">Generic Object (JSON)</option>
+              <option value="console-io">Console I/O (stdin/stdout)</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Function Parameters</label>
+            <div id="parameterGridContainer">
+              <div class="grid-row-3">
+                <input type="text" placeholder="Param name (e.g. nums)" class="param-name" required>
+                <select class="param-type">
+                  <option value="vector<int>">vector&lt;int&gt;</option>
+                  <option value="int">int</option>
+                  <option value="double">double</option>
+                  <option value="string">string</option>
+                  <option value="bool">bool</option>
+                  <option value="vector<string>">vector&lt;string&gt;</option>
+                  <option value="vector<vector<int>>">vector&lt;vector&lt;int&gt;&gt;</option>
+                  <option value="vector<vector<string>>">vector&lt;vector&lt;string&gt;&gt;</option>
+                  <option value="ListNode">ListNode</option>
+                  <option value="TreeNode">TreeNode</option>
+                  <option value="map">map (JSON Object)</option>
+                  <option value="json">json (Any JSON value)</option>
+                </select>
+                <button type="button" class="inspect-btn delete-param-btn" style="background: rgba(239,68,68,0.1); border-color: rgba(239,68,68,0.3); color: #f87171;">Delete</button>
+              </div>
+            </div>
+            <button type="button" class="inspect-btn" id="addParamBtn" style="margin-top: 8px;">+ Add Parameter</button>
+          </div>
+
+          <div class="form-group">
+            <label for="problemDescription">Description (HTML supported)</label>
+            <textarea id="problemDescription" rows="4" placeholder="Describe the question guidelines..." required></textarea>
+          </div>
+
+          <div class="form-group">
+            <label>Validation Test Cases (Min 1)</label>
+            <div id="testCasesContainer" style="display: flex; flex-direction: column; gap: 8px;">
+              <!-- Handled in script -->
+            </div>
+            <button type="button" class="inspect-btn" id="addTestCaseBtn" style="margin-top: 8px;">+ Add Test Case</button>
+          </div>
+
+          <div class="form-actions">
+            <button type="submit" class="submit-btn">Publish Challenge</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- RIGHT PANEL: INSPECTOR OR EMPTY -->
+    <div class="admin-right-col">
+      <div class="card" id="inspectorPanel">
+        <h2>User Submissions Inspector</h2>
+        <p style="font-size: 13px; color: var(--text-muted); margin-top: 4px; margin-bottom: 24px;">Select a user from the directory to review their codes and custom questions.</p>
+        
+        <div id="inspectorDetails" style="display: none;">
+          <div style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.06); border-radius: 12px; padding: 18px; margin-bottom: 20px;">
+            <h3 id="inspectUserName" style="font-family: var(--font-title); font-size: 18px; color: white;">Hey Coder</h3>
+            <div style="font-size: 13.5px; color: var(--text-muted); margin-top: 8px; display: flex; flex-direction: column; gap: 6px;">
+              <div><strong>Email:</strong> <span id="inspectUserEmail">coder@codenova.com</span></div>
+              <div><strong>Username:</strong> <span id="inspectUserNick">coder128</span></div>
+            </div>
+          </div>
+
+          <h4 style="font-family: var(--font-title); font-size: 14.5px; margin-bottom: 12px; color: white;">Completed Source Codes</h4>
+          <div id="inspectorCompletedCodes" style="margin-bottom: 24px;">
+            <!-- Accordion populated from script -->
+          </div>
+
+          <h4 style="font-family: var(--font-title); font-size: 14.5px; margin-bottom: 12px; color: white;">Created Memory Problems</h4>
+          <div id="inspectorCreatedProblems">
+            <!-- List of custom problems -->
+          </div>
+        </div>
+
+        <div id="inspectorPlaceholder" style="text-align: center; padding: 60px 20px; color: var(--text-muted);">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="width:48px; height:48px; margin-bottom:16px; opacity:0.5;">
+            <circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/>
+          </svg>
+          <p>No user selected.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="admin.js"></script>
+</body>
+</html>

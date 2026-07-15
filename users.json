@@ -1,0 +1,155 @@
+{
+  "test_coder@example_com": {
+    "email": "test_coder@example.com",
+    "name": "Test Coder",
+    "username": "test_coder_dev",
+    "solved": [
+      1
+    ],
+    "solutions": {
+      "1": {
+        "javascript": "function twoSum(nums, target) {\n  return [0, 1];\n}"
+      }
+    },
+    "customProblems": [
+      {
+        "id": "custom_xyz",
+        "title": "Test Custom Math",
+        "difficulty": "medium"
+      }
+    ],
+    "lastSynced": "2026-07-07T10:27:47.791Z"
+  },
+  "new_coder_3ssm8r@example_com": {
+    "email": "new_coder_3ssm8r@example.com",
+    "password": "securePassword123",
+    "name": "Alex Updated",
+    "username": "new_coder_pro",
+    "solved": [
+      1,
+      2
+    ],
+    "solutions": {
+      "1": "code"
+    },
+    "customProblems": [],
+    "lastSynced": "2026-07-08T04:07:13.919Z"
+  },
+  "kama2@gmail_com": {
+    "email": "kama2@gmail.com",
+    "password": "123456789",
+    "name": "kama",
+    "username": "kamalesh",
+    "solved": [],
+    "solutions": {},
+    "customProblems": [],
+    "lastSynced": "2026-07-08T04:29:04.837Z"
+  },
+  "surya@gmail_com": {
+    "email": "surya@gmail.com",
+    "password": "1234567",
+    "name": "suryya",
+    "username": "sueyaaaaa",
+    "solved": [],
+    "solutions": {},
+    "customProblems": [],
+    "lastSynced": "2026-07-08T05:14:36.971Z"
+  },
+  "new_coder_fzhoe@example_com": {
+    "email": "new_coder_fzhoe@example.com",
+    "password": "securePassword123",
+    "name": "Alex Updated",
+    "username": "new_coder_pro",
+    "solved": [
+      1,
+      2
+    ],
+    "solutions": {
+      "1": "code"
+    },
+    "customProblems": [],
+    "lastSynced": "2026-07-08T05:43:49.690Z"
+  },
+  "yuga@gmail_com": {
+    "email": "yuga@gmail.com",
+    "password": "1234567",
+    "name": "SKYzzz",
+    "username": "yuganesh",
+    "solved": [
+      10,
+      15,
+      13,
+      11,
+      4
+    ],
+    "solutions": {
+      "4": {
+        "java": "class Solution {\n    public boolean isPalindrome(String str) {\n\n        int left = 0;\n        int right = str.length() - 1;\n\n        while (left < right) {\n\n            if (str.charAt(left) != str.charAt(right)) {\n                return false;\n            }\n\n            left++;\n            right--;\n        }\n\n        return true;\n    }\n}"
+      },
+      "10": {
+        "cpp": "#include <string>\n#include <unordered_map>\n#include <algorithm>\n\nint longestSubstring(std::string str) {\n    std::unordered_map<char, int> lastIndex;\n    int left = 0;\n    int maxLen = 0;\n\n    for (int right = 0; right < str.length(); right++) {\n        if (lastIndex.count(str[right]) && lastIndex[str[right]] >= left) {\n            left = lastIndex[str[right]] + 1;\n        }\n\n        lastIndex[str[right]] = right;\n        maxLen = std::max(maxLen, right - left + 1);\n    }\n\n    return maxLen;\n}"
+      },
+      "11": {
+        "java": "class Solution {\n    public String longestCommonPrefix(String[] strs) {\n\n        if (strs == null || strs.length == 0)\n            return \"\";\n\n        String prefix = strs[0];\n\n        for (int i = 1; i < strs.length; i++) {\n\n            while (!strs[i].startsWith(prefix)) {\n\n                prefix = prefix.substring(0, prefix.length() - 1);\n\n                if (prefix.isEmpty())\n                    return \"\";\n            }\n        }\n\n        return prefix;\n    }\n}"
+      },
+      "13": {
+        "java": "class Solution {\n    public double findMedianSortedArrays(int[] nums1, int[] nums2) {\n\n        int m = nums1.length;\n        int n = nums2.length;\n\n        int[] merged = new int[m + n];\n\n        int i = 0, j = 0, k = 0;\n\n        // Merge both arrays\n        while (i < m && j < n) {\n\n            if (nums1[i] < nums2[j]) {\n                merged[k++] = nums1[i++];\n            } else {\n                merged[k++] = nums2[j++];\n            }\n        }\n\n        // Copy remaining elements\n        while (i < m) {\n            merged[k++] = nums1[i++];\n        }\n\n        while (j < n) {\n            merged[k++] = nums2[j++];\n        }\n\n        int total = m + n;\n\n        // Odd number of elements\n        if (total % 2 == 1) {\n            return merged[total / 2];\n        }\n\n        // Even number of elements\n        return (merged[total / 2 - 1] + merged[total / 2]) / 2.0;\n    }\n}"
+      },
+      "15": {
+        "java": "import java.util.List;\n\nclass Solution {\n    public int trap(List<Integer> height) {\n        // Write your code here\n        int left = 0, right = height.size() - 1;\n        int leftMax = 0, rightMax = 0, water = 0;\n        while (left < right) {\n            if (height.get(left) < height.get(right)) {\n                if (height.get(left) >= leftMax) leftMax = height.get(left);\n                else water += leftMax - height.get(left);\n                left++;\n            } else {\n                if (height.get(right) >= rightMax) rightMax = height.get(right);\n                else water += rightMax - height.get(right);\n                right--;\n            }\n        }\n        return water;\n    }\n}"
+      }
+    },
+    "customProblems": [],
+    "lastSynced": "2026-07-13T10:25:34.348Z"
+  },
+  "v@gmail_com": {
+    "email": "v@gmail.com",
+    "password": "v2123456",
+    "name": "vicky",
+    "username": "vicky",
+    "solved": [],
+    "solutions": {},
+    "customProblems": [],
+    "lastSynced": "2026-07-13T03:40:34.749Z"
+  },
+  "cpptester@test_com": {
+    "email": "cpptester@test.com",
+    "password": "Password123!",
+    "name": "cpptester",
+    "username": "cpptester",
+    "solved": [
+      1
+    ],
+    "solutions": {
+      "1": {
+        "cpp": "int sum(int a, int b) {\n    // Write your code here\n    return a + b;\n}"
+      }
+    },
+    "customProblems": [],
+    "lastSynced": "2026-07-13T04:12:05.377Z"
+  },
+  "su@gmail_com": {
+    "email": "su@gmail.com",
+    "password": "su123456",
+    "name": "surya",
+    "username": "surya",
+    "solved": [
+      11,
+      12,
+      9
+    ],
+    "solutions": {
+      "9": {
+        "java": "class Solution {\n    public int[] rotateArray(int[] nums, int k) {\n        int n = nums.length;\n        k = k % n;\n\n        int[] result = new int[n];\n\n        for (int i = 0; i < n; i++) {\n            result[(i + k) % n] = nums[i];\n        }\n\n        return result;\n    }\n}"
+      },
+      "11": {
+        "java": "class Solution {\n    public String longestCommonPrefix(String[] strs) {\n        if (strs == null || strs.length == 0) {\n            return \"\";\n        }\n\n        String prefix = strs[0];\n\n        for (int i = 1; i < strs.length; i++) {\n            while (!strs[i].startsWith(prefix)) {\n                prefix = prefix.substring(0, prefix.length() - 1);\n\n                if (prefix.isEmpty()) {\n                    return \"\";\n                }\n            }\n        }\n\n        return prefix;\n    }\n}"
+      },
+      "12": {
+        "java": "import java.util.Stack;\n\nclass Solution {\n    public boolean isValid(String str) {\n        Stack<Character> stack = new Stack<>();\n\n        for (char ch : str.toCharArray()) {\n            if (ch == '(' || ch == '{' || ch == '[') {\n                stack.push(ch);\n            } else {\n                if (stack.isEmpty()) {\n                    return false;\n                }\n\n                char top = stack.pop();\n\n                if ((ch == ')' && top != '(') ||\n                    (ch == '}' && top != '{') ||\n                    (ch == ']' && top != '[')) {\n                    return false;\n                }\n            }\n        }\n\n        return stack.isEmpty();\n    }\n}"
+      }
+    },
+    "customProblems": [],
+    "lastSynced": "2026-07-15T05:33:50.042Z"
+  }
+}

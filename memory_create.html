@@ -1,0 +1,877 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CodeNova | Memory Code Builder</title>
+  <!-- Google Fonts for Outfit and Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
+  <script src="storage.js?v=19"></script>
+  <link rel="stylesheet" href="dashboard.css?v=19">
+  <style>
+    :root {
+      --color-primary-start: #a855f7;
+      --color-primary-end: #ec4899;
+      --color-bg-dark: #09090e;
+      --color-bg-card: rgba(30, 30, 45, 0.45);
+      --border-glow: rgba(255, 255, 255, 0.08);
+      --text-main: #f1f5f9;
+      --text-muted: #94a3b8;
+      --color-green: #10b981;
+      --color-red: #ef4444;
+      --color-purple: #a855f7;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, #09090e 0%, #11111d 100%);
+      color: var(--text-main);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+
+    /* Main Container */
+    .container {
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+
+    .title-row {
+      margin-bottom: 24px;
+      text-align: center;
+    }
+
+    .title-row h1 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 32px;
+      background: linear-gradient(135deg, #f472b6, #a855f7);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 8px;
+    }
+
+    .title-row p {
+      color: var(--text-muted);
+      font-size: 15px;
+    }
+
+    /* Form Styles */
+    .form-card {
+      background: var(--color-bg-card);
+      border: 1px solid var(--border-glow);
+      backdrop-filter: blur(24px);
+      border-radius: 20px;
+      padding: 40px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    }
+
+    .form-section {
+      margin-bottom: 32px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .form-section:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .form-section-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 18px;
+      font-weight: 600;
+      color: #e2e8f0;
+      margin-bottom: 18px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+    }
+
+    .form-grid-inner {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+      grid-column: span 2;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .form-group.full-width {
+      grid-column: span 2;
+    }
+
+    label {
+      font-size: 13.5px;
+      font-weight: 500;
+      color: var(--text-muted);
+    }
+
+    input[type="text"], select, textarea {
+      background: rgba(15, 15, 25, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      padding: 12px 16px;
+      color: var(--text-main);
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      outline: none;
+      transition: border-color 0.25s, box-shadow 0.25s;
+    }
+
+    input[type="text"]:focus, select:focus, textarea:focus {
+      border-color: var(--color-purple);
+      box-shadow: 0 0 0 3px rgba(168, 85, 247, 0.2);
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 120px;
+    }
+
+    /* Dynamic Rows Styling */
+    .row-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .dynamic-row {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .dynamic-row select, .dynamic-row input {
+      flex: 1;
+    }
+
+    .btn-icon-delete {
+      background: transparent;
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      color: var(--color-red);
+      padding: 10px;
+      border-radius: 8px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s, border-color 0.2s;
+    }
+
+    .btn-icon-delete:hover {
+      background: rgba(239, 68, 68, 0.1);
+      border-color: var(--color-red);
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.10);
+      color: var(--text-main);
+      padding: 10px 18px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: background 0.2s, border-color 0.2s;
+      align-self: flex-start;
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    /* Test Case Inputs Dynamic Block */
+    .testcase-card {
+      background: rgba(15, 15, 25, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 12px;
+      position: relative;
+    }
+
+    .testcase-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+      font-weight: 600;
+      font-size: 14px;
+      color: #94a3b8;
+    }
+
+    .testcase-inputs-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+    }
+
+    .testcase-output-group {
+      grid-column: span 2;
+      border-top: 1px dashed rgba(255, 255, 255, 0.08);
+      padding-top: 14px;
+      margin-top: 4px;
+    }
+
+    /* Submit Button Primary styling */
+    .btn-submit-container {
+      margin-top: 12px;
+    }
+
+    .btn-submit {
+      width: 100%;
+      background: linear-gradient(135deg, var(--color-primary-start) 0%, var(--color-primary-end) 100%);
+      border: none;
+      color: white;
+      padding: 16px;
+      border-radius: 10px;
+      font-family: 'Outfit', sans-serif;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 10px 20px rgba(168, 85, 247, 0.25);
+      transition: transform 0.2s, box-shadow 0.2s, opacity 0.2s;
+    }
+
+    .btn-submit:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 24px rgba(168, 85, 247, 0.35);
+    }
+
+    .btn-submit:active {
+      transform: translateY(0);
+    }
+
+    /* Congrats Overlay Success Modal */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(9, 9, 14, 0.85);
+      backdrop-filter: blur(12px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 2000;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.35s ease;
+    }
+
+    .modal-overlay.show {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal-box {
+      background: rgba(30, 30, 45, 0.8);
+      border: 1px solid rgba(168, 85, 247, 0.35);
+      box-shadow: 0 20px 50px rgba(168, 85, 247, 0.15);
+      width: 90%;
+      max-width: 440px;
+      padding: 40px;
+      border-radius: 20px;
+      text-align: center;
+      transform: scale(0.9);
+      transition: transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .modal-overlay.show .modal-box {
+      transform: scale(1);
+    }
+
+    .modal-icon {
+      font-size: 48px;
+      margin-bottom: 18px;
+    }
+
+    .modal-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      color: #fff;
+    }
+
+    .modal-message {
+      color: var(--text-muted);
+      font-size: 14.5px;
+      line-height: 1.5;
+      margin-bottom: 28px;
+    }
+
+    .modal-btn {
+      background: linear-gradient(135deg, var(--color-primary-start) 0%, var(--color-primary-end) 100%);
+      border: none;
+      color: #fff;
+      padding: 12px 28px;
+      border-radius: 8px;
+      font-family: 'Outfit', sans-serif;
+      font-weight: 600;
+      font-size: 14.5px;
+      cursor: pointer;
+      box-shadow: 0 6px 15px rgba(168, 85, 247, 0.25);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Navigation Header -->
+  <header class="dashboard-header">
+    <div class="header-left">
+      <a href="dashboard.html" class="logo-link">
+        <svg class="logo-small" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="headerLogoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#a855f7" />
+              <stop offset="100%" stop-color="#ec4899" />
+            </linearGradient>
+          </defs>
+          <rect x="23" y="23" width="54" height="54" rx="14" transform="rotate(45 50 50)" stroke="url(#headerLogoGrad)" stroke-width="5" />
+          <path d="M 44 42 L 36 50 L 44 58" stroke="#f472b6" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" />
+          <path d="M 56 42 L 64 50 L 56 58" stroke="#f472b6" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+        <span class="logo-text">Code<span class="highlight">Nova</span></span>
+      </a>
+    </div>
+
+    <nav class="header-nav">
+      <a href="dashboard.html" class="nav-item">Explore</a>
+      <a href="problems.html" class="nav-item">Problems</a>
+      <a href="memory_create.html" class="nav-item active">Memory Code</a>
+      <a href="memory_storage.html" class="nav-item">Memory Storage</a>
+      <a href="stats.html" class="nav-item">Roadmap</a>
+    </nav>
+
+    <div class="header-right"></div>
+  </header>
+
+  <!-- Main Content Container -->
+  <div class="container">
+    <div class="title-row">
+      <h1>Memory Code Builder</h1>
+      <p>Forge your own coding challenges and design validation test suites directly</p>
+    </div>
+
+    <form id="createChallengeForm" class="form-card">
+      
+      <!-- Section 1: Basic specifications -->
+      <div class="form-section">
+        <h2 class="form-section-title">
+          <span style="color:var(--color-purple);">Step 1:</span> Challenge Info
+        </h2>
+        <div class="form-grid">
+          <div class="form-group full-width">
+            <label for="title">Challenge Title</label>
+            <input type="text" id="title" placeholder="e.g. Multiply Two Numbers" required>
+          </div>
+          <div class="form-group">
+            <label for="difficulty">Difficulty Level</label>
+            <select id="difficulty">
+              <option value="easy">Easy</option>
+              <option value="medium">Medium</option>
+              <option value="hard">Hard</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="category">Category</label>
+            <input type="text" id="category" placeholder="e.g. math, arrays, strings" required>
+          </div>
+          <div class="form-group full-width">
+            <label for="description">Problem Description (HTML supported)</label>
+            <textarea id="description" placeholder="Provide problem descriptions, inputs/outputs format constraints, etc." required></textarea>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 2: Function specifications -->
+      <div class="form-section">
+        <h2 class="form-section-title">
+          <span style="color:var(--color-purple);">Step 2:</span> Function Signatures
+        </h2>
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="funcName">Function Name</label>
+            <input type="text" id="funcName" placeholder="e.g. multiply" required>
+          </div>
+          <div class="form-group">
+            <label for="retType">Return Type</label>
+            <select id="retType">
+              <option value="int">int</option>
+              <option value="double">double</option>
+              <option value="string">string</option>
+              <option value="bool">bool</option>
+              <option value="vector<int>">vector&lt;int&gt;</option>
+              <option value="vector<string>">vector&lt;string&gt;</option>
+              <option value="vector<vector<int>>">vector&lt;vector&lt;int&gt;&gt;</option>
+              <option value="vector<vector<string>>">vector&lt;vector&lt;string&gt;&gt;</option>
+              <option value="ListNode">ListNode</option>
+              <option value="TreeNode">TreeNode</option>
+              <option value="map">map</option>
+              <option value="json">json</option>
+              <option value="console-io">console-io (Console I/O)</option>
+            </select>
+          </div>
+          <div class="form-group full-width">
+            <label>Function Parameters</label>
+            <div id="parametersList" class="row-list">
+              <!-- Parameter Rows injected dynamically -->
+            </div>
+            <button type="button" class="btn-secondary" id="btnAddParam">
+              <span>➕</span> Add Parameter
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 3: Testcases specifications -->
+      <div class="form-section">
+        <h2 class="form-section-title">
+          <span style="color:var(--color-purple);">Step 3:</span> Validation Test Cases
+        </h2>
+        <div id="testCasesContainer" class="row-list">
+          <!-- Dynamic Testcases cards -->
+        </div>
+        <button type="button" class="btn-secondary" id="btnAddTestCase">
+          <span>➕</span> Add Test Case
+        </button>
+      </div>
+
+      <!-- Submit button -->
+      <div class="btn-submit-container">
+        <button type="submit" class="btn-submit">Create Challenge & Store in Memory</button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Success Modal Overlay -->
+  <div class="modal-overlay" id="successModal">
+    <div class="modal-box">
+      <div class="modal-icon">🌌</div>
+      <div class="modal-title">Challenge Saved!</div>
+      <div class="modal-message">
+        Your custom coding challenge has been stored inside <strong>Memory Storage</strong>. You can now write code and run validation suites.
+      </div>
+      <button class="modal-btn" id="modalGoBtn">Go to Storage</button>
+    </div>
+  </div>
+
+  <script>
+    // State arrays for dynamic builders
+    let parameters = [{ name: 'a', type: 'int' }];
+    let testCases = [{ args: [''], expected: '' }];
+
+    const btnAddParam = document.getElementById('btnAddParam');
+    const btnAddTestCase = document.getElementById('btnAddTestCase');
+    const parametersList = document.getElementById('parametersList');
+    const testCasesContainer = document.getElementById('testCasesContainer');
+    const form = document.getElementById('createChallengeForm');
+    const successModal = document.getElementById('successModal');
+    const modalGoBtn = document.getElementById('modalGoBtn');
+
+    document.addEventListener('DOMContentLoaded', () => {
+      renderParameters();
+      renderTestCases();
+      setupConsoleIoToggle();
+    });
+
+    function setupConsoleIoToggle() {
+      const retTypeSelect = document.getElementById('retType');
+      const funcNameInput = document.getElementById('funcName');
+      const funcNameGroup = funcNameInput.closest('.form-group');
+      const btnAddParam = document.getElementById('btnAddParam');
+      const paramSectionGroup = btnAddParam.closest('.form-group');
+
+      retTypeSelect.addEventListener('change', () => {
+        if (retTypeSelect.value === 'console-io') {
+          funcNameGroup.style.display = 'none';
+          paramSectionGroup.style.display = 'none';
+          funcNameInput.required = false;
+          funcNameInput.value = 'main';
+          parameters = [{ name: 'stdin', type: 'json' }];
+          renderParameters();
+          parametersList.style.display = 'none';
+        } else {
+          funcNameGroup.style.display = 'block';
+          paramSectionGroup.style.display = 'block';
+          parametersList.style.display = 'block';
+          funcNameInput.required = true;
+          if (funcNameInput.value === 'main') {
+            funcNameInput.value = '';
+          }
+          if (parameters.length === 1 && parameters[0].name === 'stdin') {
+            parameters = [{ name: 'a', type: 'int' }];
+          }
+          renderParameters();
+        }
+      });
+    }
+
+    // 1. Render function parameters list
+    function renderParameters() {
+      parametersList.innerHTML = '';
+      parameters.forEach((param, idx) => {
+        const row = document.createElement('div');
+        row.className = 'dynamic-row';
+        row.innerHTML = `
+          <input type="text" placeholder="Parameter name" value="${param.name}" data-index="${idx}" class="param-name-field" required>
+          <select data-index="${idx}" class="param-type-field">
+            <option value="int" ${param.type === 'int' ? 'selected' : ''}>int</option>
+            <option value="double" ${param.type === 'double' ? 'selected' : ''}>double</option>
+            <option value="string" ${param.type === 'string' ? 'selected' : ''}>string</option>
+            <option value="bool" ${param.type === 'bool' ? 'selected' : ''}>bool</option>
+            <option value="vector<int>" ${param.type === 'vector<int>' ? 'selected' : ''}>vector&lt;int&gt;</option>
+            <option value="vector<string>" ${param.type === 'vector<string>' ? 'selected' : ''}>vector&lt;string&gt;</option>
+            <option value="vector<vector<int>>" ${param.type === 'vector<vector<int>>' ? 'selected' : ''}>vector&lt;vector&lt;int&gt;&gt;</option>
+            <option value="vector<vector<string>>" ${param.type === 'vector<vector<string>>' ? 'selected' : ''}>vector&lt;vector&lt;string&gt;&gt;</option>
+             <option value="ListNode" ${param.type === 'ListNode' ? 'selected' : ''}>ListNode</option>
+             <option value="TreeNode" ${param.type === 'TreeNode' ? 'selected' : ''}>TreeNode</option>
+             <option value="map" ${param.type === 'map' ? 'selected' : ''}>map</option>
+             <option value="json" ${param.type === 'json' ? 'selected' : ''}>json</option>
+          </select>
+          ${parameters.length > 1 ? `
+            <button type="button" class="btn-icon-delete" data-index="${idx}">
+              <svg style="width:16px; height:16px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="3 6 5 6 21 6"></polyline>
+                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+              </svg>
+            </button>
+          ` : ''}
+        `;
+
+        // Watch inputs to sync with state
+        row.querySelector('.param-name-field').addEventListener('input', (e) => {
+          parameters[idx].name = e.target.value;
+          syncTestCaseInputsLabels();
+        });
+
+        row.querySelector('.param-type-field').addEventListener('change', (e) => {
+          parameters[idx].type = e.target.value;
+        });
+
+        if (parameters.length > 1) {
+          row.querySelector('.btn-icon-delete').addEventListener('click', () => {
+            parameters.splice(idx, 1);
+            // Delete corresponding args in test cases
+            testCases.forEach(tc => {
+              if (tc.args.length > idx) {
+                tc.args.splice(idx, 1);
+              }
+            });
+            renderParameters();
+            renderTestCases();
+          });
+        }
+
+        parametersList.appendChild(row);
+      });
+      syncTestCaseInputsLabels();
+    }
+
+    // 2. Render dynamic test cases grid
+    function renderTestCases() {
+      testCasesContainer.innerHTML = '';
+      testCases.forEach((tc, tcIdx) => {
+        const card = document.createElement('div');
+        card.className = 'testcase-card';
+
+        let headerHtml = `
+          <div class="testcase-header">
+            <span>Test Case ${tcIdx + 1}</span>
+            ${testCases.length > 1 ? `
+              <button type="button" class="btn-icon-delete tc-delete-btn" data-index="${tcIdx}">
+                <svg style="width:14px; height:14px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="3 6 5 6 21 6"></polyline>
+                  <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                </svg>
+              </button>
+            ` : ''}
+          </div>
+        `;
+
+        let inputsHtml = `<div class="testcase-inputs-grid">`;
+        parameters.forEach((param, pIdx) => {
+          const val = tc.args[pIdx] !== undefined ? tc.args[pIdx] : '';
+          inputsHtml += `
+            <div class="form-group">
+              <label class="tc-param-label" data-pindex="${pIdx}">Argument: ${param.name || `param ${pIdx + 1}`}</label>
+              <input type="text" placeholder="Value (e.g. 5 or [1,2])" value="${typeof val === 'object' ? JSON.stringify(val) : val}" data-tc="${tcIdx}" data-param="${pIdx}" class="tc-arg-field" required>
+            </div>
+          `;
+        });
+
+        // Add Expected Output row
+        inputsHtml += `
+          <div class="form-group testcase-output-group">
+            <label>Expected Output</label>
+            <input type="text" placeholder="Expected Output (e.g. 30 or true)" value="${typeof tc.expected === 'object' ? JSON.stringify(tc.expected) : (tc.expected !== undefined ? tc.expected : '')}" data-tc="${tcIdx}" class="tc-expected-field" required>
+          </div>
+        `;
+
+        inputsHtml += `</div>`;
+        card.innerHTML = headerHtml + inputsHtml;
+
+        // Add listeners for dynamic changes
+        card.querySelectorAll('.tc-arg-field').forEach(input => {
+          input.addEventListener('input', (e) => {
+            const tcIndex = Number(e.target.dataset.tc);
+            const pIndex = Number(e.target.dataset.param);
+            testCases[tcIndex].args[pIndex] = e.target.value;
+          });
+        });
+
+        card.querySelector('.tc-expected-field').addEventListener('input', (e) => {
+          const tcIndex = Number(e.target.dataset.tc);
+          testCases[tcIndex].expected = e.target.value;
+        });
+
+        if (testCases.length > 1) {
+          card.querySelector('.tc-delete-btn').addEventListener('click', () => {
+            testCases.splice(tcIdx, 1);
+            renderTestCases();
+          });
+        }
+
+        testCasesContainer.appendChild(card);
+      });
+    }
+
+    function syncTestCaseInputsLabels() {
+      const labels = document.querySelectorAll('.tc-param-label');
+      labels.forEach(label => {
+        const pIdx = Number(label.dataset.pindex);
+        const name = parameters[pIdx] ? parameters[pIdx].name : '';
+        label.textContent = `Argument: ${name || `param ${pIdx + 1}`}`;
+      });
+    }
+
+    // 3. Add param and testcase triggers
+    btnAddParam.addEventListener('click', () => {
+      parameters.push({ name: '', type: 'int' });
+      testCases.forEach(tc => {
+        tc.args.push('');
+      });
+      renderParameters();
+      renderTestCases();
+    });
+
+    btnAddTestCase.addEventListener('click', () => {
+      const emptyArgs = parameters.map(() => '');
+      testCases.push({ args: emptyArgs, expected: '' });
+      renderTestCases();
+    });
+
+    // Helper to try parsing values as dynamic types (arrays, booleans, numbers)
+    function parseValue(val, type) {
+      val = val.trim();
+      if (type === 'int') {
+        return Number(val);
+      }
+      if (type === 'double') {
+        return parseFloat(val);
+      }
+      if (type === 'bool') {
+        return val.toLowerCase() === 'true';
+      }
+      if (type === 'vector<int>') {
+        try {
+          return JSON.parse(val.replace(/'/g, '"'));
+        } catch(e) {
+          return val.replace(/[\[\]]/g, '').split(',').map(Number);
+        }
+      }
+      if (type === 'vector<string>') {
+        try {
+          return JSON.parse(val.replace(/'/g, '"'));
+        } catch(e) {
+          return val.replace(/[\[\]]/g, '').split(',').map(s => s.trim().replace(/^['"]|['"]$/g, ''));
+        }
+      }
+      if (type === 'string') {
+        if ((val.startsWith('"') && val.endsWith('"')) || (val.startsWith("'") && val.endsWith("'"))) {
+          return val.slice(1, -1);
+        }
+        return val;
+      }
+      if (type === 'ListNode' || type === 'TreeNode' || type === 'vector<vector<int>>' || type === 'vector<vector<string>>' || type === 'map' || type === 'json') {
+        try {
+          return JSON.parse(val.replace(/'/g, '"'));
+        } catch(e) {
+          return val;
+        }
+      }
+      return val;
+    }
+
+    // 4. Form Submission
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      const title = document.getElementById('title').value.trim();
+      const difficulty = document.getElementById('difficulty').value;
+      const category = document.getElementById('category').value.trim();
+      const description = document.getElementById('description').value.trim();
+      const funcName = document.getElementById('funcName').value.trim();
+      const retType = document.getElementById('retType').value;
+
+      const paramNames = parameters.map(p => p.name.trim());
+      const paramTypes = parameters.map(p => p.type);
+
+      // Parse the dynamic test cases input elements
+      const parsedTestCases = testCases.map((tc) => {
+        return {
+          args: tc.args.map((arg, idx) => parseValue(arg, paramTypes[idx])),
+          expected: parseValue(tc.expected, retType)
+        };
+      });
+
+      const payload = {
+        title,
+        difficulty,
+        category,
+        description,
+        funcName,
+        params: paramNames,
+        argTypes: paramTypes,
+        retType,
+        sampleTestCases: parsedTestCases.slice(0, 2), // first two are sample cases
+        systemTestCases: parsedTestCases // all entered cases are run as validation suite
+      };
+
+      // Check if running on local file system (Offline/Local preview fallback)
+      if (window.location.protocol === 'file:') {
+        // Save to localStorage fallback
+        const localCustoms = JSON.parse(localStorage.getItem('custom_problems') || '{}');
+        const id = `custom_${Math.random().toString(36).substring(2, 10)}`;
+        const difficultyText = difficulty.charAt(0).toUpperCase() + difficulty.slice(1).toLowerCase();
+
+        // Helper for python type generation
+        function toPyType(type) {
+          if (type === 'int') return 'int';
+          if (type === 'double') return 'float';
+          if (type === 'string') return 'str';
+          if (type === 'bool') return 'bool';
+          if (type === 'vector<int>') return 'list';
+          if (type === 'vector<string>') return 'list';
+          return 'any';
+        }
+
+        // Helper for C++ type conversion
+        function toCppType(type) {
+          if (type === 'int') return 'int';
+          if (type === 'double') return 'double';
+          if (type === 'string') return 'std::string';
+          if (type === 'bool') return 'bool';
+          if (type === 'vector<int>') return 'std::vector<int>';
+          if (type === 'vector<string>') return 'std::vector<std::string>';
+          return 'void';
+        }
+
+        // Helper for Java type conversion
+        function toJavaType(type) {
+          if (type === 'int') return 'int';
+          if (type === 'double') return 'double';
+          if (type === 'string') return 'String';
+          if (type === 'bool') return 'boolean';
+          if (type === 'vector<int>') return 'java.util.List<Integer>';
+          if (type === 'vector<string>') return 'java.util.List<String>';
+          return 'void';
+        }
+
+        const templates = {
+          javascript: `function ${funcName}(${paramNames.join(', ')}) {\n    // Write your code here\n}`,
+          python: `def ${funcName}(${paramNames.map((p, idx) => `${p}: ${toPyType(paramTypes[idx])}`).join(', ')}) -> ${toPyType(retType)}:\n    # Write your code here`,
+          cpp: `${toCppType(retType)} ${funcName}(${paramNames.map((p, idx) => `${toCppType(paramTypes[idx])} ${p}`).join(', ')}) {\n    // Write your code here\n}`,
+          java: `class Solution {\n    public ${toJavaType(retType)} ${funcName}(${paramNames.map((p, idx) => `${toJavaType(paramTypes[idx])} ${p}`).join(', ')}) {\n        // Write your code here\n    }\n}`
+        };
+
+        const newProblem = {
+          id,
+          title,
+          difficulty,
+          difficultyText,
+          category,
+          acceptance: '100.0%',
+          description,
+          examples: [{
+            input: paramNames.map((p, idx) => `${p} = ${JSON.stringify(parsedTestCases[0].args[idx])}`).join(', '),
+            output: JSON.stringify(parsedTestCases[0].expected),
+            explanation: 'Offline local testcase validation.'
+          }],
+          constraints: [],
+          funcName,
+          params: paramNames,
+          argTypes: paramTypes,
+          retType,
+          templates,
+          sampleTestCases: parsedTestCases.slice(0, 2),
+          systemTestCases: parsedTestCases,
+          solutions: {}
+        };
+
+        localCustoms[id] = newProblem;
+        localStorage.setItem('custom_problems', JSON.stringify(localCustoms));
+        
+        successModal.classList.add('show');
+        return;
+      }
+
+      // Send to server API
+      fetch('/api/custom-problems', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload)
+      })
+      .then(res => {
+        if (!res.ok) throw new Error('API server rejected request');
+        return res.json();
+      })
+      .then(data => {
+        if (data.success) {
+          successModal.classList.add('show');
+        } else {
+          alert('Failed to save challenge: ' + data.error);
+        }
+      })
+      .catch(err => {
+        alert('Server connection error. Saving locally to storage instead.');
+        console.error(err);
+      });
+    });
+
+    modalGoBtn.addEventListener('click', () => {
+      window.location.href = 'memory_storage.html';
+    });
+  </script>
+</body>
+</html>

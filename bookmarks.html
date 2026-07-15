@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CodeNova | Saved Bookmarks</title>
+  <!-- Google Fonts for Outfit and Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
+  <!-- Dynamic Data Synchronization -->
+  <script src="storage.js?v=19"></script>
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="dashboard.css?v=19">
+  <link rel="stylesheet" href="problems.css">
+  <style>
+    .empty-state-box {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 60px 24px;
+      text-align: center;
+    }
+    .empty-icon {
+      font-size: 48px;
+      margin-bottom: 16px;
+      color: var(--text-dimmed);
+    }
+    .empty-state-box h3 {
+      font-family: var(--font-title);
+      font-size: 18px;
+      font-weight: 600;
+      color: white;
+      margin-bottom: 8px;
+    }
+    .empty-state-box p {
+      font-size: 13.5px;
+      color: var(--text-muted);
+      max-width: 320px;
+      margin-bottom: 20px;
+    }
+    .browse-btn {
+      background: var(--grad-btn);
+      border: none;
+      border-radius: 8px;
+      padding: 10px 20px;
+      color: white;
+      font-family: var(--font-body);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      box-shadow: 0 4px 10px rgba(219, 39, 119, 0.2);
+      transition: all 0.2s ease;
+    }
+    .browse-btn:hover {
+      box-shadow: 0 6px 14px rgba(219, 39, 119, 0.35);
+      transform: translateY(-1px);
+    }
+  </style>
+</head>
+<body>
+  <!-- Top Navigation Header -->
+  <header class="dashboard-header">
+    <div class="header-left">
+      <a href="dashboard.html" class="logo-link">
+        <svg class="logo-small" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="marksLogoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#a855f7" />
+              <stop offset="100%" stop-color="#ec4899" />
+            </linearGradient>
+          </defs>
+          <rect x="23" y="23" width="54" height="54" rx="14" transform="rotate(45 50 50)" stroke="url(#marksLogoGrad)" stroke-width="5" />
+          <path d="M 44 42 L 36 50 L 44 58" stroke="#f472b6" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" />
+          <path d="M 56 42 L 64 50 L 56 58" stroke="#f472b6" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+        <span class="logo-text">Code<span class="highlight">Nova</span></span>
+      </a>
+    </div>
+
+    <nav class="header-nav">
+      <a href="dashboard.html" class="nav-item">Explore</a>
+      <a href="problems.html" class="nav-item">Problems</a>
+      <a href="memory_create.html" class="nav-item">Memory Code</a>
+      <a href="memory_storage.html" class="nav-item">Memory Storage</a>
+      <a href="stats.html" class="nav-item">Roadmap</a>
+    </nav>
+
+    <div class="header-right">
+
+
+      <button class="notification-btn" aria-label="Notifications">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9" />
+          <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0" />
+        </svg>
+        <span class="notification-dot"></span>
+      </button>
+
+      <a href="profile.html" class="profile-avatar" title="View Profile">
+        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="50" cy="50" r="50" fill="url(#avatarGrad)" />
+          <circle cx="50" cy="52" r="24" fill="#ffedd5" />
+          <circle cx="42" cy="50" r="3" fill="#1e1b4b" />
+          <circle cx="58" cy="50" r="3" fill="#1e1b4b" />
+          <path d="M 24 46 C 24 28, 76 28, 76 46 C 76 56, 68 52, 68 62 C 60 54, 50 62, 40 54 C 32 62, 24 56, 24 46 Z" fill="url(#hairGrad)" />
+          <path d="M 32 36 L 40 46 L 48 38 L 52 46 L 60 38 L 68 46 L 72 38" fill="none" stroke="url(#hairGrad)" stroke-width="5" stroke-linecap="round" />
+        </svg>
+      </a>
+    </div>
+  </header>
+
+  <!-- Content Layout Grid -->
+  <div class="dashboard-container">
+    <!-- LEFT SIDEBAR -->
+    <aside class="sidebar-left">
+      <nav class="sidebar-nav">
+        <a href="dashboard.html" class="sidebar-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          <span>Home</span>
+        </a>
+        <a href="problems.html" class="sidebar-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M9 17V7h6v10"/></svg>
+          <span>Problems</span>
+        </a>
+
+        <a href="discuss.html" class="sidebar-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          <span>Discuss</span>
+        </a>
+        <a href="bookmarks.html" class="sidebar-item active">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"/></svg>
+          <span>Bookmarks</span>
+        </a>
+        <a href="stats.html" class="sidebar-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+          <span>Stats</span>
+        </a>
+        <a href="profile.html" class="sidebar-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          <span>Profile</span>
+        </a>
+        <a href="settings.html" class="sidebar-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+          <span>Settings</span>
+        </a>
+      </nav>
+    </aside>
+
+    <!-- MIDDLE COLUMN: BOOKMARKS LIST -->
+    <main class="main-content">
+      <section class="card table-card">
+        <h2 style="font-family: var(--font-title); font-size: 18px; font-weight: 600; color: white; margin-bottom: 16px;">Saved Challenges</h2>
+        
+        <div class="table-wrapper" id="bookmarksTableWrapper">
+          <table class="challenges-table" id="bookmarksTable">
+            <thead>
+              <tr>
+                <th class="col-num">#</th>
+                <th class="col-name">Problem</th>
+                <th class="col-diff">Difficulty</th>
+                <th class="col-accept">Acceptance</th>
+                <th class="col-action">Remove</th>
+              </tr>
+            </thead>
+            <tbody id="bookmarksTableBody">
+              <!-- Dynamically rendered -->
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Empty state placeholder -->
+        <div class="empty-state-box" id="emptyState" style="display: none;">
+          <div class="empty-icon">🔖</div>
+          <h3>No bookmarked problems</h3>
+          <p>You haven't saved any programming challenges yet. Click the bookmark icon next to any problem to save it here.</p>
+          <a href="problems.html" class="browse-btn">Browse Problems</a>
+        </div>
+      </section>
+    </main>
+
+    <!-- RIGHT COLUMN -->
+    <aside class="sidebar-right">
+      <div class="card bookmark-tip-card">
+        <h3 style="font-family: var(--font-title); font-size:15px; font-weight:600; margin-bottom:8px;">Bookmark Tips</h3>
+        <p style="font-size:12.5px; color:var(--text-muted); line-height:1.5;">Bookmarked challenges are saved in your browser storage. You can access them offline at any time.</p>
+      </div>
+    </aside>
+  </div>
+
+  <script>
+    let problemsList = [];
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const table = document.getElementById('bookmarksTable');
+      const tableBody = document.getElementById('bookmarksTableBody');
+      const emptyState = document.getElementById('emptyState');
+
+      // Fetch problems from server
+      fetch('/api/problems')
+        .then(res => res.json())
+        .then(data => {
+          problemsList = data;
+          renderBookmarks();
+        })
+        .catch(err => {
+          console.warn('Failed to load problems, falling back to local database:', err);
+          problemsList = FALLBACK_PROBLEMS;
+          renderBookmarks();
+        });
+
+      function renderBookmarks() {
+        const bookmarks = getBookmarks();
+        
+        // Filter problem database
+        const savedProblems = problemsList.filter(prob => bookmarks.includes(prob.id));
+
+        if (savedProblems.length === 0) {
+          table.style.display = 'none';
+          emptyState.style.display = 'flex';
+          return;
+        }
+
+        table.style.display = 'table';
+        emptyState.style.display = 'none';
+        tableBody.innerHTML = '';
+
+        savedProblems.forEach(prob => {
+          const tr = document.createElement('tr');
+          tr.innerHTML = `
+            <td>${prob.id}</td>
+            <td class="problem-name"><a href="editor.html?id=${prob.id}">${prob.title}</a></td>
+            <td><span class="badge diff-${prob.difficulty}">${prob.difficulty.toUpperCase()}</span></td>
+            <td>${prob.acceptance}</td>
+            <td>
+              <button class="bookmark-btn active" data-id="${prob.id}" aria-label="Remove bookmark">
+                <svg viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2">
+                  <path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"/>
+                </svg>
+              </button>
+            </td>
+          `;
+
+          // Clicking bookmark removes it and re-renders
+          const btn = tr.querySelector('.bookmark-btn');
+          btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            toggleBookmark(prob.id);
+            renderBookmarks(); // re-render list dynamically
+          });
+
+          tableBody.appendChild(tr);
+        });
+      }
+    });
+  </script>
+</body>
+</html>

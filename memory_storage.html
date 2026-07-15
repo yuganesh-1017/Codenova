@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CodeNova | Memory Storage Library</title>
+  <!-- Google Fonts for Outfit and Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@400;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+  <script src="storage.js?v=19"></script>
+  <link rel="stylesheet" href="dashboard.css?v=19">
+  <style>
+    :root {
+      --color-primary-start: #a855f7;
+      --color-primary-end: #ec4899;
+      --color-bg-dark: #09090e;
+      --color-bg-card: rgba(30, 30, 45, 0.45);
+      --border-glow: rgba(255, 255, 255, 0.08);
+      --text-main: #f1f5f9;
+      --text-muted: #94a3b8;
+      --color-green: #10b981;
+      --color-red: #ef4444;
+      --color-purple: #a855f7;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, #09090e 0%, #11111d 100%);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+
+    /* Workspace Columns Layout */
+    .storage-workspace {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 30px;
+      max-width: 1400px;
+      margin: 40px auto;
+      padding: 0 30px;
+      flex: 1;
+      width: 100%;
+    }
+
+    .storage-left-col {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    /* Stats Cards */
+    .stats-summary-row {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+    }
+
+    .stat-card {
+      background: var(--color-bg-card);
+      border: 1px solid var(--border-glow);
+      backdrop-filter: blur(20px);
+      padding: 20px 24px;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .stat-icon {
+      font-size: 28px;
+      background: rgba(168, 85, 247, 0.1);
+      width: 50px;
+      height: 50px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid rgba(168, 85, 247, 0.2);
+    }
+
+    .stat-details h3 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 24px;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .stat-details p {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    /* Library list panel */
+    .library-panel {
+      background: var(--color-bg-card);
+      border: 1px solid var(--border-glow);
+      backdrop-filter: blur(20px);
+      border-radius: 16px;
+      padding: 24px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .panel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .panel-header h2 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 20px;
+      font-weight: 600;
+    }
+
+    .btn-create {
+      background: linear-gradient(135deg, var(--color-primary-start) 0%, var(--color-primary-end) 100%);
+      border: none;
+      color: #fff;
+      padding: 10px 18px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .btn-create:hover {
+      transform: translateY(-1.5px);
+      box-shadow: 0 4px 12px rgba(168, 85, 247, 0.25);
+    }
+
+    /* Dynamic Problems List Table */
+    .table-container {
+      width: 100%;
+      overflow-x: auto;
+    }
+
+    .problem-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+    }
+
+    .problem-table th, .problem-table td {
+      padding: 14px 16px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      font-size: 14px;
+    }
+
+    .problem-table th {
+      color: var(--text-muted);
+      font-weight: 500;
+      font-size: 13px;
+    }
+
+    .problem-row {
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .problem-row:hover, .problem-row.active {
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    .problem-row.active {
+      border-left: 3px solid var(--color-purple);
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 4px 8px;
+      border-radius: 12px;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: capitalize;
+    }
+
+    .diff-easy { background: rgba(16, 185, 129, 0.12); color: var(--color-green); }
+    .diff-medium { background: rgba(245, 158, 11, 0.12); color: #f59e0b; }
+    .diff-hard { background: rgba(239, 68, 68, 0.12); color: var(--color-red); }
+
+    .btn-action-solve {
+      background: rgba(168, 85, 247, 0.1);
+      border: 1px solid rgba(168, 85, 247, 0.3);
+      color: var(--color-purple);
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .btn-action-solve:hover {
+      background: var(--color-purple);
+      color: #fff;
+    }
+
+    /* Right Column: Code Rewind Console */
+    .rewind-panel {
+      background: var(--color-bg-card);
+      border: 1px solid var(--border-glow);
+      backdrop-filter: blur(20px);
+      border-radius: 16px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      height: 100%;
+    }
+
+    .rewind-header {
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      padding-bottom: 16px;
+    }
+
+    .rewind-header h2 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 22px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .rewind-header .meta {
+      font-size: 13px;
+      color: var(--text-muted);
+      display: flex;
+      gap: 12px;
+    }
+
+    /* Tab switcher for solution languages */
+    .lang-tabs {
+      display: flex;
+      background: rgba(0, 0, 0, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 8px;
+      padding: 4px;
+      gap: 4px;
+    }
+
+    .lang-tab {
+      flex: 1;
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      padding: 8px;
+      border-radius: 6px;
+      font-size: 12.5px;
+      font-weight: 500;
+      cursor: pointer;
+      text-align: center;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .lang-tab.active {
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--text-main);
+    }
+
+    /* Code View deck */
+    .code-viewer-deck {
+      flex: 1;
+      background: rgba(10, 10, 15, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 10px;
+      padding: 16px;
+      overflow: auto;
+      min-height: 280px;
+      position: relative;
+    }
+
+    .code-viewer-deck pre {
+      font-family: 'Fira Code', monospace;
+      font-size: 13px;
+      line-height: 1.5;
+      color: #e2e8f0;
+      white-space: pre-wrap;
+    }
+
+    .placeholder-deck {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      height: 100%;
+      color: var(--text-muted);
+      padding: 40px;
+    }
+
+    .placeholder-deck span {
+      font-size: 40px;
+      margin-bottom: 12px;
+    }
+
+    .placeholder-deck p {
+      font-size: 13.5px;
+      margin-top: 4px;
+    }
+
+    .placeholder-library {
+      text-align: center;
+      padding: 60px 40px;
+      color: var(--text-muted);
+    }
+
+    .placeholder-library span {
+      font-size: 48px;
+      margin-bottom: 16px;
+      display: block;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Navigation Header -->
+  <header class="dashboard-header">
+    <div class="header-left">
+      <a href="dashboard.html" class="logo-link">
+        <svg class="logo-small" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="headerLogoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#a855f7" />
+              <stop offset="100%" stop-color="#ec4899" />
+            </linearGradient>
+          </defs>
+          <rect x="23" y="23" width="54" height="54" rx="14" transform="rotate(45 50 50)" stroke="url(#headerLogoGrad)" stroke-width="5" />
+          <path d="M 44 42 L 36 50 L 44 58" stroke="#f472b6" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" />
+          <path d="M 56 42 L 64 50 L 56 58" stroke="#f472b6" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+        <span class="logo-text">Code<span class="highlight">Nova</span></span>
+      </a>
+    </div>
+
+    <nav class="header-nav">
+      <a href="dashboard.html" class="nav-item">Explore</a>
+      <a href="problems.html" class="nav-item">Problems</a>
+      <a href="memory_create.html" class="nav-item">Memory Code</a>
+      <a href="memory_storage.html" class="nav-item active">Memory Storage</a>
+      <a href="stats.html" class="nav-item">Roadmap</a>
+    </nav>
+
+    <div class="header-right"></div>
+  </header>
+
+  <!-- Storage Workspace -->
+  <div class="storage-workspace">
+    
+    <!-- Left Column: Challenges library -->
+    <div class="storage-left-col">
+      
+      <!-- Stats Cards -->
+      <div class="stats-summary-row">
+        <div class="stat-card">
+          <div class="stat-icon">🧠</div>
+          <div class="stat-details">
+            <h3 id="statTotal">0</h3>
+            <p>Challenges Forged</p>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon" style="background:rgba(16,185,129,0.1); border-color:rgba(16,185,129,0.2);">🏆</div>
+          <div class="stat-details">
+            <h3 id="statSolved">0</h3>
+            <p>Challenges Solved</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Library Panel -->
+      <div class="library-panel">
+        <div class="panel-header">
+          <h2>Memory Storage Library</h2>
+          <a href="memory_create.html" class="btn-create">+ Forge Challenge</a>
+        </div>
+
+        <div class="table-container" id="libraryTableContainer">
+          <table class="problem-table">
+            <thead>
+              <tr>
+                <th style="width: 10%;">ID</th>
+                <th style="width: 50%;">Challenge Title</th>
+                <th style="width: 20%;">Difficulty</th>
+                <th style="width: 20%;">Action</th>
+              </tr>
+            </thead>
+            <tbody id="libraryTableBody">
+              <!-- Dynamically populated rows -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Right Column: Rewind Console -->
+    <div class="rewind-col">
+      <div class="rewind-panel" id="rewindPanel">
+        <!-- Inside populated dynamically based on selected problem -->
+        <div class="placeholder-deck">
+          <span>📼</span>
+          <h3>Memory Code Rewind</h3>
+          <p>Select any forged challenge from the library to rewind, view, and toggle your saved solutions across languages.</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    let customProblemsList = [];
+    let selectedProblem = null;
+    let activeLangTab = 'javascript';
+
+    document.addEventListener('DOMContentLoaded', () => {
+      loadCustomProblems();
+    });
+
+    // 1. Fetch custom problems list
+    function loadCustomProblems() {
+      // Check if running on local file system (Offline/Local preview fallback)
+      if (window.location.protocol === 'file:') {
+        const localCustoms = JSON.parse(localStorage.getItem('custom_problems') || '{}');
+        customProblemsList = Object.values(localCustoms);
+        renderStorage();
+        return;
+      }
+
+      fetch('/api/custom-problems')
+        .then(res => res.json())
+        .then(data => {
+          customProblemsList = data;
+          renderStorage();
+        })
+        .catch(err => {
+          console.warn('Backend offline, loading custom problems from local storage fallback:', err);
+          const localCustoms = JSON.parse(localStorage.getItem('custom_problems') || '{}');
+          customProblemsList = Object.values(localCustoms);
+          renderStorage();
+        });
+    }
+
+    // 2. Render storage listing & update summary statistics
+    function renderStorage() {
+      const tableBody = document.getElementById('libraryTableBody');
+      const tableContainer = document.getElementById('libraryTableContainer');
+
+      // Update statistics
+      const solvedList = getSolved();
+      const totalCreated = customProblemsList.length;
+      const totalSolved = customProblemsList.filter(p => solvedList.includes(p.id)).length;
+
+      document.getElementById('statTotal').textContent = totalCreated;
+      document.getElementById('statSolved').textContent = totalSolved;
+
+      if (totalCreated === 0) {
+        tableContainer.innerHTML = `
+          <div class="placeholder-library">
+            <span>🌌</span>
+            <h3>No Memory Challenges Forged Yet</h3>
+            <p style="margin-top:8px; font-size:13.5px;">Click the <strong>Forge Challenge</strong> button above to write your own coding tasks and inputs validation test suites.</p>
+          </div>
+        `;
+        return;
+      }
+
+      tableBody.innerHTML = '';
+      customProblemsList.forEach((prob) => {
+        const isSolved = solvedList.includes(prob.id);
+        const tr = document.createElement('tr');
+        tr.className = 'problem-row';
+        tr.dataset.id = prob.id;
+
+        tr.innerHTML = `
+          <td>${prob.id.substring(7, 11)}</td>
+          <td style="font-weight:600; color:#fff;">
+            ${prob.title}
+            ${isSolved ? '<span style="color:var(--color-green); font-size:11px; margin-left:6px;">✔</span>' : ''}
+          </td>
+          <td><span class="badge diff-${prob.difficulty}">${prob.difficultyText}</span></td>
+          <td>
+            <a href="editor.html?id=${prob.id}" class="btn-action-solve">Solve</a>
+          </td>
+        `;
+
+        // Click row to show in rewind panel
+        tr.addEventListener('click', (e) => {
+          if (e.target.classList.contains('btn-action-solve')) return; // let link handle
+          
+          document.querySelectorAll('.problem-row').forEach(row => row.classList.remove('active'));
+          tr.classList.add('active');
+
+          selectedProblem = prob;
+          renderRewindConsole();
+        });
+
+        tableBody.appendChild(tr);
+      });
+    }
+
+    // 3. Render Right Solution Rewind console
+    function renderRewindConsole() {
+      const rewindPanel = document.getElementById('rewindPanel');
+      if (!selectedProblem) return;
+
+      const solvedList = getSolved();
+      const isSolved = solvedList.includes(selectedProblem.id);
+      const solutions = selectedProblem.solutions || {};
+
+      let html = `
+        <div class="rewind-header">
+          <h2>${selectedProblem.title}</h2>
+          <div class="meta">
+            <span>Difficulty: <span class="badge diff-${selectedProblem.difficulty}" style="padding:2px 6px;">${selectedProblem.difficultyText}</span></span>
+            <span>Status: ${isSolved ? '<span style="color:var(--color-green); font-weight:600;">Solved</span>' : '<span style="color:var(--text-muted);">Unsolved</span>'}</span>
+          </div>
+        </div>
+
+        <div class="lang-tabs">
+          <button class="lang-tab ${activeLangTab === 'javascript' ? 'active' : ''}" data-lang="javascript">JavaScript</button>
+          <button class="lang-tab ${activeLangTab === 'python' ? 'active' : ''}" data-lang="python">Python</button>
+          <button class="lang-tab ${activeLangTab === 'cpp' ? 'active' : ''}" data-lang="cpp">C++</button>
+          <button class="lang-tab ${activeLangTab === 'java' ? 'active' : ''}" data-lang="java">Java</button>
+        </div>
+
+        <div class="code-viewer-deck" id="codeViewerDeck">
+          <!-- Dynamic code view -->
+        </div>
+
+        <a href="editor.html?id=${selectedProblem.id}" class="btn-submit" style="text-align:center; padding:12px; font-size:14px; text-decoration:none;">Open in Workspace Editor</a>
+      `;
+
+      rewindPanel.innerHTML = html;
+
+      // Add event listeners to lang tabs
+      rewindPanel.querySelectorAll('.lang-tab').forEach(tab => {
+        tab.addEventListener('click', (e) => {
+          activeLangTab = e.target.dataset.lang;
+          rewindPanel.querySelectorAll('.lang-tab').forEach(t => t.classList.remove('active'));
+          tab.classList.add('active');
+          updateCodeView(solutions);
+        });
+      });
+
+      updateCodeView(solutions);
+    }
+
+    function updateCodeView(solutions) {
+      const deck = document.getElementById('codeViewerDeck');
+      const savedCode = solutions[activeLangTab];
+
+      if (savedCode) {
+        // Escape HTML tags to prevent rendering errors
+        const escapedCode = savedCode
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;")
+          .replace(/'/g, "&#039;");
+
+        deck.innerHTML = `
+          <pre><code>${escapedCode}</code></pre>
+        `;
+      } else {
+        deck.innerHTML = `
+          <div class="placeholder-deck" style="padding:20px; font-size:13px;">
+            <span>💤</span>
+            <p>No solved solution in ${activeLangTab.toUpperCase()} yet.</p>
+            <p style="color:var(--text-muted); font-size:12px; margin-top:4px;">Open the challenge in the workspace editor to write and submit a solution!</p>
+          </div>
+        `;
+      }
+    }
+  </script>
+</body>
+</html>

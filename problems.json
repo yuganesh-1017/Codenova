@@ -1,0 +1,3755 @@
+{
+  "1": {
+    "id": 1,
+    "title": "Sum of Two Numbers",
+    "difficulty": "easy",
+    "difficultyText": "Easy",
+    "category": "math",
+    "acceptance": "94.2%",
+    "description": "<p>Given two integers <code>a</code> and <code>b</code>, return their sum.</p><p>You must implement the function returning the combined value of both integers.</p>",
+    "examples": [
+      {
+        "input": "a = 2, b = 3",
+        "output": "5",
+        "explanation": "2 + 3 = 5."
+      },
+      {
+        "input": "a = 10, b = -5",
+        "output": "5",
+        "explanation": "10 + (-5) = 5."
+      }
+    ],
+    "constraints": [
+      "<code>-10<sup>4</sup> &lt;= a, b &lt;= 10<sup>4</sup></code>",
+      "All inputs fit inside standard integer limits."
+    ],
+    "funcName": "sum",
+    "params": [
+      "a",
+      "b"
+    ],
+    "templates": {
+      "javascript": "function sum(a, b) {\n    // Write your code here\n    \n}",
+      "python": "def sum(a: int, b: int) -> int:\n    # Write your code here\n    pass",
+      "java": "class Solution {\n    public int sum(int a, int b) {\n        // Write your code here\n        \n        return 0;\n    }\n}",
+      "cpp": "int sum(int a, int b) {\n    // Write your code here\n    \n    return 0;\n}"
+    },
+    "sampleTestCases": [
+      {
+        "args": [
+          2,
+          3
+        ],
+        "expected": 5
+      },
+      {
+        "args": [
+          10,
+          -5
+        ],
+        "expected": 5
+      }
+    ],
+    "systemTestCases": [
+      {
+        "args": [
+          2,
+          3
+        ],
+        "expected": 5
+      },
+      {
+        "args": [
+          10,
+          -5
+        ],
+        "expected": 5
+      },
+      {
+        "args": [
+          0,
+          0
+        ],
+        "expected": 0
+      },
+      {
+        "args": [
+          -100,
+          -200
+        ],
+        "expected": -300
+      },
+      {
+        "args": [
+          9999,
+          1
+        ],
+        "expected": 10000
+      },
+      {
+        "args": [
+          -5,
+          5
+        ],
+        "expected": 0
+      }
+    ]
+  },
+  "2": {
+    "id": 2,
+    "title": "Reverse a String",
+    "difficulty": "easy",
+    "difficultyText": "Easy",
+    "category": "strings",
+    "acceptance": "89.7%",
+    "description": "<p>Given a string <code>str</code>, return it reversed.</p><p>For example, if the input is <code>\"hello\"</code>, the output should be <code>\"olleh\"</code>.</p>",
+    "examples": [
+      {
+        "input": "str = \"hello\"",
+        "output": "\"olleh\"",
+        "explanation": "Characters are reversed from end to start."
+      },
+      {
+        "input": "str = \"CodeNova\"",
+        "output": "\"avoNedoC\"",
+        "explanation": "Capitalization is preserved."
+      }
+    ],
+    "constraints": [
+      "<code>0 &lt;= str.length &lt;= 1000</code>",
+      "String contains only printable ASCII characters."
+    ],
+    "funcName": "reverseString",
+    "params": [
+      "str"
+    ],
+    "templates": {
+      "javascript": "function reverseString(str) {\n    // Write your code here\n    \n}",
+      "python": "def reverseString(str: str) -> str:\n    # Write your code here\n    pass",
+      "java": "class Solution {\n    public String reverseString(String str) {\n        // Write your code here\n        \n        return null;\n    }\n}",
+      "cpp": "std::string reverseString(std::string str) {\n    // Write your code here\n    \n    return \"\";\n}"
+    },
+    "sampleTestCases": [
+      {
+        "args": [
+          "hello"
+        ],
+        "expected": "olleh"
+      },
+      {
+        "args": [
+          "CodeNova"
+        ],
+        "expected": "avoNedoC"
+      }
+    ],
+    "systemTestCases": [
+      {
+        "args": [
+          "hello"
+        ],
+        "expected": "olleh"
+      },
+      {
+        "args": [
+          "CodeNova"
+        ],
+        "expected": "avoNedoC"
+      },
+      {
+        "args": [
+          ""
+        ],
+        "expected": ""
+      },
+      {
+        "args": [
+          "a"
+        ],
+        "expected": "a"
+      },
+      {
+        "args": [
+          "racecar"
+        ],
+        "expected": "racecar"
+      },
+      {
+        "args": [
+          "12345"
+        ],
+        "expected": "54321"
+      }
+    ]
+  },
+  "3": {
+    "id": 3,
+    "title": "Find Maximum Number",
+    "difficulty": "easy",
+    "difficultyText": "Easy",
+    "category": "arrays",
+    "acceptance": "86.5%",
+    "description": "<p>Given an array of numbers <code>arr</code>, find and return the maximum number in that array.</p>",
+    "examples": [
+      {
+        "input": "arr = [1, 5, 3]",
+        "output": "5",
+        "explanation": "5 is the largest number in the array."
+      },
+      {
+        "input": "arr = [-10, -2, -5]",
+        "output": "-2",
+        "explanation": "-2 is larger than -5 and -10."
+      }
+    ],
+    "constraints": [
+      "<code>1 &lt;= arr.length &lt;= 1000</code>",
+      "<code>-10<sup>5</sup> &lt;= arr[i] &lt;= 10<sup>5</sup></code>"
+    ],
+    "funcName": "findMax",
+    "params": [
+      "arr"
+    ],
+    "templates": {
+      "javascript": "function findMax(arr) {\n    // Write your code here\n    \n}",
+      "python": "def findMax(arr: list) -> int:\n    # Write your code here\n    pass",
+      "java": "class Solution {\n    public int findMax(List<Integer> arr) {\n        // Write your code here\n        \n        return 0;\n    }\n}",
+      "cpp": "int findMax(std::vector<int>& arr) {\n    // Write your code here\n    \n    return 0;\n}"
+    },
+    "sampleTestCases": [
+      {
+        "args": [
+          [
+            1,
+            5,
+            3
+          ]
+        ],
+        "expected": 5
+      },
+      {
+        "args": [
+          [
+            -10,
+            -2,
+            -5
+          ]
+        ],
+        "expected": -2
+      }
+    ],
+    "systemTestCases": [
+      {
+        "args": [
+          [
+            1,
+            5,
+            3
+          ]
+        ],
+        "expected": 5
+      },
+      {
+        "args": [
+          [
+            -10,
+            -2,
+            -5
+          ]
+        ],
+        "expected": -2
+      },
+      {
+        "args": [
+          [
+            100
+          ]
+        ],
+        "expected": 100
+      },
+      {
+        "args": [
+          [
+            1,
+            2,
+            3,
+            4,
+            5,
+            10,
+            9,
+            8
+          ]
+        ],
+        "expected": 10
+      },
+      {
+        "args": [
+          [
+            -1,
+            -2,
+            -3,
+            0
+          ]
+        ],
+        "expected": 0
+      },
+      {
+        "args": [
+          [
+            5,
+            5,
+            5,
+            5
+          ]
+        ],
+        "expected": 5
+      }
+    ]
+  },
+  "4": {
+    "id": 4,
+    "title": "Check Palindrome",
+    "difficulty": "easy",
+    "difficultyText": "Easy",
+    "category": "strings",
+    "acceptance": "78.3%",
+    "description": "<p>Given a string <code>str</code>, check if it reads the same forward and backward. Return <code>true</code> if it is a palindrome, otherwise return <code>false</code>.</p>",
+    "examples": [
+      {
+        "input": "str = \"racecar\"",
+        "output": "true",
+        "explanation": "\"racecar\" is identical when read backwards."
+      },
+      {
+        "input": "str = \"hello\"",
+        "output": "false",
+        "explanation": "\"hello\" read backwards is \"olleh\", not identical."
+      }
+    ],
+    "constraints": [
+      "<code>0 &lt;= str.length &lt;= 1000</code>",
+      "String contains lowercase letters only."
+    ],
+    "funcName": "isPalindrome",
+    "params": [
+      "str"
+    ],
+    "templates": {
+      "javascript": "function isPalindrome(str) {\n    // Write your code here\n    \n}",
+      "python": "def isPalindrome(str: str) -> bool:\n    # Write your code here\n    pass",
+      "java": "class Solution {\n    public boolean isPalindrome(String str) {\n        // Write your code here\n        \n        return false;\n    }\n}",
+      "cpp": "bool isPalindrome(std::string str) {\n    // Write your code here\n    \n    return false;\n}"
+    },
+    "sampleTestCases": [
+      {
+        "args": [
+          "racecar"
+        ],
+        "expected": true
+      },
+      {
+        "args": [
+          "hello"
+        ],
+        "expected": false
+      }
+    ],
+    "systemTestCases": [
+      {
+        "args": [
+          "racecar"
+        ],
+        "expected": true
+      },
+      {
+        "args": [
+          "hello"
+        ],
+        "expected": false
+      },
+      {
+        "args": [
+          ""
+        ],
+        "expected": true
+      },
+      {
+        "args": [
+          "a"
+        ],
+        "expected": true
+      },
+      {
+        "args": [
+          "ab"
+        ],
+        "expected": false
+      },
+      {
+        "args": [
+          "aba"
+        ],
+        "expected": true
+      },
+      {
+        "args": [
+          "noon"
+        ],
+        "expected": true
+      },
+      {
+        "args": [
+          "palindromepala"
+        ],
+        "expected": false
+      }
+    ]
+  },
+  "5": {
+    "id": 5,
+    "title": "Count Vowels",
+    "difficulty": "easy",
+    "difficultyText": "Easy",
+    "category": "strings",
+    "acceptance": "75.9%",
+    "description": "<p>Given a string <code>str</code>, count and return the number of vowels (<code>a, e, i, o, u</code>) present in the string (case-insensitive).</p>",
+    "examples": [
+      {
+        "input": "str = \"hello\"",
+        "output": "2",
+        "explanation": "Vowels are \"e\" and \"o\"."
+      },
+      {
+        "input": "str = \"coding\"",
+        "output": "2",
+        "explanation": "Vowels are \"o\" and \"i\"."
+      }
+    ],
+    "constraints": [
+      "<code>0 &lt;= str.length &lt;= 1000</code>",
+      "String contains alphabetic characters only."
+    ],
+    "funcName": "countVowels",
+    "params": [
+      "str"
+    ],
+    "templates": {
+      "javascript": "function countVowels(str) {\n    // Write your code here\n    \n}",
+      "python": "def countVowels(str: str) -> int:\n    # Write your code here\n    pass",
+      "java": "class Solution {\n    public int countVowels(String str) {\n        // Write your code here\n        \n        return 0;\n    }\n}",
+      "cpp": "int countVowels(std::string str) {\n    // Write your code here\n    \n    return 0;\n}"
+    },
+    "sampleTestCases": [
+      {
+        "args": [
+          "hello"
+        ],
+        "expected": 2
+      },
+      {
+        "args": [
+          "coding"
+        ],
+        "expected": 2
+      }
+    ],
+    "systemTestCases": [
+      {
+        "args": [
+          "hello"
+        ],
+        "expected": 2
+      },
+      {
+        "args": [
+          "coding"
+        ],
+        "expected": 2
+      },
+      {
+        "args": [
+          ""
+        ],
+        "expected": 0
+      },
+      {
+        "args": [
+          "xyz"
+        ],
+        "expected": 0
+      },
+      {
+        "args": [
+          "aeiou"
+        ],
+        "expected": 5
+      },
+      {
+        "args": [
+          "AEIOU"
+        ],
+        "expected": 5
+      },
+      {
+        "args": [
+          "Beautiful Day"
+        ],
+        "expected": 5
+      }
+    ]
+  },
+  "6": {
+    "id": 6,
+    "title": "Fibonacci Series",
+    "difficulty": "medium",
+    "difficultyText": "Medium",
+    "category": "loops",
+    "acceptance": "69.4%",
+    "description": "<p>Given an integer <code>n</code>, return the n-th Fibonacci number. The series starts with <code>F(0) = 0</code> and <code>F(1) = 1</code>, where <code>F(n) = F(n-1) + F(n-2)</code>.</p>",
+    "examples": [
+      {
+        "input": "n = 5",
+        "output": "5",
+        "explanation": "F(5) is computed as F(4) + F(3) = 3 + 2 = 5."
+      },
+      {
+        "input": "n = 10",
+        "output": "55",
+        "explanation": "F(10) equals 55."
+      }
+    ],
+    "constraints": [
+      "<code>0 &lt;= n &lt;= 30</code>"
+    ],
+    "funcName": "fibonacci",
+    "params": [
+      "n"
+    ],
+    "templates": {
+      "javascript": "function fibonacci(n) {\n    // Write your code here\n    \n}",
+      "python": "def fibonacci(n: int) -> int:\n    # Write your code here\n    pass",
+      "java": "class Solution {\n    public int fibonacci(int n) {\n        // Write your code here\n        \n        return 0;\n    }\n}",
+      "cpp": "int fibonacci(int n) {\n    // Write your code here\n    \n    return 0;\n}"
+    },
+    "sampleTestCases": [
+      {
+        "args": [
+          5
+        ],
+        "expected": 5
+      },
+      {
+        "args": [
+          10
+        ],
+        "expected": 55
+      }
+    ],
+    "systemTestCases": [
+      {
+        "args": [
+          5
+        ],
+        "expected": 5
+      },
+      {
+        "args": [
+          10
+        ],
+        "expected": 55
+      },
+      {
+        "args": [
+          0
+        ],
+        "expected": 0
+      },
+      {
+        "args": [
+          1
+        ],
+        "expected": 1
+      },
+      {
+        "args": [
+          2
+        ],
+        "expected": 1
+      },
+      {
+        "args": [
+          3
+        ],
+        "expected": 2
+      },
+      {
+        "args": [
+          4
+        ],
+        "expected": 3
+      },
+      {
+        "args": [
+          15
+        ],
+        "expected": 610
+      },
+      {
+        "args": [
+          20
+        ],
+        "expected": 6765
+      }
+    ]
+  },
+  "7": {
+    "id": 7,
+    "title": "Prime Number Checker",
+    "difficulty": "medium",
+    "difficultyText": "Medium",
+    "category": "math",
+    "acceptance": "65.8%",
+    "description": "<p>Given an integer <code>n</code>, check if it is a prime number. Return <code>true</code> if it is prime, otherwise return <code>false</code>.</p>",
+    "examples": [
+      {
+        "input": "n = 7",
+        "output": "true",
+        "explanation": "7 is only divisible by 1 and itself."
+      },
+      {
+        "input": "n = 12",
+        "output": "false",
+        "explanation": "12 is divisible by 2, 3, 4, 6."
+      }
+    ],
+    "constraints": [
+      "<code>1 &lt;= n &lt;= 10<sup>5</sup></code>"
+    ],
+    "funcName": "isPrime",
+    "params": [
+      "n"
+    ],
+    "templates": {
+      "javascript": "function isPrime(n) {\n    // Write your code here\n    \n}",
+      "python": "def isPrime(n: int) -> bool:\n    # Write your code here\n    pass",
+      "java": "class Solution {\n    public boolean isPrime(int n) {\n        // Write your code here\n        \n        return false;\n    }\n}",
+      "cpp": "bool isPrime(int n) {\n    // Write your code here\n    \n    return false;\n}"
+    },
+    "sampleTestCases": [
+      {
+        "args": [
+          7
+        ],
+        "expected": true
+      },
+      {
+        "args": [
+          12
+        ],
+        "expected": false
+      }
+    ],
+    "systemTestCases": [
+      {
+        "args": [
+          7
+        ],
+        "expected": true
+      },
+      {
+        "args": [
+          12
+        ],
+        "expected": false
+      },
+      {
+        "args": [
+          1
+        ],
+        "expected": false
+      },
+      {
+        "args": [
+          2
+        ],
+        "expected": true
+      },
+      {
+        "args": [
+          3
+        ],
+        "expected": true
+      },
+      {
+        "args": [
+          4
+        ],
+        "expected": false
+      },
+      {
+        "args": [
+          11
+        ],
+        "expected": true
+      },
+      {
+        "args": [
+          97
+        ],
+        "expected": true
+      },
+      {
+        "args": [
+          100
+        ],
+        "expected": false
+      }
+    ]
+  },
+  "8": {
+    "id": 8,
+    "title": "Missing Number in Array",
+    "difficulty": "medium",
+    "difficultyText": "Medium",
+    "category": "arrays",
+    "acceptance": "58.2%",
+    "description": "<p>Given an array <code>arr</code> containing <code>n - 1</code> distinct numbers selected from the range <code>1</code> to <code>n</code>, find and return the one missing number.</p>",
+    "examples": [
+      {
+        "input": "arr = [1, 2, 4]",
+        "output": "3",
+        "explanation": "The number 3 is missing from range 1-4."
+      },
+      {
+        "input": "arr = [2, 3, 4, 5, 6, 1, 8]",
+        "output": "7",
+        "explanation": "The number 7 is missing from range 1-8."
+      }
+    ],
+    "constraints": [
+      "<code>1 &lt;= arr.length &lt;= 10<sup>4</sup></code>",
+      "All values in array are distinct and between 1 and n."
+    ],
+    "funcName": "findMissing",
+    "params": [
+      "arr"
+    ],
+    "templates": {
+      "javascript": "function findMissing(arr) {\n    // Write your code here\n    \n}",
+      "python": "def findMissing(arr: list) -> int:\n    # Write your code here\n    pass",
+      "java": "class Solution {\n    public int findMissing(List<Integer> arr) {\n        // Write your code here\n        \n        return 0;\n    }\n}",
+      "cpp": "int findMissing(std::vector<int>& arr) {\n    // Write your code here\n    \n    return 0;\n}"
+    },
+    "sampleTestCases": [
+      {
+        "args": [
+          [
+            1,
+            2,
+            4
+          ]
+        ],
+        "expected": 3
+      },
+      {
+        "args": [
+          [
+            2,
+            3,
+            4,
+            5,
+            6,
+            1,
+            8
+          ]
+        ],
+        "expected": 7
+      }
+    ],
+    "systemTestCases": [
+      {
+        "args": [
+          [
+            1,
+            2,
+            4
+          ]
+        ],
+        "expected": 3
+      },
+      {
+        "args": [
+          [
+            2,
+            3,
+            4,
+            5,
+            6,
+            1,
+            8
+          ]
+        ],
+        "expected": 7
+      },
+      {
+        "args": [
+          [
+            1
+          ]
+        ],
+        "expected": 2
+      },
+      {
+        "args": [
+          [
+            2
+          ]
+        ],
+        "expected": 1
+      },
+      {
+        "args": [
+          [
+            3,
+            1
+          ]
+        ],
+        "expected": 2
+      },
+      {
+        "args": [
+          [
+            1,
+            2,
+            3,
+            5
+          ]
+        ],
+        "expected": 4
+      },
+      {
+        "args": [
+          [
+            5,
+            4,
+            3,
+            2,
+            6
+          ]
+        ],
+        "expected": 1
+      }
+    ]
+  },
+  "9": {
+    "id": 9,
+    "title": "Rotate Array",
+    "difficulty": "medium",
+    "difficultyText": "Medium",
+    "category": "arrays",
+    "acceptance": "55.4%",
+    "description": "<p>Given an array <code>nums</code> and a non-negative integer <code>k</code>, rotate the array to the right by <code>k</code> steps. Return the rotated array.</p>",
+    "examples": [
+      {
+        "input": "nums = [1,2,3,4,5,6,7], k = 3",
+        "output": "[5,6,7,1,2,3,4]",
+        "explanation": "Rotate array right by 3 elements."
+      },
+      {
+        "input": "nums = [-1,-100,3,99], k = 2",
+        "output": "[3,99,-1,-100]",
+        "explanation": "Rotate array right by 2 elements."
+      }
+    ],
+    "constraints": [
+      "<code>1 &lt;= nums.length &lt;= 1000</code>",
+      "<code>0 &lt;= k &lt;= 1000</code>"
+    ],
+    "funcName": "rotateArray",
+    "params": [
+      "nums",
+      "k"
+    ],
+    "templates": {
+      "javascript": "function rotateArray(nums, k) {\n    // Write your code here\n    \n}",
+      "python": "def rotateArray(nums: list, k: int) -> list:\n    # Write your code here\n    pass",
+      "java": "class Solution {\n    public List<Integer> rotateArray(List<Integer> nums, int k) {\n        // Write your code here\n        \n        return null;\n    }\n}",
+      "cpp": "std::vector<int>& rotateArray(std::vector<int>& nums, int k) {\n    // Write your code here\n    \n    return {};\n}"
+    },
+    "sampleTestCases": [
+      {
+        "args": [
+          [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          3
+        ],
+        "expected": [
+          5,
+          6,
+          7,
+          1,
+          2,
+          3,
+          4
+        ]
+      },
+      {
+        "args": [
+          [
+            -1,
+            -100,
+            3,
+            99
+          ],
+          2
+        ],
+        "expected": [
+          3,
+          99,
+          -1,
+          -100
+        ]
+      }
+    ],
+    "systemTestCases": [
+      {
+        "args": [
+          [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          3
+        ],
+        "expected": [
+          5,
+          6,
+          7,
+          1,
+          2,
+          3,
+          4
+        ]
+      },
+      {
+        "args": [
+          [
+            -1,
+            -100,
+            3,
+            99
+          ],
+          2
+        ],
+        "expected": [
+          3,
+          99,
+          -1,
+          -100
+        ]
+      },
+      {
+        "args": [
+          [
+            1,
+            2
+          ],
+          0
+        ],
+        "expected": [
+          1,
+          2
+        ]
+      },
+      {
+        "args": [
+          [
+            1,
+            2
+          ],
+          3
+        ],
+        "expected": [
+          2,
+          1
+        ]
+      },
+      {
+        "args": [
+          [
+            1
+          ],
+          100
+        ],
+        "expected": [
+          1
+        ]
+      }
+    ]
+  },
+  "10": {
+    "id": 10,
+    "title": "Longest Substring",
+    "difficulty": "medium",
+    "difficultyText": "Medium",
+    "category": "strings",
+    "acceptance": "33.8%",
+    "description": "<p>Given a string <code>str</code>, find the length of the longest substring without repeating characters.</p>",
+    "examples": [
+      {
+        "input": "str = \"abcabcbb\"",
+        "output": "3",
+        "explanation": "The longest substring is \"abc\", with a length of 3."
+      },
+      {
+        "input": "str = \"bbbbb\"",
+        "output": "1",
+        "explanation": "The longest substring is \"b\", with a length of 1."
+      }
+    ],
+    "constraints": [
+      "<code>0 &lt;= str.length &lt;= 1000</code>",
+      "String contains English letters, digits, symbols and spaces."
+    ],
+    "funcName": "longestSubstring",
+    "params": [
+      "str"
+    ],
+    "templates": {
+      "javascript": "function longestSubstring(str) {\n    // Write your code here\n    \n}",
+      "python": "def longestSubstring(str: str) -> int:\n    # Write your code here\n    pass",
+      "java": "class Solution {\n    public int longestSubstring(String str) {\n        // Write your code here\n        \n        return 0;\n    }\n}",
+      "cpp": "int longestSubstring(std::string str) {\n    // Write your code here\n    \n    return 0;\n}"
+    },
+    "sampleTestCases": [
+      {
+        "args": [
+          "abcabcbb"
+        ],
+        "expected": 3
+      },
+      {
+        "args": [
+          "bbbbb"
+        ],
+        "expected": 1
+      }
+    ],
+    "systemTestCases": [
+      {
+        "args": [
+          "abcabcbb"
+        ],
+        "expected": 3
+      },
+      {
+        "args": [
+          "bbbbb"
+        ],
+        "expected": 1
+      },
+      {
+        "args": [
+          "pwwkew"
+        ],
+        "expected": 3
+      },
+      {
+        "args": [
+          ""
+        ],
+        "expected": 0
+      },
+      {
+        "args": [
+          "abcdef"
+        ],
+        "expected": 6
+      },
+      {
+        "args": [
+          "abba"
+        ],
+        "expected": 2
+      }
+    ]
+  },
+  "11": {
+    "id": 11,
+    "title": "Longest Common Prefix",
+    "difficulty": "hard",
+    "difficultyText": "Hard",
+    "category": "strings",
+    "acceptance": "46.1%",
+    "description": "<p>Write a function to find the longest common prefix string amongst an array of strings <code>strs</code>. If there is no common prefix, return an empty string <code>\"\"</code>.</p>",
+    "examples": [
+      {
+        "input": "strs = [\"flower\", \"flow\", \"flight\"]",
+        "output": "\"fl\"",
+        "explanation": "\"fl\" is the common prefix of all three strings."
+      },
+      {
+        "input": "strs = [\"dog\", \"racecar\", \"car\"]",
+        "output": "\"\"",
+        "explanation": "There is no common prefix."
+      }
+    ],
+    "constraints": [
+      "<code>1 &lt;= strs.length &lt;= 200</code>",
+      "<code>0 &lt;= strs[i].length &lt;= 200</code>"
+    ],
+    "funcName": "longestCommonPrefix",
+    "params": [
+      "strs"
+    ],
+    "templates": {
+      "javascript": "function longestCommonPrefix(strs) {\n    // Write your code here\n    \n}",
+      "python": "def longestCommonPrefix(strs: list) -> str:\n    # Write your code here\n    pass",
+      "java": "class Solution {\n    public String longestCommonPrefix(List<String> strs) {\n        // Write your code here\n        \n        return null;\n    }\n}",
+      "cpp": "std::string longestCommonPrefix(std::vector<std::string>& strs) {\n    // Write your code here\n    \n    return \"\";\n}"
+    },
+    "sampleTestCases": [
+      {
+        "args": [
+          [
+            "flower",
+            "flow",
+            "flight"
+          ]
+        ],
+        "expected": "fl"
+      },
+      {
+        "args": [
+          [
+            "dog",
+            "racecar",
+            "car"
+          ]
+        ],
+        "expected": ""
+      }
+    ],
+    "systemTestCases": [
+      {
+        "args": [
+          [
+            "flower",
+            "flow",
+            "flight"
+          ]
+        ],
+        "expected": "fl"
+      },
+      {
+        "args": [
+          [
+            "dog",
+            "racecar",
+            "car"
+          ]
+        ],
+        "expected": ""
+      },
+      {
+        "args": [
+          [
+            "a"
+          ]
+        ],
+        "expected": "a"
+      },
+      {
+        "args": [
+          [
+            "referee",
+            "reference",
+            "refer"
+          ]
+        ],
+        "expected": "refer"
+      },
+      {
+        "args": [
+          [
+            "interspecies",
+            "interstellar",
+            "interstate"
+          ]
+        ],
+        "expected": "inters"
+      },
+      {
+        "args": [
+          [
+            "throne",
+            "throne"
+          ]
+        ],
+        "expected": "throne"
+      },
+      {
+        "args": [
+          [
+            "apple",
+            "ape",
+            "april"
+          ]
+        ],
+        "expected": "ap"
+      },
+      {
+        "args": [
+          [
+            "",
+            "b"
+          ]
+        ],
+        "expected": ""
+      }
+    ]
+  },
+  "12": {
+    "id": 12,
+    "title": "Valid Parentheses",
+    "difficulty": "hard",
+    "difficultyText": "Hard",
+    "category": "recursion",
+    "acceptance": "42.8%",
+    "description": "<p>Given a string <code>str</code> containing just the characters <code>'(', ')', '{', '}', '['</code> and <code>']'</code>, determine if the input string is valid. Return <code>true</code> if valid, otherwise return <code>false</code>.</p>",
+    "examples": [
+      {
+        "input": "str = \"()[]{}\"",
+        "output": "true",
+        "explanation": "Brackets open and close in correct sequence."
+      },
+      {
+        "input": "str = \"(]\"",
+        "output": "false",
+        "explanation": "Parentheses close with non-matching square bracket."
+      }
+    ],
+    "constraints": [
+      "<code>1 &lt;= str.length &lt;= 10<sup>4</sup></code>",
+      "String contains only bracket characters."
+    ],
+    "funcName": "isValid",
+    "params": [
+      "str"
+    ],
+    "templates": {
+      "javascript": "function isValid(str) {\n    // Write your code here\n    \n}",
+      "python": "def isValid(str: str) -> bool:\n    # Write your code here\n    pass",
+      "java": "class Solution {\n    public boolean isValid(String str) {\n        // Write your code here\n        \n        return false;\n    }\n}",
+      "cpp": "bool isValid(std::string str) {\n    // Write your code here\n    \n    return false;\n}"
+    },
+    "sampleTestCases": [
+      {
+        "args": [
+          "()[]{}"
+        ],
+        "expected": true
+      },
+      {
+        "args": [
+          "(]"
+        ],
+        "expected": false
+      }
+    ],
+    "systemTestCases": [
+      {
+        "args": [
+          "()[]{}"
+        ],
+        "expected": true
+      },
+      {
+        "args": [
+          "(]"
+        ],
+        "expected": false
+      },
+      {
+        "args": [
+          "("
+        ],
+        "expected": false
+      },
+      {
+        "args": [
+          ")"
+        ],
+        "expected": false
+      },
+      {
+        "args": [
+          "()"
+        ],
+        "expected": true
+      },
+      {
+        "args": [
+          "([])"
+        ],
+        "expected": true
+      },
+      {
+        "args": [
+          "([)]"
+        ],
+        "expected": false
+      },
+      {
+        "args": [
+          "{[]}"
+        ],
+        "expected": true
+      },
+      {
+        "args": [
+          ""
+        ],
+        "expected": true
+      }
+    ]
+  },
+  "13": {
+    "id": 13,
+    "title": "Median of Two Sorted Arrays",
+    "difficulty": "hard",
+    "difficultyText": "Hard",
+    "category": "arrays",
+    "acceptance": "39.5%",
+    "description": "<p>Given two sorted arrays <code>nums1</code> and <code>nums2</code> of size <code>m</code> and <code>n</code> respectively, return the median of the two sorted arrays. The output must be a float value.</p>",
+    "examples": [
+      {
+        "input": "nums1 = [1,3], nums2 = [2]",
+        "output": "2.0",
+        "explanation": "Merged array = [1,2,3] and median is 2.0."
+      },
+      {
+        "input": "nums1 = [1,2], nums2 = [3,4]",
+        "output": "2.5",
+        "explanation": "Merged array = [1,2,3,4] and median is (2 + 3) / 2 = 2.5."
+      }
+    ],
+    "constraints": [
+      "<code>0 &lt;= nums1.length, nums2.length &lt;= 100</code>",
+      "<code>1 &lt;= nums1.length + nums2.length &lt;= 200</code>"
+    ],
+    "funcName": "findMedianSortedArrays",
+    "params": [
+      "nums1",
+      "nums2"
+    ],
+    "templates": {
+      "javascript": "function findMedianSortedArrays(nums1, nums2) {\n    // Write your code here\n    \n}",
+      "python": "def findMedianSortedArrays(nums1: list, nums2: list) -> float:\n    # Write your code here\n    pass",
+      "java": "class Solution {\n    public double findMedianSortedArrays(List<Integer> nums1, List<Integer> nums2) {\n        // Write your code here\n        \n        return 0.0;\n    }\n}",
+      "cpp": "double findMedianSortedArrays(std::vector<int>& nums1, std::vector<int>& nums2) {\n    // Write your code here\n    \n    return 0.0;\n}"
+    },
+    "sampleTestCases": [
+      {
+        "args": [
+          [
+            1,
+            3
+          ],
+          [
+            2
+          ]
+        ],
+        "expected": 2
+      },
+      {
+        "args": [
+          [
+            1,
+            2
+          ],
+          [
+            3,
+            4
+          ]
+        ],
+        "expected": 2.5
+      }
+    ],
+    "systemTestCases": [
+      {
+        "args": [
+          [
+            1,
+            3
+          ],
+          [
+            2
+          ]
+        ],
+        "expected": 2
+      },
+      {
+        "args": [
+          [
+            1,
+            2
+          ],
+          [
+            3,
+            4
+          ]
+        ],
+        "expected": 2.5
+      },
+      {
+        "args": [
+          [
+            0,
+            0
+          ],
+          [
+            0,
+            0
+          ]
+        ],
+        "expected": 0
+      },
+      {
+        "args": [
+          [],
+          [
+            1
+          ]
+        ],
+        "expected": 1
+      },
+      {
+        "args": [
+          [
+            2
+          ],
+          []
+        ],
+        "expected": 2
+      }
+    ]
+  },
+  "14": {
+    "id": 14,
+    "title": "Edit Distance",
+    "difficulty": "hard",
+    "difficultyText": "Hard",
+    "category": "strings",
+    "acceptance": "52.8%",
+    "description": "<p>Given two strings <code>word1</code> and <code>word2</code>, return the minimum number of operations required to convert <code>word1</code> to <code>word2</code>. You have three operations: Insert, Delete, and Replace a character.</p>",
+    "examples": [
+      {
+        "input": "word1 = \"horse\", word2 = \"ros\"",
+        "output": "3",
+        "explanation": "horse -> rorse (replace) -> rose (delete) -> ros (delete)"
+      },
+      {
+        "input": "word1 = \"intention\", word2 = \"execution\"",
+        "output": "5",
+        "explanation": "intention -> extention -> execution, etc."
+      }
+    ],
+    "constraints": [
+      "<code>0 &lt;= word1.length, word2.length &lt;= 100</code>"
+    ],
+    "funcName": "minDistance",
+    "params": [
+      "word1",
+      "word2"
+    ],
+    "templates": {
+      "javascript": "function minDistance(word1, word2) {\n    // Write your code here\n    \n}",
+      "python": "def minDistance(word1: str, word2: str) -> int:\n    # Write your code here\n    pass",
+      "java": "class Solution {\n    public int minDistance(String word1, String word2) {\n        // Write your code here\n        \n        return 0;\n    }\n}",
+      "cpp": "int minDistance(std::string word1, std::string word2) {\n    // Write your code here\n    \n    return 0;\n}"
+    },
+    "sampleTestCases": [
+      {
+        "args": [
+          "horse",
+          "ros"
+        ],
+        "expected": 3
+      },
+      {
+        "args": [
+          "intention",
+          "execution"
+        ],
+        "expected": 5
+      }
+    ],
+    "systemTestCases": [
+      {
+        "args": [
+          "horse",
+          "ros"
+        ],
+        "expected": 3
+      },
+      {
+        "args": [
+          "intention",
+          "execution"
+        ],
+        "expected": 5
+      },
+      {
+        "args": [
+          "",
+          ""
+        ],
+        "expected": 0
+      },
+      {
+        "args": [
+          "a",
+          ""
+        ],
+        "expected": 1
+      },
+      {
+        "args": [
+          "",
+          "a"
+        ],
+        "expected": 1
+      },
+      {
+        "args": [
+          "abc",
+          "abc"
+        ],
+        "expected": 0
+      }
+    ]
+  },
+  "15": {
+    "id": 15,
+    "title": "Trapping Rain Water",
+    "difficulty": "hard",
+    "difficultyText": "Hard",
+    "category": "arrays",
+    "acceptance": "60.1%",
+    "description": "<p>Given <code>n</code> non-negative integers representing an elevation map where the width of each bar is <code>1</code>, compute how much water it can trap after raining.</p>",
+    "examples": [
+      {
+        "input": "height = [0,1,0,2,1,0,1,3,2,1,2,1]",
+        "output": "6",
+        "explanation": "6 units of water are trapped."
+      },
+      {
+        "input": "height = [4,2,0,3,2,5]",
+        "output": "9",
+        "explanation": "9 units of water are trapped."
+      }
+    ],
+    "constraints": [
+      "<code>0 &lt;= height.length &lt;= 1000</code>",
+      "<code>0 &lt;= height[i] &lt;= 10<sup>5</sup></code>"
+    ],
+    "funcName": "trap",
+    "params": [
+      "height"
+    ],
+    "templates": {
+      "javascript": "function trap(height) {\n    // Write your code here\n    \n}",
+      "python": "def trap(height: list) -> int:\n    # Write your code here\n    pass",
+      "java": "class Solution {\n    public int trap(List<Integer> height) {\n        // Write your code here\n        \n        return 0;\n    }\n}",
+      "cpp": "int trap(std::vector<int>& height) {\n    // Write your code here\n    \n    return 0;\n}"
+    },
+    "sampleTestCases": [
+      {
+        "args": [
+          [
+            0,
+            1,
+            0,
+            2,
+            1,
+            0,
+            1,
+            3,
+            2,
+            1,
+            2,
+            1
+          ]
+        ],
+        "expected": 6
+      },
+      {
+        "args": [
+          [
+            4,
+            2,
+            0,
+            3,
+            2,
+            5
+          ]
+        ],
+        "expected": 9
+      }
+    ],
+    "systemTestCases": [
+      {
+        "args": [
+          [
+            0,
+            1,
+            0,
+            2,
+            1,
+            0,
+            1,
+            3,
+            2,
+            1,
+            2,
+            1
+          ]
+        ],
+        "expected": 6
+      },
+      {
+        "args": [
+          [
+            4,
+            2,
+            0,
+            3,
+            2,
+            5
+          ]
+        ],
+        "expected": 9
+      },
+      {
+        "args": [
+          []
+        ],
+        "expected": 0
+      },
+      {
+        "args": [
+          [
+            1
+          ]
+        ],
+        "expected": 0
+      },
+      {
+        "args": [
+          [
+            3,
+            0,
+            3
+          ]
+        ],
+        "expected": 3
+      },
+      {
+        "args": [
+          [
+            1,
+            2,
+            3,
+            4
+          ]
+        ],
+        "expected": 0
+      }
+    ]
+  },
+  "16": {
+    "id": 16,
+    "title": "Global Fibonacci",
+    "difficulty": "easy",
+    "difficultyText": "Easy",
+    "category": "recursion",
+    "acceptance": "50.0%",
+    "description": "<p>Calculate the Nth Fibonacci number.</p>",
+    "examples": [
+      {
+        "input": "n = 5",
+        "output": "5",
+        "explanation": "Verification test case."
+      }
+    ],
+    "constraints": [],
+    "funcName": "fib",
+    "params": [
+      "n"
+    ],
+    "argTypes": [
+      "int"
+    ],
+    "retType": "int",
+    "templates": {
+      "javascript": "function fib(n) {\n    // Write your code here\n    \n}",
+      "python": "def fib(n: int) -> int:\n    # Write your code here\n    pass",
+      "java": "class Solution {\n    public int fib(int n) {\n        // Write your code here\n        \n        return 0;\n    }\n}",
+      "cpp": "int fib(int n) {\n    // Write your code here\n    \n    return 0;\n}"
+    },
+    "sampleTestCases": [
+      {
+        "args": [
+          5
+        ],
+        "expected": 5
+      },
+      {
+        "args": [
+          6
+        ],
+        "expected": 8
+      }
+    ],
+    "systemTestCases": [
+      {
+        "args": [
+          5
+        ],
+        "expected": 5
+      },
+      {
+        "args": [
+          6
+        ],
+        "expected": 8
+      }
+    ]
+  },
+  "17": {
+    "id": 17,
+    "title": "Middle of the Linked List",
+    "difficulty": "easy",
+    "difficultyText": "Easy",
+    "category": "linked-list",
+    "acceptance": "75.4%",
+    "description": "<p>Given the <code>head</code> of a singly linked list, return <em>the middle node of the linked list</em>.</p><p>If there are two middle nodes, return <strong>the second middle</strong> node.</p>",
+    "examples": [
+      {
+        "input": "head = [1,2,3,4,5]",
+        "output": "[3,4,5]",
+        "explanation": "The middle node of the list is node 3."
+      }
+    ],
+    "constraints": [
+      "The number of nodes in the list is in the range [1, 100]."
+    ],
+    "funcName": "middleNode",
+    "params": [
+      "head"
+    ],
+    "argTypes": [
+      "ListNode"
+    ],
+    "retType": "ListNode",
+    "templates": {
+      "javascript": "function middleNode(head) {\n    // Write your code here\n    \n}",
+      "python": "def middleNode(head: ListNode) -> ListNode:\n    # Write your code here\n    pass",
+      "java": "class Solution {\n    public ListNode middleNode(ListNode head) {\n        // Write your code here\n        \n        return null;\n    }\n}",
+      "cpp": "ListNode* middleNode(ListNode* head) {\n    // Write your code here\n    \n    return nullptr;\n}"
+    },
+    "sampleTestCases": [
+      {
+        "args": [
+          [
+            1,
+            2,
+            3,
+            4,
+            5
+          ]
+        ],
+        "expected": [
+          3,
+          4,
+          5
+        ]
+      }
+    ],
+    "systemTestCases": [
+      {
+        "args": [
+          [
+            1,
+            2,
+            3,
+            4,
+            5
+          ]
+        ],
+        "expected": [
+          3,
+          4,
+          5
+        ]
+      },
+      {
+        "args": [
+          [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ]
+        ],
+        "expected": [
+          4,
+          5,
+          6
+        ]
+      },
+      {
+        "args": [
+          [
+            1
+          ]
+        ],
+        "expected": [
+          1
+        ]
+      },
+      {
+        "args": [
+          [
+            1,
+            2
+          ]
+        ],
+        "expected": [
+          2
+        ]
+      }
+    ]
+  },
+  "18": {
+    "id": 18,
+    "title": "Binary Tree Preorder Traversal",
+    "difficulty": "easy",
+    "difficultyText": "Easy",
+    "category": "binary-tree",
+    "acceptance": "68.2%",
+    "description": "<p>Given the <code>root</code> of a binary tree, return <em>the preorder traversal of its nodes' values</em>.</p>",
+    "examples": [
+      {
+        "input": "root = [1,null,2,3]",
+        "output": "[1,2,3]",
+        "explanation": "Preorder traversal is root -> left -> right."
+      }
+    ],
+    "constraints": [
+      "The number of nodes in the tree is in the range [0, 100]."
+    ],
+    "funcName": "preorderTraversal",
+    "params": [
+      "root"
+    ],
+    "argTypes": [
+      "TreeNode"
+    ],
+    "retType": "vector<int>",
+    "templates": {
+      "javascript": "function preorderTraversal(root) {\n    // Write your code here\n    \n}",
+      "python": "def preorderTraversal(root: TreeNode) -> list:\n    # Write your code here\n    pass",
+      "java": "class Solution {\n    public List<Integer> preorderTraversal(TreeNode root) {\n        // Write your code here\n        \n        return null;\n    }\n}",
+      "cpp": "std::vector<int>& preorderTraversal(TreeNode* root) {\n    // Write your code here\n    \n    return {};\n}"
+    },
+    "sampleTestCases": [
+      {
+        "args": [
+          [
+            1,
+            null,
+            2,
+            3
+          ]
+        ],
+        "expected": [
+          1,
+          2,
+          3
+        ]
+      }
+    ],
+    "systemTestCases": [
+      {
+        "args": [
+          [
+            1,
+            null,
+            2,
+            3
+          ]
+        ],
+        "expected": [
+          1,
+          2,
+          3
+        ]
+      },
+      {
+        "args": [
+          []
+        ],
+        "expected": []
+      },
+      {
+        "args": [
+          [
+            1
+          ]
+        ],
+        "expected": [
+          1
+        ]
+      },
+      {
+        "args": [
+          [
+            1,
+            2,
+            3,
+            4,
+            5
+          ]
+        ],
+        "expected": [
+          1,
+          2,
+          4,
+          5,
+          3
+        ]
+      }
+    ]
+  },
+  "19": {
+    "id": 19,
+    "title": "Merge Two Sorted Lists",
+    "difficulty": "easy",
+    "difficultyText": "Easy",
+    "category": "linked-list",
+    "acceptance": "63.1%",
+    "description": "<p>Merge two sorted linked lists and return it as a <strong>sorted</strong> list.</p>",
+    "examples": [
+      {
+        "input": "l1 = [1,2,4], l2 = [1,3,4]",
+        "output": "[1,1,2,3,4,4]"
+      }
+    ],
+    "constraints": [
+      "The number of nodes in both lists is in the range [0, 50]."
+    ],
+    "funcName": "mergeTwoLists",
+    "params": [
+      "list1",
+      "list2"
+    ],
+    "argTypes": [
+      "ListNode",
+      "ListNode"
+    ],
+    "retType": "ListNode",
+    "templates": {
+      "javascript": "function mergeTwoLists(list1, list2) {\n    // Write your code here\n    \n}",
+      "python": "def mergeTwoLists(list1: ListNode, list2: ListNode) -> ListNode:\n    # Write your code here\n    pass",
+      "java": "class Solution {\n    public ListNode mergeTwoLists(ListNode list1, ListNode list2) {\n        // Write your code here\n        \n        return null;\n    }\n}",
+      "cpp": "ListNode* mergeTwoLists(ListNode* list1, ListNode* list2) {\n    // Write your code here\n    \n    return nullptr;\n}"
+    },
+    "sampleTestCases": [
+      {
+        "args": [
+          [
+            1,
+            2,
+            4
+          ],
+          [
+            1,
+            3,
+            4
+          ]
+        ],
+        "expected": [
+          1,
+          1,
+          2,
+          3,
+          4,
+          4
+        ]
+      }
+    ],
+    "systemTestCases": [
+      {
+        "args": [
+          [
+            1,
+            2,
+            4
+          ],
+          [
+            1,
+            3,
+            4
+          ]
+        ],
+        "expected": [
+          1,
+          1,
+          2,
+          3,
+          4,
+          4
+        ]
+      },
+      {
+        "args": [
+          [],
+          []
+        ],
+        "expected": []
+      },
+      {
+        "args": [
+          [],
+          [
+            0
+          ]
+        ],
+        "expected": [
+          0
+        ]
+      },
+      {
+        "args": [
+          [
+            5
+          ],
+          [
+            1,
+            2,
+            3,
+            4
+          ]
+        ],
+        "expected": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ]
+      }
+    ]
+  },
+  "20": {
+    "id": 20,
+    "title": "Invert Binary Tree",
+    "difficulty": "easy",
+    "difficultyText": "Easy",
+    "category": "binary-tree",
+    "acceptance": "76.1%",
+    "description": "<p>Given the <code>root</code> of a binary tree, invert the tree, and return <em>its root</em>.</p>",
+    "examples": [
+      {
+        "input": "root = [4,2,7,1,3,6,9]",
+        "output": "[4,7,2,9,6,3,1]"
+      }
+    ],
+    "constraints": [
+      "The number of nodes in the tree is in the range [0, 100]."
+    ],
+    "funcName": "invertTree",
+    "params": [
+      "root"
+    ],
+    "argTypes": [
+      "TreeNode"
+    ],
+    "retType": "TreeNode",
+    "templates": {
+      "javascript": "function invertTree(root) {\n    // Write your code here\n    \n}",
+      "python": "def invertTree(root: TreeNode) -> TreeNode:\n    # Write your code here\n    pass",
+      "java": "class Solution {\n    public TreeNode invertTree(TreeNode root) {\n        // Write your code here\n        \n        return null;\n    }\n}",
+      "cpp": "TreeNode* invertTree(TreeNode* root) {\n    // Write your code here\n    \n    return nullptr;\n}"
+    },
+    "sampleTestCases": [
+      {
+        "args": [
+          [
+            4,
+            2,
+            7,
+            1,
+            3,
+            6,
+            9
+          ]
+        ],
+        "expected": [
+          4,
+          7,
+          2,
+          9,
+          6,
+          3,
+          1
+        ]
+      }
+    ],
+    "systemTestCases": [
+      {
+        "args": [
+          [
+            4,
+            2,
+            7,
+            1,
+            3,
+            6,
+            9
+          ]
+        ],
+        "expected": [
+          4,
+          7,
+          2,
+          9,
+          6,
+          3,
+          1
+        ]
+      },
+      {
+        "args": [
+          [
+            2,
+            1,
+            3
+          ]
+        ],
+        "expected": [
+          2,
+          3,
+          1
+        ]
+      },
+      {
+        "args": [
+          []
+        ],
+        "expected": []
+      }
+    ]
+  },
+  "21": {
+    "id": 21,
+    "title": "Valid Parentheses",
+    "difficulty": "easy",
+    "difficultyText": "Easy",
+    "category": "stack",
+    "acceptance": "41.5%",
+    "description": "<p>Given a string <code>s</code> containing just characters, determine if the input string is valid.</p>",
+    "examples": [
+      {
+        "input": "s = \"()[]{}\"",
+        "output": "true"
+      }
+    ],
+    "constraints": [
+      "1 <= s.length <= 10^4"
+    ],
+    "funcName": "isValid",
+    "params": [
+      "s"
+    ],
+    "argTypes": [
+      "string"
+    ],
+    "retType": "bool",
+    "templates": {
+      "javascript": "function isValid(s) {\n    // Write your code here\n    \n}",
+      "python": "def isValid(s: str) -> bool:\n    # Write your code here\n    pass",
+      "java": "class Solution {\n    public boolean isValid(String s) {\n        // Write your code here\n        \n        return false;\n    }\n}",
+      "cpp": "bool isValid(std::string s) {\n    // Write your code here\n    \n    return false;\n}"
+    },
+    "sampleTestCases": [
+      {
+        "args": [
+          "()[]{}"
+        ],
+        "expected": true
+      }
+    ],
+    "systemTestCases": [
+      {
+        "args": [
+          "()[]{}"
+        ],
+        "expected": true
+      },
+      {
+        "args": [
+          "(]"
+        ],
+        "expected": false
+      },
+      {
+        "args": [
+          "("
+        ],
+        "expected": false
+      },
+      {
+        "args": [
+          "{[]}"
+        ],
+        "expected": true
+      }
+    ]
+  },
+  "22": {
+    "id": 22,
+    "title": "Binary Search",
+    "difficulty": "easy",
+    "difficultyText": "Easy",
+    "category": "binary-search",
+    "acceptance": "56.4%",
+    "description": "<p>Given an array of integers <code>nums</code> which is sorted in ascending order, search for <code>target</code>.</p>",
+    "examples": [
+      {
+        "input": "nums = [-1,0,3,5,9,12], target = 9",
+        "output": "4"
+      }
+    ],
+    "constraints": [
+      "1 <= nums.length <= 10^4"
+    ],
+    "funcName": "search",
+    "params": [
+      "nums",
+      "target"
+    ],
+    "argTypes": [
+      "vector<int>",
+      "int"
+    ],
+    "retType": "int",
+    "templates": {
+      "javascript": "function search(nums, target) {\n    // Write your code here\n    \n}",
+      "python": "def search(nums: list, target: int) -> int:\n    # Write your code here\n    pass",
+      "java": "class Solution {\n    public int search(List<Integer> nums, int target) {\n        // Write your code here\n        \n        return 0;\n    }\n}",
+      "cpp": "int search(std::vector<int>& nums, int target) {\n    // Write your code here\n    \n    return 0;\n}"
+    },
+    "sampleTestCases": [
+      {
+        "args": [
+          [
+            -1,
+            0,
+            3,
+            5,
+            9,
+            12
+          ],
+          9
+        ],
+        "expected": 4
+      }
+    ],
+    "systemTestCases": [
+      {
+        "args": [
+          [
+            -1,
+            0,
+            3,
+            5,
+            9,
+            12
+          ],
+          9
+        ],
+        "expected": 4
+      },
+      {
+        "args": [
+          [
+            -1,
+            0,
+            3,
+            5,
+            9,
+            12
+          ],
+          2
+        ],
+        "expected": -1
+      },
+      {
+        "args": [
+          [
+            5
+          ],
+          5
+        ],
+        "expected": 0
+      }
+    ]
+  },
+  "23": {
+    "id": 23,
+    "title": "Remove Duplicates from Sorted List",
+    "difficulty": "easy",
+    "difficultyText": "Easy",
+    "category": "linked-list",
+    "acceptance": "51.1%",
+    "description": "<p>Given the <code>head</code> of a sorted linked list, delete all duplicates such that each element appears only once.</p>",
+    "examples": [
+      {
+        "input": "head = [1,1,2,3,3]",
+        "output": "[1,2,3]"
+      }
+    ],
+    "constraints": [
+      "The list is guaranteed to be sorted in ascending order."
+    ],
+    "funcName": "deleteDuplicates",
+    "params": [
+      "head"
+    ],
+    "argTypes": [
+      "ListNode"
+    ],
+    "retType": "ListNode",
+    "templates": {
+      "javascript": "function deleteDuplicates(head) {\n    // Write your code here\n    \n}",
+      "python": "def deleteDuplicates(head: ListNode) -> ListNode:\n    # Write your code here\n    pass",
+      "java": "class Solution {\n    public ListNode deleteDuplicates(ListNode head) {\n        // Write your code here\n        \n        return null;\n    }\n}",
+      "cpp": "ListNode* deleteDuplicates(ListNode* head) {\n    // Write your code here\n    \n    return nullptr;\n}"
+    },
+    "sampleTestCases": [
+      {
+        "args": [
+          [
+            1,
+            1,
+            2,
+            3,
+            3
+          ]
+        ],
+        "expected": [
+          1,
+          2,
+          3
+        ]
+      }
+    ],
+    "systemTestCases": [
+      {
+        "args": [
+          [
+            1,
+            1,
+            2,
+            3,
+            3
+          ]
+        ],
+        "expected": [
+          1,
+          2,
+          3
+        ]
+      },
+      {
+        "args": [
+          [
+            1,
+            1,
+            1
+          ]
+        ],
+        "expected": [
+          1
+        ]
+      },
+      {
+        "args": [
+          []
+        ],
+        "expected": []
+      }
+    ]
+  },
+  "24": {
+    "id": 24,
+    "title": "Maximum Depth of Binary Tree",
+    "difficulty": "easy",
+    "difficultyText": "Easy",
+    "category": "binary-tree",
+    "acceptance": "74.8%",
+    "description": "<p>Given the <code>root</code> of a binary tree, return <em>its maximum depth</em>.</p>",
+    "examples": [
+      {
+        "input": "root = [3,9,20,null,null,15,7]",
+        "output": "3"
+      }
+    ],
+    "constraints": [
+      "The number of nodes in the tree is in the range [0, 10^4]."
+    ],
+    "funcName": "maxDepth",
+    "params": [
+      "root"
+    ],
+    "argTypes": [
+      "TreeNode"
+    ],
+    "retType": "int",
+    "templates": {
+      "javascript": "function maxDepth(root) {\n    // Write your code here\n    \n}",
+      "python": "def maxDepth(root: TreeNode) -> int:\n    # Write your code here\n    pass",
+      "java": "class Solution {\n    public int maxDepth(TreeNode root) {\n        // Write your code here\n        \n        return 0;\n    }\n}",
+      "cpp": "int maxDepth(TreeNode* root) {\n    // Write your code here\n    \n    return 0;\n}"
+    },
+    "sampleTestCases": [
+      {
+        "args": [
+          [
+            3,
+            9,
+            20,
+            null,
+            null,
+            15,
+            7
+          ]
+        ],
+        "expected": 3
+      }
+    ],
+    "systemTestCases": [
+      {
+        "args": [
+          [
+            3,
+            9,
+            20,
+            null,
+            null,
+            15,
+            7
+          ]
+        ],
+        "expected": 3
+      },
+      {
+        "args": [
+          [
+            1,
+            null,
+            2
+          ]
+        ],
+        "expected": 2
+      },
+      {
+        "args": [
+          []
+        ],
+        "expected": 0
+      }
+    ]
+  },
+  "25": {
+    "id": 25,
+    "title": "Two Sum II - Input Array Is Sorted",
+    "difficulty": "medium",
+    "difficultyText": "Medium",
+    "category": "two-pointers",
+    "acceptance": "60.4%",
+    "description": "<p>Find two numbers such that they add up to a specific target number, returning their 1-based indices.</p>",
+    "examples": [
+      {
+        "input": "numbers = [2,7,11,15], target = 9",
+        "output": "[1,2]"
+      }
+    ],
+    "constraints": [
+      "2 <= numbers.length <= 3 * 10^4"
+    ],
+    "funcName": "twoSum",
+    "params": [
+      "numbers",
+      "target"
+    ],
+    "argTypes": [
+      "vector<int>",
+      "int"
+    ],
+    "retType": "vector<int>",
+    "templates": {
+      "javascript": "function twoSum(numbers, target) {\n    // Write your code here\n    \n}",
+      "python": "def twoSum(numbers: list, target: int) -> list:\n    # Write your code here\n    pass",
+      "java": "class Solution {\n    public List<Integer> twoSum(List<Integer> numbers, int target) {\n        // Write your code here\n        \n        return null;\n    }\n}",
+      "cpp": "std::vector<int>& twoSum(std::vector<int>& numbers, int target) {\n    // Write your code here\n    \n    return {};\n}"
+    },
+    "sampleTestCases": [
+      {
+        "args": [
+          [
+            2,
+            7,
+            11,
+            15
+          ],
+          9
+        ],
+        "expected": [
+          1,
+          2
+        ]
+      }
+    ],
+    "systemTestCases": [
+      {
+        "args": [
+          [
+            2,
+            7,
+            11,
+            15
+          ],
+          9
+        ],
+        "expected": [
+          1,
+          2
+        ]
+      },
+      {
+        "args": [
+          [
+            2,
+            3,
+            4
+          ],
+          6
+        ],
+        "expected": [
+          1,
+          3
+        ]
+      },
+      {
+        "args": [
+          [
+            -1,
+            0
+          ],
+          -1
+        ],
+        "expected": [
+          1,
+          2
+        ]
+      }
+    ]
+  },
+  "26": {
+    "id": 26,
+    "title": "Search in a Binary Search Tree",
+    "difficulty": "easy",
+    "difficultyText": "Easy",
+    "category": "binary-tree",
+    "acceptance": "78.2%",
+    "description": "<p>Find the node in the BST that the node's value equals <code>val</code> and return the subtree rooted with that node.</p>",
+    "examples": [
+      {
+        "input": "root = [4,2,7,1,3], val = 2",
+        "output": "[2,1,3]"
+      }
+    ],
+    "constraints": [
+      "The number of nodes in the tree is in the range [1, 5000]."
+    ],
+    "funcName": "searchBST",
+    "params": [
+      "root",
+      "val"
+    ],
+    "argTypes": [
+      "TreeNode",
+      "int"
+    ],
+    "retType": "TreeNode",
+    "templates": {
+      "javascript": "function searchBST(root, val) {\n    // Write your code here\n    \n}",
+      "python": "def searchBST(root: TreeNode, val: int) -> TreeNode:\n    # Write your code here\n    pass",
+      "java": "class Solution {\n    public TreeNode searchBST(TreeNode root, int val) {\n        // Write your code here\n        \n        return null;\n    }\n}",
+      "cpp": "TreeNode* searchBST(TreeNode* root, int val) {\n    // Write your code here\n    \n    return nullptr;\n}"
+    },
+    "sampleTestCases": [
+      {
+        "args": [
+          [
+            4,
+            2,
+            7,
+            1,
+            3
+          ],
+          2
+        ],
+        "expected": [
+          2,
+          1,
+          3
+        ]
+      }
+    ],
+    "systemTestCases": [
+      {
+        "args": [
+          [
+            4,
+            2,
+            7,
+            1,
+            3
+          ],
+          2
+        ],
+        "expected": [
+          2,
+          1,
+          3
+        ]
+      },
+      {
+        "args": [
+          [
+            4,
+            2,
+            7,
+            1,
+            3
+          ],
+          5
+        ],
+        "expected": []
+      }
+    ]
+  },
+  "27": {
+    "id": 27,
+    "title": "Map Word Frequencies",
+    "difficulty": "medium",
+    "difficultyText": "Medium",
+    "category": "map-hash",
+    "acceptance": "80.5%",
+    "description": "<p>Given a space-separated string of words, count the frequency of each word and return it as a key-value Map.</p>",
+    "examples": [
+      {
+        "input": "text = \"hello world hello\"",
+        "output": "{\"hello\":\"2\",\"world\":\"1\"}"
+      }
+    ],
+    "constraints": [
+      "Word strings fit in standard memory space."
+    ],
+    "funcName": "wordFreq",
+    "params": [
+      "text"
+    ],
+    "argTypes": [
+      "string"
+    ],
+    "retType": "map",
+    "templates": {
+      "javascript": "function wordFreq(text) {\n    // Write your code here\n    \n}",
+      "python": "def wordFreq(text: str) -> None:\n    # Write your code here\n    pass",
+      "java": "class Solution {\n    public void wordFreq(String text) {\n        // Write your code here\n        \n    }\n}",
+      "cpp": "void wordFreq(std::string text) {\n    // Write your code here\n    \n}"
+    },
+    "sampleTestCases": [
+      {
+        "args": [
+          "hello world hello"
+        ],
+        "expected": {
+          "hello": "2",
+          "world": "1"
+        }
+      }
+    ],
+    "systemTestCases": [
+      {
+        "args": [
+          "hello world hello"
+        ],
+        "expected": {
+          "hello": "2",
+          "world": "1"
+        }
+      },
+      {
+        "args": [
+          "apple banana apple apple"
+        ],
+        "expected": {
+          "apple": "3",
+          "banana": "1"
+        }
+      }
+    ]
+  },
+  "28": {
+    "id": 28,
+    "title": "JSON Parser Validator",
+    "difficulty": "medium",
+    "difficultyText": "Medium",
+    "category": "json-parsing",
+    "acceptance": "85.2%",
+    "description": "<p>Given a JSON object representing a user, validate that it contains a non-empty string <code>name</code> and an <code>age</code> >= 18.</p>",
+    "examples": [
+      {
+        "input": "data = { \"name\": \"Alice\", \"age\": 25 }",
+        "output": "true"
+      }
+    ],
+    "constraints": [
+      "Inputs are valid parsed JSON structures."
+    ],
+    "funcName": "validateUser",
+    "params": [
+      "data"
+    ],
+    "argTypes": [
+      "json"
+    ],
+    "retType": "bool",
+    "templates": {
+      "javascript": "function validateUser(data) {\n    // Write your code here\n    \n}",
+      "python": "def validateUser(data: None) -> bool:\n    # Write your code here\n    pass",
+      "java": "class Solution {\n    public boolean validateUser(void data) {\n        // Write your code here\n        \n        return false;\n    }\n}",
+      "cpp": "bool validateUser(void data) {\n    // Write your code here\n    \n    return false;\n}"
+    },
+    "sampleTestCases": [
+      {
+        "args": [
+          {
+            "name": "Alice",
+            "age": 25
+          }
+        ],
+        "expected": true
+      }
+    ],
+    "systemTestCases": [
+      {
+        "args": [
+          {
+            "name": "Alice",
+            "age": 25
+          }
+        ],
+        "expected": true
+      },
+      {
+        "args": [
+          {
+            "name": "",
+            "age": 20
+          }
+        ],
+        "expected": false
+      },
+      {
+        "args": [
+          {
+            "name": "Bob",
+            "age": 16
+          }
+        ],
+        "expected": false
+      }
+    ]
+  },
+  "29": {
+    "id": 29,
+    "title": "Console I/O: Sum of List Elements",
+    "difficulty": "easy",
+    "difficultyText": "Easy",
+    "category": "console-io",
+    "acceptance": "90.0%",
+    "description": "<p>Write a complete program that reads space-separated integers from <strong>Standard Input (stdin)</strong> and prints their combined sum to <strong>Standard Output (stdout)</strong>.</p>",
+    "examples": [
+      {
+        "input": "10 20 30 40",
+        "output": "100"
+      }
+    ],
+    "constraints": [
+      "Inputs separated by standard space character."
+    ],
+    "funcName": "consoleSum",
+    "params": [
+      "stdin"
+    ],
+    "argTypes": [
+      "json"
+    ],
+    "retType": "console-io",
+    "templates": {
+      "javascript": "// Write your code here\n",
+      "python": "# Write your code here\n",
+      "cpp": "#include <iostream>\n\nint main() {\n    // Write your code here\n    return 0;\n}",
+      "java": "import java.util.Scanner;\n\npublic class Main {\n    public static void main(String[] args) {\n        // Write your code here\n        \n    }\n}"
+    },
+    "sampleTestCases": [
+      {
+        "args": [
+          "10 20 30 40"
+        ],
+        "expected": "100"
+      }
+    ],
+    "systemTestCases": [
+      {
+        "args": [
+          "10 20 30 40"
+        ],
+        "expected": "100"
+      },
+      {
+        "args": [
+          "-5 5 0"
+        ],
+        "expected": "0"
+      },
+      {
+        "args": [
+          "99"
+        ],
+        "expected": "99"
+      }
+    ]
+  },
+  "30": {
+    "id": 30,
+    "title": "Console I/O: FizzBuzz Stream",
+    "difficulty": "easy",
+    "difficultyText": "Easy",
+    "category": "console-io",
+    "acceptance": "85.0%",
+    "description": "<p>Read a single integer N from stdin, and print FizzBuzz numbers from 1 to N on separate lines.</p>",
+    "examples": [
+      {
+        "input": "15",
+        "output": "1\\n2\\nFizz\\n4\\nBuzz\\nFizz\\n7\\n8\\nFizz\\nBuzz\\n11\\nFizz\\n13\\n14\\nFizzBuzz"
+      }
+    ],
+    "constraints": [
+      "1 <= N <= 100"
+    ],
+    "funcName": "consoleFizzBuzz",
+    "params": [
+      "stdin"
+    ],
+    "argTypes": [
+      "json"
+    ],
+    "retType": "console-io",
+    "templates": {
+      "javascript": "// Write your code here\n",
+      "python": "# Write your code here\n",
+      "cpp": "#include <iostream>\n\nint main() {\n    // Write your code here\n    return 0;\n}",
+      "java": "import java.util.Scanner;\n\npublic class Main {\n    public static void main(String[] args) {\n        // Write your code here\n        \n    }\n}"
+    },
+    "sampleTestCases": [
+      {
+        "args": [
+          "15"
+        ],
+        "expected": "1\n2\nFizz\n4\nBuzz\nFizz\n7\n8\nFizz\nBuzz\n11\nFizz\n13\n14\nFizzBuzz"
+      }
+    ],
+    "systemTestCases": [
+      {
+        "args": [
+          "15"
+        ],
+        "expected": "1\n2\nFizz\n4\nBuzz\nFizz\n7\n8\nFizz\nBuzz\n11\nFizz\n13\n14\nFizzBuzz"
+      },
+      {
+        "args": [
+          "3"
+        ],
+        "expected": "1\n2\nFizz"
+      }
+    ]
+  },
+  "31": {
+    "id": 31,
+    "title": "Group Values by Key",
+    "difficulty": "medium",
+    "difficultyText": "Medium",
+    "category": "json-parsing",
+    "acceptance": "80.0%",
+    "description": "<p>Given a JSON array of objects containing a <code>group</code> string and a <code>val</code> string, group values by keys, separating values by commas.</p>",
+    "examples": [
+      {
+        "input": "data = [ { \"group\": \"A\", \"val\": \"1\" }, { \"group\": \"B\", \"val\": \"2\" }, { \"group\": \"A\", \"val\": \"3\" } ]",
+        "output": "{\"A\":\"1,3\",\"B\":\"2\"}"
+      }
+    ],
+    "constraints": [
+      "Inputs are structured JSON lists."
+    ],
+    "funcName": "groupValues",
+    "params": [
+      "data"
+    ],
+    "argTypes": [
+      "json"
+    ],
+    "retType": "map",
+    "templates": {
+      "javascript": "function groupValues(data) {\n    // Write your code here\n    \n}",
+      "python": "def groupValues(data: None) -> None:\n    # Write your code here\n    pass",
+      "java": "class Solution {\n    public void groupValues(void data) {\n        // Write your code here\n        \n    }\n}",
+      "cpp": "void groupValues(void data) {\n    // Write your code here\n    \n}"
+    },
+    "sampleTestCases": [
+      {
+        "args": [
+          [
+            {
+              "group": "A",
+              "val": "1"
+            },
+            {
+              "group": "B",
+              "val": "2"
+            },
+            {
+              "group": "A",
+              "val": "3"
+            }
+          ]
+        ],
+        "expected": {
+          "A": "1,3",
+          "B": "2"
+        }
+      }
+    ],
+    "systemTestCases": [
+      {
+        "args": [
+          [
+            {
+              "group": "A",
+              "val": "1"
+            },
+            {
+              "group": "B",
+              "val": "2"
+            },
+            {
+              "group": "A",
+              "val": "3"
+            }
+          ]
+        ],
+        "expected": {
+          "A": "1,3",
+          "B": "2"
+        }
+      }
+    ]
+  },
+  "32": {
+    "id": 32,
+    "title": "Console I/O: Find Prime Numbers",
+    "difficulty": "medium",
+    "difficultyText": "Medium",
+    "category": "console-io",
+    "acceptance": "78.0%",
+    "description": "<p>Read a single integer N from stdin, and print all prime numbers up to N separated by spaces.</p>",
+    "examples": [
+      {
+        "input": "15",
+        "output": "2 3 5 7 11 13"
+      }
+    ],
+    "constraints": [
+      "2 <= N <= 1000"
+    ],
+    "funcName": "consolePrimes",
+    "params": [
+      "stdin"
+    ],
+    "argTypes": [
+      "json"
+    ],
+    "retType": "console-io",
+    "templates": {
+      "javascript": "// Write your code here\n",
+      "python": "# Write your code here\n",
+      "cpp": "#include <iostream>\n\nint main() {\n    // Write your code here\n    return 0;\n}",
+      "java": "import java.util.Scanner;\n\npublic class Main {\n    public static void main(String[] args) {\n        // Write your code here\n        \n    }\n}"
+    },
+    "sampleTestCases": [
+      {
+        "args": [
+          "15"
+        ],
+        "expected": "2 3 5 7 11 13"
+      }
+    ],
+    "systemTestCases": [
+      {
+        "args": [
+          "15"
+        ],
+        "expected": "2 3 5 7 11 13"
+      },
+      {
+        "args": [
+          "5"
+        ],
+        "expected": "2 3 5"
+      }
+    ]
+  },
+  "33": {
+    "id": 33,
+    "title": "Nested JSON Value Extract",
+    "difficulty": "medium",
+    "difficultyText": "Medium",
+    "category": "json-parsing",
+    "acceptance": "83.1%",
+    "description": "<p>Given a JSON document and a path string (like <code>user.info.city</code>), extract the string value.</p>",
+    "examples": [
+      {
+        "input": "doc = { \"user\": { \"info\": { \"city\": \"Paris\" } } }, path = \"user.info.city\"",
+        "output": "\"Paris\""
+      }
+    ],
+    "constraints": [
+      "Inputs are valid parsed JSON documents."
+    ],
+    "funcName": "extractValue",
+    "params": [
+      "doc",
+      "path"
+    ],
+    "argTypes": [
+      "json",
+      "string"
+    ],
+    "retType": "string",
+    "templates": {
+      "javascript": "function extractValue(doc, path) {\n    // Write your code here\n    \n}",
+      "python": "def extractValue(doc: None, path: str) -> str:\n    # Write your code here\n    pass",
+      "java": "class Solution {\n    public String extractValue(void doc, String path) {\n        // Write your code here\n        \n        return null;\n    }\n}",
+      "cpp": "std::string extractValue(void doc, std::string path) {\n    // Write your code here\n    \n    return \"\";\n}"
+    },
+    "sampleTestCases": [
+      {
+        "args": [
+          {
+            "user": {
+              "info": {
+                "city": "Paris"
+              }
+            }
+          },
+          "user.info.city"
+        ],
+        "expected": "Paris"
+      }
+    ],
+    "systemTestCases": [
+      {
+        "args": [
+          {
+            "user": {
+              "info": {
+                "city": "Paris"
+              }
+            }
+          },
+          "user.info.city"
+        ],
+        "expected": "Paris"
+      }
+    ]
+  },
+  "34": {
+    "id": 34,
+    "title": "Console I/O: Anagram Check",
+    "difficulty": "easy",
+    "difficultyText": "Easy",
+    "category": "console-io",
+    "acceptance": "81.0%",
+    "description": "<p>Read two words from separate lines of stdin, and print YES if they are anagrams, otherwise print NO.</p>",
+    "examples": [
+      {
+        "input": "listen\\nsilent",
+        "output": "YES"
+      }
+    ],
+    "constraints": [
+      "Words fit standard string buffers."
+    ],
+    "funcName": "consoleAnagram",
+    "params": [
+      "stdin"
+    ],
+    "argTypes": [
+      "json"
+    ],
+    "retType": "console-io",
+    "templates": {
+      "javascript": "// Write your code here\n",
+      "python": "# Write your code here\n",
+      "cpp": "#include <iostream>\n\nint main() {\n    // Write your code here\n    return 0;\n}",
+      "java": "import java.util.Scanner;\n\npublic class Main {\n    public static void main(String[] args) {\n        // Write your code here\n        \n    }\n}"
+    },
+    "sampleTestCases": [
+      {
+        "args": [
+          "listen\nsilent"
+        ],
+        "expected": "YES"
+      }
+    ],
+    "systemTestCases": [
+      {
+        "args": [
+          "listen\nsilent"
+        ],
+        "expected": "YES"
+      },
+      {
+        "args": [
+          "hello\nworld"
+        ],
+        "expected": "NO"
+      }
+    ]
+  },
+  "35": {
+    "id": 35,
+    "title": "Rotate Matrix",
+    "difficulty": "medium",
+    "difficultyText": "Medium",
+    "category": "matrix",
+    "acceptance": "60.4%",
+    "description": "<p>Given a 2D matrix representing an image, rotate the image by 90 degrees (clockwise).</p>",
+    "examples": [
+      {
+        "input": "matrix = [[1,2],[3,4]]",
+        "output": "[[3,1],[4,2]]"
+      }
+    ],
+    "constraints": [
+      "The matrix dimensions are N x N."
+    ],
+    "funcName": "rotate",
+    "params": [
+      "matrix"
+    ],
+    "argTypes": [
+      "vector<vector<int>>"
+    ],
+    "retType": "vector<vector<int>>",
+    "templates": {
+      "javascript": "function rotate(matrix) {\n    // Write your code here\n    \n}",
+      "python": "def rotate(matrix: None) -> None:\n    # Write your code here\n    pass",
+      "java": "class Solution {\n    public void rotate(void matrix) {\n        // Write your code here\n        \n    }\n}",
+      "cpp": "void rotate(void matrix) {\n    // Write your code here\n    \n}"
+    },
+    "sampleTestCases": [
+      {
+        "args": [
+          [
+            [
+              1,
+              2
+            ],
+            [
+              3,
+              4
+            ]
+          ]
+        ],
+        "expected": [
+          [
+            3,
+            1
+          ],
+          [
+            4,
+            2
+          ]
+        ]
+      }
+    ],
+    "systemTestCases": [
+      {
+        "args": [
+          [
+            [
+              1,
+              2
+            ],
+            [
+              3,
+              4
+            ]
+          ]
+        ],
+        "expected": [
+          [
+            3,
+            1
+          ],
+          [
+            4,
+            2
+          ]
+        ]
+      },
+      {
+        "args": [
+          [
+            [
+              1,
+              2,
+              3
+            ],
+            [
+              4,
+              5,
+              6
+            ],
+            [
+              7,
+              8,
+              9
+            ]
+          ]
+        ],
+        "expected": [
+          [
+            7,
+            4,
+            1
+          ],
+          [
+            8,
+            5,
+            2
+          ],
+          [
+            9,
+            6,
+            3
+          ]
+        ]
+      }
+    ]
+  },
+  "36": {
+    "id": 36,
+    "title": "Console I/O: Fibonacci Sequence Stream",
+    "difficulty": "medium",
+    "difficultyText": "Medium",
+    "category": "console-io",
+    "acceptance": "75.0%",
+    "description": "<p>Read a single integer N from stdin, and print the first N Fibonacci numbers separated by a space.</p>",
+    "examples": [
+      {
+        "input": "5",
+        "output": "0 1 1 2 3"
+      }
+    ],
+    "constraints": [
+      "1 <= N <= 30"
+    ],
+    "funcName": "consoleFib",
+    "params": [
+      "stdin"
+    ],
+    "argTypes": [
+      "json"
+    ],
+    "retType": "console-io",
+    "templates": {
+      "javascript": "// Write your code here\n",
+      "python": "# Write your code here\n",
+      "cpp": "#include <iostream>\n\nint main() {\n    // Write your code here\n    return 0;\n}",
+      "java": "import java.util.Scanner;\n\npublic class Main {\n    public static void main(String[] args) {\n        // Write your code here\n        \n    }\n}"
+    },
+    "sampleTestCases": [
+      {
+        "args": [
+          "5"
+        ],
+        "expected": "0 1 1 2 3"
+      }
+    ],
+    "systemTestCases": [
+      {
+        "args": [
+          "5"
+        ],
+        "expected": "0 1 1 2 3"
+      },
+      {
+        "args": [
+          "2"
+        ],
+        "expected": "0 1"
+      }
+    ]
+  },
+  "37": {
+    "id": 37,
+    "title": "Dynamic Admin Test Challenge",
+    "difficulty": "easy",
+    "difficultyText": "Easy",
+    "category": "math",
+    "acceptance": "50.0%",
+    "description": "<p>Calculate product of a and b.</p>",
+    "examples": [
+      {
+        "input": "num1 = 7, num2 = 8",
+        "output": "56",
+        "explanation": "Verification test case."
+      }
+    ],
+    "constraints": [],
+    "funcName": "findProduct",
+    "params": [
+      "num1",
+      "num2"
+    ],
+    "argTypes": [
+      "int",
+      "int"
+    ],
+    "retType": "int",
+    "templates": {
+      "javascript": "function findProduct(num1, num2) {\n    // Write your code here\n    \n}",
+      "python": "def findProduct(num1: int, num2: int) -> int:\n    # Write your code here\n    pass",
+      "java": "class Solution {\n    public int findProduct(int num1, int num2) {\n        // Write your code here\n        \n        return 0;\n    }\n}",
+      "cpp": "int findProduct(int num1, int num2) {\n    // Write your code here\n    \n    return 0;\n}"
+    },
+    "sampleTestCases": [
+      {
+        "args": [
+          7,
+          8
+        ],
+        "expected": 56
+      }
+    ],
+    "systemTestCases": [
+      {
+        "args": [
+          7,
+          8
+        ],
+        "expected": 56
+      }
+    ]
+  },
+  "38": {
+    "id": 38,
+    "title": "Dynamic Admin Test Challenge",
+    "difficulty": "easy",
+    "difficultyText": "Easy",
+    "category": "math",
+    "acceptance": "50.0%",
+    "description": "<p>Calculate product of a and b.</p>",
+    "examples": [
+      {
+        "input": "num1 = 7, num2 = 8",
+        "output": "56",
+        "explanation": "Verification test case."
+      }
+    ],
+    "constraints": [],
+    "funcName": "findProduct",
+    "params": [
+      "num1",
+      "num2"
+    ],
+    "argTypes": [
+      "int",
+      "int"
+    ],
+    "retType": "int",
+    "templates": {
+      "javascript": "function findProduct(num1, num2) {\n    // Write your code here\n    \n}",
+      "python": "def findProduct(num1: int, num2: int) -> int:\n    # Write your code here\n    pass",
+      "java": "class Solution {\n    public int findProduct(int num1, int num2) {\n        // Write your code here\n        \n        return 0;\n    }\n}",
+      "cpp": "int findProduct(int num1, int num2) {\n    // Write your code here\n    \n    return 0;\n}"
+    },
+    "sampleTestCases": [
+      {
+        "args": [
+          7,
+          8
+        ],
+        "expected": 56
+      }
+    ],
+    "systemTestCases": [
+      {
+        "args": [
+          7,
+          8
+        ],
+        "expected": 56
+      }
+    ]
+  },
+  "39": {
+    "id": 39,
+    "title": "Dynamic Admin Test Challenge",
+    "difficulty": "easy",
+    "difficultyText": "Easy",
+    "category": "math",
+    "acceptance": "50.0%",
+    "description": "<p>Calculate product of a and b.</p>",
+    "examples": [
+      {
+        "input": "num1 = 7, num2 = 8",
+        "output": "56",
+        "explanation": "Verification test case."
+      }
+    ],
+    "constraints": [],
+    "funcName": "findProduct",
+    "params": [
+      "num1",
+      "num2"
+    ],
+    "argTypes": [
+      "int",
+      "int"
+    ],
+    "retType": "int",
+    "templates": {
+      "javascript": "function findProduct(num1, num2) {\n    // Write your code here\n    \n}",
+      "python": "def findProduct(num1: int, num2: int) -> int:\n    # Write your code here\n    pass",
+      "java": "class Solution {\n    public int findProduct(int num1, int num2) {\n        // Write your code here\n        \n        return 0;\n    }\n}",
+      "cpp": "int findProduct(int num1, int num2) {\n    // Write your code here\n    \n    return 0;\n}"
+    },
+    "sampleTestCases": [
+      {
+        "args": [
+          7,
+          8
+        ],
+        "expected": 56
+      }
+    ],
+    "systemTestCases": [
+      {
+        "args": [
+          7,
+          8
+        ],
+        "expected": 56
+      }
+    ]
+  },
+  "40": {
+    "id": 40,
+    "title": "Dynamic Admin Test Challenge",
+    "difficulty": "easy",
+    "difficultyText": "Easy",
+    "category": "math",
+    "acceptance": "50.0%",
+    "description": "<p>Calculate product of a and b.</p>",
+    "examples": [
+      {
+        "input": "num1 = 7, num2 = 8",
+        "output": "56",
+        "explanation": "Verification test case."
+      }
+    ],
+    "constraints": [],
+    "funcName": "findProduct",
+    "params": [
+      "num1",
+      "num2"
+    ],
+    "argTypes": [
+      "int",
+      "int"
+    ],
+    "retType": "int",
+    "templates": {
+      "javascript": "function findProduct(num1, num2) {\n    // Write your code here\n    \n}",
+      "python": "def findProduct(num1: int, num2: int) -> int:\n    # Write your code here\n    pass",
+      "java": "class Solution {\n    public int findProduct(int num1, int num2) {\n        // Write your code here\n        \n        return 0;\n    }\n}",
+      "cpp": "int findProduct(int num1, int num2) {\n    // Write your code here\n    \n    return 0;\n}"
+    },
+    "sampleTestCases": [
+      {
+        "args": [
+          7,
+          8
+        ],
+        "expected": 56
+      }
+    ],
+    "systemTestCases": [
+      {
+        "args": [
+          7,
+          8
+        ],
+        "expected": 56
+      }
+    ]
+  },
+  "41": {
+    "id": 41,
+    "title": "Dynamic Admin Test Challenge",
+    "difficulty": "easy",
+    "difficultyText": "Easy",
+    "category": "math",
+    "acceptance": "50.0%",
+    "description": "<p>Calculate product of a and b.</p>",
+    "examples": [
+      {
+        "input": "num1 = 7, num2 = 8",
+        "output": "56",
+        "explanation": "Verification test case."
+      }
+    ],
+    "constraints": [],
+    "funcName": "findProduct",
+    "params": [
+      "num1",
+      "num2"
+    ],
+    "argTypes": [
+      "int",
+      "int"
+    ],
+    "retType": "int",
+    "templates": {
+      "javascript": "function findProduct(num1, num2) {\n    // Write your code here\n    \n}",
+      "python": "def findProduct(num1: int, num2: int) -> int:\n    # Write your code here\n    pass",
+      "java": "class Solution {\n    public int findProduct(int num1, int num2) {\n        // Write your code here\n        \n        return 0;\n    }\n}",
+      "cpp": "int findProduct(int num1, int num2) {\n    // Write your code here\n    \n    return 0;\n}"
+    },
+    "sampleTestCases": [
+      {
+        "args": [
+          7,
+          8
+        ],
+        "expected": 56
+      }
+    ],
+    "systemTestCases": [
+      {
+        "args": [
+          7,
+          8
+        ],
+        "expected": 56
+      }
+    ]
+  },
+  "42": {
+    "id": 42,
+    "title": "Dynamic Admin Test Challenge",
+    "difficulty": "easy",
+    "difficultyText": "Easy",
+    "category": "math",
+    "acceptance": "50.0%",
+    "description": "<p>Calculate product of a and b.</p>",
+    "examples": [
+      {
+        "input": "num1 = 7, num2 = 8",
+        "output": "56",
+        "explanation": "Verification test case."
+      }
+    ],
+    "constraints": [],
+    "funcName": "findProduct",
+    "params": [
+      "num1",
+      "num2"
+    ],
+    "argTypes": [
+      "int",
+      "int"
+    ],
+    "retType": "int",
+    "templates": {
+      "javascript": "function findProduct(num1, num2) {\n    // Write your code here\n    \n}",
+      "python": "def findProduct(num1: int, num2: int) -> int:\n    # Write your code here\n    pass",
+      "java": "class Solution {\n    public int findProduct(int num1, int num2) {\n        // Write your code here\n        \n        return 0;\n    }\n}",
+      "cpp": "int findProduct(int num1, int num2) {\n    // Write your code here\n    \n    return 0;\n}"
+    },
+    "sampleTestCases": [
+      {
+        "args": [
+          7,
+          8
+        ],
+        "expected": 56
+      }
+    ],
+    "systemTestCases": [
+      {
+        "args": [
+          7,
+          8
+        ],
+        "expected": 56
+      }
+    ]
+  },
+  "44": {
+    "id": 44,
+    "title": "Dynamic Admin Test Challenge",
+    "difficulty": "easy",
+    "difficultyText": "Easy",
+    "category": "math",
+    "acceptance": "50.0%",
+    "description": "<p>Calculate product of a and b.</p>",
+    "examples": [
+      {
+        "input": "num1 = 7, num2 = 8",
+        "output": "56",
+        "explanation": "Verification test case."
+      }
+    ],
+    "constraints": [],
+    "funcName": "findProduct",
+    "params": [
+      "num1",
+      "num2"
+    ],
+    "argTypes": [
+      "int",
+      "int"
+    ],
+    "retType": "int",
+    "templates": {
+      "javascript": "function findProduct(num1, num2) {\n    // Write your code here\n    \n}",
+      "python": "def findProduct(num1: int, num2: int) -> int:\n    # Write your code here\n    pass",
+      "java": "class Solution {\n    public int findProduct(int num1, int num2) {\n        // Write your code here\n        \n        return 0;\n    }\n}",
+      "cpp": "int findProduct(int num1, int num2) {\n    // Write your code here\n    \n    return 0;\n}"
+    },
+    "sampleTestCases": [
+      {
+        "args": [
+          7,
+          8
+        ],
+        "expected": 56
+      }
+    ],
+    "systemTestCases": [
+      {
+        "args": [
+          7,
+          8
+        ],
+        "expected": 56
+      }
+    ]
+  },
+  "45": {
+    "id": 45,
+    "title": "Dynamic Admin Test Challenge",
+    "difficulty": "easy",
+    "difficultyText": "Easy",
+    "category": "math",
+    "acceptance": "50.0%",
+    "description": "<p>Calculate product of a and b.</p>",
+    "examples": [
+      {
+        "input": "num1 = 7, num2 = 8",
+        "output": "56",
+        "explanation": "Verification test case."
+      }
+    ],
+    "constraints": [],
+    "funcName": "findProduct",
+    "params": [
+      "num1",
+      "num2"
+    ],
+    "argTypes": [
+      "int",
+      "int"
+    ],
+    "retType": "int",
+    "templates": {
+      "javascript": "function findProduct(num1, num2) {\n    // Write your code here\n    \n}",
+      "python": "def findProduct(num1: int, num2: int) -> int:\n    # Write your code here\n    pass",
+      "java": "class Solution {\n    public int findProduct(int num1, int num2) {\n        // Write your code here\n        \n        return 0;\n    }\n}",
+      "cpp": "int findProduct(int num1, int num2) {\n    // Write your code here\n    \n    return 0;\n}"
+    },
+    "sampleTestCases": [
+      {
+        "args": [
+          7,
+          8
+        ],
+        "expected": 56
+      }
+    ],
+    "systemTestCases": [
+      {
+        "args": [
+          7,
+          8
+        ],
+        "expected": 56
+      }
+    ]
+  }
+}

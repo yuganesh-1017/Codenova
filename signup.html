@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create Account | CodeNova</title>
+  <!-- Google Fonts for Outfit and Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="background-container">
+    <main class="signin-wrapper">
+      <div class="signin-card">
+        <!-- Code Logo -->
+        <div class="logo-container">
+          <svg class="logo" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="logoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#a855f7" />
+                <stop offset="100%" stop-color="#ec4899" />
+              </linearGradient>
+              <filter id="logoGlow" x="-20%" y="-20%" width="140%" height="140%">
+                <feGaussianBlur stdDeviation="3" result="blur" />
+                <feMerge>
+                  <feMergeNode in="blur" />
+                  <feMergeNode in="SourceGraphic" />
+                </feMerge>
+              </filter>
+            </defs>
+            <rect x="23" y="23" width="54" height="54" rx="14" transform="rotate(45 50 50)" stroke="url(#logoGrad)" stroke-width="4" filter="url(#logoGlow)" />
+            <path d="M 44 42 L 36 50 L 44 58" stroke="#f472b6" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M 56 42 L 64 50 L 56 58" stroke="#f472b6" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </div>
+
+        <!-- Heading Group -->
+        <div class="card-header">
+          <h1>Get Started</h1>
+          <p>Create a free CodeNova account to begin coding</p>
+        </div>
+
+        <!-- Sign Up Form -->
+        <form class="signin-form" id="signupForm" novalidate>
+          <!-- Display Name -->
+          <div class="input-group">
+            <label for="name">Display Name</label>
+            <div class="input-field-wrapper">
+              <input type="text" id="name" name="name" placeholder="Alex Coder" required>
+              <span class="field-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                  <circle cx="12" cy="7" r="4" />
+                </svg>
+              </span>
+            </div>
+            <span class="error-message" id="nameError">Please enter your full name</span>
+          </div>
+
+          <!-- Username -->
+          <div class="input-group">
+            <label for="username">Username</label>
+            <div class="input-field-wrapper">
+              <input type="text" id="username" name="username" placeholder="alex_dev" required>
+              <span class="field-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="4" />
+                  <path d="M16 8v5a3 3 0 0 0 6 0v-1a10 10 0 1 0-4 8" />
+                </svg>
+              </span>
+            </div>
+            <span class="error-message" id="usernameError">Please enter a valid username</span>
+          </div>
+
+          <!-- Email -->
+          <div class="input-group">
+            <label for="email">Email</label>
+            <div class="input-field-wrapper">
+              <input type="email" id="email" name="email" placeholder="you@example.com" required autocomplete="email">
+              <span class="field-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect width="20" height="16" x="2" y="4" rx="2" />
+                  <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+                </svg>
+              </span>
+            </div>
+            <span class="error-message" id="emailError">Please enter a valid email address</span>
+          </div>
+
+          <!-- Password -->
+          <div class="input-group">
+            <label for="password">Password</label>
+            <div class="input-field-wrapper">
+              <input type="password" id="password" name="password" placeholder="Min. 6 characters" required autocomplete="new-password">
+              <button type="button" class="field-icon toggle-password-btn" id="togglePassword" aria-label="Toggle password visibility">
+                <svg class="eye-open-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z" />
+                  <circle cx="12" cy="12" r="3" />
+                </svg>
+                <svg class="eye-closed-icon hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M9.88 9.88a3 3 0 1 0 4.24 4.24" />
+                  <path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68" />
+                  <path d="M6.61 6.61A13.52 13.52 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61" />
+                  <line x1="2" x2="22" y1="2" y2="22" />
+                </svg>
+              </button>
+            </div>
+            <span class="error-message" id="passwordError">Password must be at least 6 characters</span>
+          </div>
+
+          <!-- Submit Button -->
+          <button type="submit" class="submit-btn" style="margin-top: 10px;">
+            <span>Create Account</span>
+          </button>
+        </form>
+
+        <!-- Footer Link -->
+        <p class="signup-prompt">
+          Already have an account? <a href="index.html" class="signup-link">Sign In</a>
+        </p>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const signupForm = document.getElementById('signupForm');
+      const nameInput = document.getElementById('name');
+      const usernameInput = document.getElementById('username');
+      const emailInput = document.getElementById('email');
+      const passwordInput = document.getElementById('password');
+      const togglePasswordBtn = document.getElementById('togglePassword');
+
+      const nameGroup = nameInput.closest('.input-group');
+      const usernameGroup = usernameInput.closest('.input-group');
+      const emailGroup = emailInput.closest('.input-group');
+      const passwordGroup = passwordInput.closest('.input-group');
+
+      const nameError = document.getElementById('nameError');
+      const usernameError = document.getElementById('usernameError');
+      const emailError = document.getElementById('emailError');
+      const passwordError = document.getElementById('passwordError');
+
+      const submitBtn = document.querySelector('.submit-btn');
+      const submitBtnText = submitBtn.querySelector('span');
+
+      // Password Toggle Visibility
+      if (togglePasswordBtn && passwordInput) {
+        togglePasswordBtn.addEventListener('click', () => {
+          const isPassword = passwordInput.getAttribute('type') === 'password';
+          passwordInput.setAttribute('type', isPassword ? 'text' : 'password');
+          const eyeOpenIcon = togglePasswordBtn.querySelector('.eye-open-icon');
+          const eyeClosedIcon = togglePasswordBtn.querySelector('.eye-closed-icon');
+          if (isPassword) {
+            eyeOpenIcon.classList.add('hidden');
+            eyeClosedIcon.classList.remove('hidden');
+          } else {
+            eyeOpenIcon.classList.remove('hidden');
+            eyeClosedIcon.classList.add('hidden');
+          }
+        });
+      }
+
+      function validateEmail(email) {
+        const re = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        return re.test(String(email).toLowerCase());
+      }
+
+      // Input cleaning
+      nameInput.addEventListener('input', () => nameGroup.classList.remove('error'));
+      usernameInput.addEventListener('input', () => usernameGroup.classList.remove('error'));
+      emailInput.addEventListener('input', () => emailGroup.classList.remove('error'));
+      passwordInput.addEventListener('input', () => passwordGroup.classList.remove('error'));
+
+      signupForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        let isValid = true;
+
+        const nameVal = nameInput.value.trim();
+        const usernameVal = usernameInput.value.trim();
+        const emailVal = emailInput.value.trim();
+        const passwordVal = passwordInput.value;
+
+        if (!nameVal) {
+          nameGroup.classList.add('error');
+          nameError.textContent = 'Full name is required';
+          isValid = false;
+        }
+
+        if (!usernameVal) {
+          usernameGroup.classList.add('error');
+          usernameError.textContent = 'Username is required';
+          isValid = false;
+        } else if (usernameVal.length < 3) {
+          usernameGroup.classList.add('error');
+          usernameError.textContent = 'Username must be at least 3 characters';
+          isValid = false;
+        }
+
+        if (!emailVal) {
+          emailGroup.classList.add('error');
+          emailError.textContent = 'Email address is required';
+          isValid = false;
+        } else if (!validateEmail(emailVal)) {
+          emailGroup.classList.add('error');
+          emailError.textContent = 'Please enter a valid email address';
+          isValid = false;
+        }
+
+        if (!passwordVal) {
+          passwordGroup.classList.add('error');
+          passwordError.textContent = 'Password is required';
+          isValid = false;
+        } else if (passwordVal.length < 6) {
+          passwordGroup.classList.add('error');
+          passwordError.textContent = 'Password must be at least 6 characters';
+          isValid = false;
+        }
+
+        if (isValid) {
+          submitBtn.disabled = true;
+          submitBtn.style.pointerEvents = 'none';
+          submitBtnText.textContent = 'Creating account...';
+          submitBtn.style.opacity = '0.85';
+          submitBtn.style.animation = 'pulseGlow 1.5s infinite alternate';
+
+          fetch('/api/auth/signup', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              name: nameVal,
+              username: usernameVal,
+              email: emailVal,
+              password: passwordVal
+            })
+          })
+          .then(res => res.json())
+          .then(data => {
+            if (data.success) {
+              localStorage.setItem('cn_profile', JSON.stringify(data.profile));
+              localStorage.setItem('cn_solved', JSON.stringify([]));
+              localStorage.setItem('cn_solutions', JSON.stringify({}));
+              localStorage.setItem('custom_problems', JSON.stringify({}));
+              window.location.href = 'dashboard.html';
+            } else {
+              submitBtn.disabled = false;
+              submitBtn.style.pointerEvents = 'auto';
+              submitBtnText.textContent = 'Create Account';
+              submitBtn.style.opacity = '1';
+              submitBtn.style.animation = '';
+              emailGroup.classList.add('error');
+              emailError.textContent = data.error || 'An account registration error occurred';
+            }
+          })
+          .catch(() => {
+            submitBtn.disabled = false;
+            submitBtn.style.pointerEvents = 'auto';
+            submitBtnText.textContent = 'Create Account';
+            submitBtn.style.opacity = '1';
+            submitBtn.style.animation = '';
+            alert('Connection error. Please try again.');
+          });
+        }
+      });
+
+      // Interactive mouse tilt effect
+      const card = document.querySelector('.signin-card');
+      if (card && window.innerWidth > 768) {
+        card.addEventListener('mousemove', (e) => {
+          const rect = card.getBoundingClientRect();
+          const x = e.clientX - rect.left;
+          const y = e.clientY - rect.top;
+          const centerX = rect.width / 2;
+          const centerY = rect.height / 2;
+          const rotateX = ((centerY - y) / centerY) * 4;
+          const rotateY = ((x - centerX) / centerX) * 4;
+          card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-2px)`;
+          card.style.boxShadow = `
+            ${-rotateY * 2.5}px ${rotateX * 2.5}px 60px rgba(0, 0, 0, 0.65), 
+            inset 0 1px 0px rgba(255, 255, 255, 0.15),
+            0 0 25px rgba(168, 85, 247, ${Math.min((Math.abs(rotateX) + Math.abs(rotateY)) / 12, 0.25)})
+          `;
+        });
+        card.addEventListener('mouseleave', () => {
+          card.style.transition = 'all 0.5s cubic-bezier(0.2, 0.8, 0.2, 1)';
+          card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0)';
+          card.style.boxShadow = '0 24px 60px rgba(0, 0, 0, 0.5), inset 0 1px 0px rgba(255, 255, 255, 0.15)';
+          setTimeout(() => card.style.transition = '', 500);
+        });
+      }
+    });
+
+    const styleSheet = document.createElement("style");
+    styleSheet.innerText = `
+      @keyframes pulseGlow {
+        from { box-shadow: 0 4px 15px rgba(219, 39, 119, 0.25); }
+        to { box-shadow: 0 4px 25px rgba(236, 72, 153, 0.6), 0 0 15px rgba(168, 85, 247, 0.4); }
+      }
+    `;
+    document.head.appendChild(styleSheet);
+  </script>
+</body>
+</html>

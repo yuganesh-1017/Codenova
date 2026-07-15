@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CodeNova Editor | Sum of Two Numbers</title>
+  <!-- Google Fonts for Outfit and Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Inter:wght@400;500;600;700&family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
+  <script src="storage.js?v=19"></script>
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="editor.css?v=19">
+  <!-- PrismJS Tomorrow Dark Syntax Highlighter -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+</head>
+<body>
+  <!-- Editor Header -->
+  <header class="editor-header">
+    <div class="header-left">
+      <!-- Back to Dashboard -->
+      <a href="dashboard.html" class="back-link" title="Back to Dashboard">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="back-icon">
+          <line x1="19" y1="12" x2="5" y2="12" />
+          <polyline points="12 19 5 12 12 5" />
+        </svg>
+      </a>
+      
+      <!-- Problems List Toggle Explorer -->
+      <button id="problemsSidebarToggle" class="sidebar-toggle-btn" title="Toggle Problems List">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 20px; height: 20px;">
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
+
+      <!-- Logo -->
+      <a href="dashboard.html" class="logo-link" style="display: flex; align-items: center; gap: 8px;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width: 20px; height: 20px; color: var(--color-pink);">
+          <polyline points="4 17 10 11 4 5"></polyline>
+          <line x1="12" y1="19" x2="20" y2="19"></line>
+        </svg>
+        <span class="logo-text">Code<span class="highlight">Nova</span></span>
+      </a>
+    </div>
+
+    <!-- Center Control: Language Selector & Timer -->
+    <div class="header-center" style="display: flex; align-items: center; gap: 20px;">
+      <div class="language-wrapper">
+        <select id="languageSelect" aria-label="Select Programming Language">
+          <option value="javascript">JavaScript</option>
+          <option value="python">Python</option>
+          <option value="cpp">C++</option>
+          <option value="java">Java</option>
+        </select>
+      </div>
+
+      <!-- Coding Timer Widget -->
+      <div class="coding-timer" id="codingTimer" style="display: flex; align-items: center; gap: 6px; font-family: 'Fira Code', monospace; font-size: 14px; color: var(--text-muted);">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 14px; height: 14px; color: var(--color-pink);"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        <span id="timerDisplay" style="font-weight: 500;">00:00</span>
+        <button id="timerPlayPauseBtn" aria-label="Pause timer" style="background: none; border: none; padding: 4px; color: var(--text-muted); cursor: pointer; display: flex; align-items: center; justify-content: center; transition: color 0.2s; border-radius: 4px;">
+          <svg viewBox="0 0 24 24" fill="currentColor" style="width: 10px; height: 10px;" id="timerControlIcon"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Right Controls: Run / Submit Buttons -->
+    <div class="header-right">
+      <button id="runBtn" class="control-btn outline">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+        <span>Run</span>
+      </button>
+      <button id="submitBtn" class="control-btn solid">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon"><polyline points="20 6 9 17 4 12"/></svg>
+        <span>Submit</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Workspace Container -->
+  <main class="editor-workspace">
+    
+    <!-- LEFT PANEL: PROBLEM SPECIFICATION -->
+    <section class="problem-pane">
+      <div class="pane-header">
+        <div class="title-row">
+          <h1>1. Sum of Two Numbers</h1>
+          <span class="badge diff-easy">Easy</span>
+        </div>
+        <div class="pane-header-actions" style="display: flex; align-items: center; gap: 8px;">
+          <button class="nav-arrow-btn" id="prevProblemBtn" title="Previous Problem">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width: 16px; height: 16px;"><polyline points="15 18 9 12 15 6"/></svg>
+          </button>
+          <button class="nav-arrow-btn" id="nextProblemBtn" title="Next Problem">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width: 16px; height: 16px;"><polyline points="9 18 15 12 9 6"/></svg>
+          </button>
+          <button class="bookmark-btn" id="editorBookmarkBtn" aria-label="Bookmark problem">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <div class="pane-content">
+        <!-- Description -->
+        <div class="problem-description">
+          <p>Given two integers <code>a</code> and <code>b</code>, return their sum.</p>
+          <p>You must implement the function returning the combined value of both integers. All test cases are checked to run efficiently.</p>
+        </div>
+
+        <!-- Examples -->
+        <div class="problem-examples">
+          <!-- Example 1 -->
+          <div class="example-box">
+            <h3>Example 1:</h3>
+            <pre class="example-code">
+<strong>Input:</strong> a = 2, b = 3
+<strong>Output:</strong> 5
+<strong>Explanation:</strong> 2 + 3 = 5.</pre>
+          </div>
+
+          <!-- Example 2 -->
+          <div class="example-box">
+            <h3>Example 2:</h3>
+            <pre class="example-code">
+<strong>Input:</strong> a = 10, b = -5
+<strong>Output:</strong> 5
+<strong>Explanation:</strong> 10 + (-5) = 5.</pre>
+          </div>
+        </div>
+
+        <!-- Constraints -->
+        <div class="problem-constraints">
+          <h3>Constraints:</h3>
+          <ul>
+            <li><code>-10<sup>4</sup> &lt;= a, b &lt;= 10<sup>4</sup></code></li>
+            <li>All inputs fit inside standard integer limits.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- RIGHT PANEL: CODE EDITOR & CONSOLE -->
+    <section class="editor-pane">
+      
+      <!-- Code Editor Workspace -->
+      <div class="code-editor-container">
+        <!-- Editor Header Line Numbers & Info -->
+        <div class="editor-sub-header">
+          <span class="tab-label active">solution.js</span>
+        </div>
+        
+        <!-- Textarea and Line Numbers Split -->
+        <div class="editor-textarea-wrapper">
+          <!-- Line Numbers Column -->
+          <div class="line-numbers" id="lineNumbers">
+            <div>1</div><div>2</div><div>3</div><div>4</div>
+          </div>
+          <!-- Highlighted Input Area -->
+          <div class="editor-input-area">
+            <pre id="highlighting-pre" aria-hidden="true"><code class="language-javascript" id="highlighting-content"></code></pre>
+            <textarea id="editorTextArea" spellcheck="false" autocomplete="off" wrap="off">function sum(a, b) {
+    // Write your code here
+    return a + b;
+}</textarea>
+          </div>
+        </div>
+      </div>
+
+      <!-- Console / Testcases Pane -->
+      <div class="console-container">
+        <!-- Tabs -->
+        <div class="console-tabs">
+          <button id="tabTestcases" class="console-tab-btn active">Test Cases</button>
+          <button id="tabOutput" class="console-tab-btn">Console Output</button>
+        </div>
+        
+        <!-- Content -->
+        <div class="console-content">
+          <!-- Test Cases Tab -->
+          <div id="testcasesPanel" class="console-panel active">
+            <div class="test-cases-inputs">
+              <!-- Case 1 -->
+              <div class="test-case-row">
+                <span class="case-label">Case 1</span>
+                <div class="case-inputs">
+                  <div class="input-param">
+                    <label>a =</label>
+                    <input type="number" id="paramA1" value="2">
+                  </div>
+                  <div class="input-param">
+                    <label>b =</label>
+                    <input type="number" id="paramB1" value="3">
+                  </div>
+                </div>
+              </div>
+              <!-- Case 2 -->
+              <div class="test-case-row">
+                <span class="case-label">Case 2</span>
+                <div class="case-inputs">
+                  <div class="input-param">
+                    <label>a =</label>
+                    <input type="number" id="paramA2" value="10">
+                  </div>
+                  <div class="input-param">
+                    <label>b =</label>
+                    <input type="number" id="paramB2" value="-5">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Output Tab -->
+          <div id="outputPanel" class="console-panel">
+            <div class="console-output-box" id="consoleOutput">
+              <span class="output-placeholder">Run code to see execution output...</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Submit Success Modal overlay -->
+  <div class="submit-modal-overlay" id="submitModal">
+    <div class="submit-modal-card">
+      <div class="success-icon-wrapper">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" class="success-checkmark"><polyline points="20 6 9 17 4 12"/></svg>
+      </div>
+      <h2>Submission Accepted! 🎉</h2>
+      <p class="modal-sub">All test cases passed successfully.</p>
+      <p class="modal-sub" id="modalTimeTaken" style="margin-top: 4px; color: var(--color-purple); font-weight: 600; font-size: 14px;"></p>
+      <div class="modal-stats">
+        <div class="stat-box">
+          <span class="stat-val text-green">100 / 100</span>
+          <span class="stat-lbl">Passed</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-val">12 ms</span>
+          <span class="stat-lbl">Runtime</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-val">41.2 MB</span>
+          <span class="stat-lbl">Memory</span>
+        </div>
+      </div>
+      <button class="modal-close-btn" id="modalCloseBtn" style="display: none;">Back to Dashboard</button>
+      <div class="modal-buttons" style="display: flex; gap: 12px; width: 100%;">
+        <button class="modal-btn outline" id="modalStayBtn">Stay on Page</button>
+        <button class="modal-btn solid" id="modalNextBtn">Next Problem</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Slide-out Problems List Sidebar Explorer -->
+  <aside class="problems-sidebar" id="problemsSidebar">
+    <div class="sidebar-header">
+      <h2>All Problems</h2>
+      <button id="closeSidebarBtn" class="close-sidebar-btn" aria-label="Close sidebar">&times;</button>
+    </div>
+    <div class="sidebar-search">
+      <input type="text" id="sidebarSearchInput" placeholder="Search problems...">
+    </div>
+    <div class="sidebar-problems-list" id="sidebarProblemsList">
+      <!-- Dynamic list items populated in editor.js -->
+    </div>
+  </aside>
+
+  <!-- PrismJS Core and Language Components -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-clike.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-c.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-cpp.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
+
+  <!-- Editor Logic JS -->
+  <script src="editor.js"></script>
+</body>
+</html>
