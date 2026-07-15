@@ -45,7 +45,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // 1. Fetch data from backend
   function fetchProblemsAndUsers() {
     // Load standard problems to resolve names in codes inspector
-    fetch('/api/problems')
+    fetch(API_BASE_URL + '/api/problems')
       .then(res => res.json())
       .then(probs => {
         problemsList = probs;
@@ -61,7 +61,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function loadUsers() {
-    fetch('/api/users', {
+    fetch(API_BASE_URL + '/api/users', {
       headers: {
         'Authorization': `Bearer ${adminToken}`
       }
@@ -617,7 +617,7 @@ document.addEventListener('DOMContentLoaded', () => {
         systemTestCases: testCases
       };
 
-      fetch('/api/admin/problems', {
+      fetch(API_BASE_URL + '/api/admin/problems', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

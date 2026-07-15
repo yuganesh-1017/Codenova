@@ -325,6 +325,7 @@
       display: block;
     }
   </style>
+  <script src="config.js"></script>
 </head>
 <body>
 
@@ -441,7 +442,7 @@
         return;
       }
 
-      fetch('/api/custom-problems')
+      fetch(API_BASE_URL + '/api/custom-problems')
         .then(res => res.json())
         .then(data => {
           customProblemsList = data;

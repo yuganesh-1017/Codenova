@@ -59,6 +59,7 @@
       transform: translateY(-1px);
     }
   </style>
+  <script src="config.js"></script>
 </head>
 <body>
   <!-- Top Navigation Header -->
@@ -199,7 +200,7 @@
       const emptyState = document.getElementById('emptyState');
 
       // Fetch problems from server
-      fetch('/api/problems')
+      fetch(API_BASE_URL + '/api/problems')
         .then(res => res.json())
         .then(data => {
           problemsList = data;

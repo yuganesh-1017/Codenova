@@ -97,7 +97,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Add a pulsing effect to button
         submitBtn.style.animation = 'pulseGlow 1.5s infinite alternate';
 
-        fetch('/api/auth/login', {
+        fetch(API_BASE_URL + '/api/auth/login', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ email: emailValue, password: passwordValue })

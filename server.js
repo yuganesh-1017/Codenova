@@ -1,10 +1,31 @@
+require('dotenv').config();
 const express = require('express');
 const fs = require('fs');
 const path = require('path');
 const { exec } = require('child_process');
-const mysql = require('mysql2/promise');
+const { initializeApp } = require('firebase/app');
+const { getFirestore, collection, doc, getDoc, getDocs, setDoc, updateDoc, addDoc } = require('firebase/firestore');
+const { OAuth2Client } = require('google-auth-library');
+const axios = require('axios');
+const crypto = require('crypto');
 
+// OAuth Configuration
+const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID || 'your_google_client_id_here';
+const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET || 'your_google_client_secret_here';
+const GITHUB_CLIENT_ID = process.env.GITHUB_CLIENT_ID || 'your_github_client_id_here';
+const GITHUB_CLIENT_SECRET = process.env.GITHUB_CLIENT_SECRET || 'your_github_client_secret_here';
+
+const googleClient = new OAuth2Client(
+  GOOGLE_CLIENT_ID,
+  GOOGLE_CLIENT_SECRET,
+  process.env.NODE_ENV === 'production' ? (process.env.BACKEND_URL + '/api/auth/google/callback') : 'http://localhost:3001/api/auth/google/callback'
+);
 const app = express();
+const cors = require('cors');
+app.use(cors({
+  origin: process.env.FRONTEND_URL || '*',
+  credentials: true
+}));
 const PORT = process.env.PORT || 3001;
 
 // Admin secure configuration
@@ -167,17 +188,12 @@ function saveLoginHistory() {
 
 async function recordLoginEvent(email, status) {
   const loginTime = new Date().toISOString();
-  if (useMysql) {
     try {
-      await dbPool.query(
-        'INSERT INTO login_history (email, loginTime, status) VALUES (?, ?, ?)',
-        [email.toLowerCase(), loginTime, status]
-      );
-      console.log(`[MySQL] Logged login event for ${email} (${status})`);
+      await addDoc(collection(db, 'login_history'), { email: email.toLowerCase(), loginTime, status });
+      console.log(`[Firebase] Logged login event for ${email} (${status})`);
     } catch (e) {
-      console.error('Failed to log login event in MySQL:', e);
+      console.error('Failed to log login event in Firebase:', e);
     }
-  }
 
   loginHistory.push({
     email: email.toLowerCase(),
@@ -187,32 +203,59 @@ async function recordLoginEvent(email, status) {
   saveLoginHistory();
 }
 
-// MySQL variables
-let dbPool = null;
-let useMysql = false;
+// Firebase Configuration and Initialization
+const firebaseConfig = {
+  apiKey: process.env.FIREBASE_API_KEY || "AIzaSyBGWDUxEuRHji143a_ai6xArZahTABKPaM",
+  authDomain: process.env.FIREBASE_AUTH_DOMAIN || "codenova-7f865.firebaseapp.com",
+  projectId: process.env.FIREBASE_PROJECT_ID || "codenova-7f865",
+  storageBucket: process.env.FIREBASE_STORAGE_BUCKET || "codenova-7f865.firebasestorage.app",
+  messagingSenderId: process.env.FIREBASE_MESSAGING_SENDER_ID || "177154885761",
+  appId: process.env.FIREBASE_APP_ID || "1:177154885761:web:4af4e3fa5d7fc073676580",
+  measurementId: process.env.FIREBASE_MEASUREMENT_ID || "G-1G636LE71J"
+};
+
+const firebaseApp = initializeApp(firebaseConfig);
+const db = getFirestore(firebaseApp);
 
 // Accessor helpers
 async function getAllProblems() {
-  if (useMysql) {
-    const [rows] = await dbPool.query('SELECT id, title, difficulty, difficultyText, category, acceptance FROM problems');
-    return rows;
-  }
-  return Object.values(problems).map(p => ({
-    id: p.id,
-    title: p.title,
-    difficulty: p.difficulty,
-    difficultyText: p.difficultyText,
-    category: p.category,
-    acceptance: p.acceptance
-  }));
+  const snapshot = await getDocs(collection(db, 'problems'));
+  return snapshot.docs.map(doc => {
+    const data = doc.data();
+    return {
+      id: data.id,
+      title: data.title,
+      difficulty: data.difficulty,
+      difficultyText: data.difficultyText,
+      category: data.category,
+      acceptance: data.acceptance
+    };
+  });
 }
 
 async function getProblemById(id) {
-  if (useMysql) {
-    const table = String(id).startsWith('custom_') ? 'custom_problems' : 'problems';
-    const [rows] = await dbPool.query(`SELECT * FROM \`${table}\` WHERE id = ?`, [id]);
-    if (rows.length === 0) return null;
-    const p = rows[0];
+  const table = String(id).startsWith('custom_') ? 'custom_problems' : 'problems';
+  const docRef = doc(db, table, String(id));
+  const docSnap = await getDoc(docRef);
+  if (!docSnap.exists()) return null;
+  const p = docSnap.data();
+  return {
+    ...p,
+    examples: typeof p.examples === 'string' ? JSON.parse(p.examples) : (p.examples || []),
+    constraints: typeof p.constraints === 'string' ? JSON.parse(p.constraints) : (p.constraints || []),
+    params: typeof p.params === 'string' ? JSON.parse(p.params) : (p.params || []),
+    argTypes: typeof p.argTypes === 'string' ? JSON.parse(p.argTypes) : (p.argTypes || []),
+    templates: typeof p.templates === 'string' ? JSON.parse(p.templates) : (p.templates || {}),
+    sampleTestCases: typeof p.sampleTestCases === 'string' ? JSON.parse(p.sampleTestCases) : (p.sampleTestCases || []),
+    systemTestCases: typeof p.systemTestCases === 'string' ? JSON.parse(p.systemTestCases) : (p.systemTestCases || []),
+    solutions: typeof p.solutions === 'string' ? JSON.parse(p.solutions) : (p.solutions || {})
+  };
+}
+
+async function getAllCustomProblems() {
+  const snapshot = await getDocs(collection(db, 'custom_problems'));
+  return snapshot.docs.map(doc => {
+    const p = doc.data();
     return {
       id: p.id,
       title: p.title,
@@ -220,96 +263,44 @@ async function getProblemById(id) {
       difficultyText: p.difficultyText,
       category: p.category,
       acceptance: p.acceptance,
-      description: p.description,
-      examples: typeof p.examples === 'string' ? JSON.parse(p.examples) : (p.examples || []),
-      constraints: typeof p.constraints === 'string' ? JSON.parse(p.constraints) : (p.constraints || []),
-      funcName: p.funcName,
-      params: typeof p.params === 'string' ? JSON.parse(p.params) : (p.params || []),
-      argTypes: typeof p.argTypes === 'string' ? JSON.parse(p.argTypes) : (p.argTypes || []),
-      retType: p.retType,
-      templates: typeof p.templates === 'string' ? JSON.parse(p.templates) : (p.templates || {}),
-      sampleTestCases: typeof p.sampleTestCases === 'string' ? JSON.parse(p.sampleTestCases) : (p.sampleTestCases || []),
-      systemTestCases: typeof p.systemTestCases === 'string' ? JSON.parse(p.systemTestCases) : (p.systemTestCases || []),
-      solutions: p.solutions ? (typeof p.solutions === 'string' ? JSON.parse(p.solutions) : p.solutions) : undefined
-    };
-  }
-  return String(id).startsWith('custom_') ? customProblems[id] : problems[id];
-}
-
-async function getAllCustomProblems() {
-  if (useMysql) {
-    const [rows] = await dbPool.query('SELECT id, title, difficulty, difficultyText, category, acceptance, solutions FROM custom_problems');
-    return rows.map(p => ({
-      ...p,
       solutions: typeof p.solutions === 'string' ? JSON.parse(p.solutions) : (p.solutions || {})
-    }));
-  }
-  return Object.values(customProblems).map(p => ({
-    id: p.id,
-    title: p.title,
-    difficulty: p.difficulty,
-    difficultyText: p.difficultyText,
-    category: p.category,
-    acceptance: p.acceptance,
-    solutions: p.solutions || {}
-  }));
+    };
+  });
 }
 
 async function createCustomProblem(problem) {
-  if (useMysql) {
-    await dbPool.query(
-      `INSERT INTO custom_problems (id, title, difficulty, difficultyText, category, acceptance, description, examples, constraints, funcName, params, argTypes, retType, templates, sampleTestCases, systemTestCases, solutions)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-      [
-        problem.id, problem.title, problem.difficulty, problem.difficultyText, problem.category, problem.acceptance, problem.description,
-        JSON.stringify(problem.examples), JSON.stringify(problem.constraints), problem.funcName,
-        JSON.stringify(problem.params), JSON.stringify(problem.argTypes), problem.retType,
-        JSON.stringify(problem.templates), JSON.stringify(problem.sampleTestCases), JSON.stringify(problem.systemTestCases),
-        JSON.stringify(problem.solutions || {})
-      ]
-    );
-  }
-  customProblems[problem.id] = problem;
-  saveCustomProblems();
+  const problemData = {
+    ...problem,
+    examples: typeof problem.examples === 'string' ? problem.examples : JSON.stringify(problem.examples || []),
+    constraints: typeof problem.constraints === 'string' ? problem.constraints : JSON.stringify(problem.constraints || []),
+    params: typeof problem.params === 'string' ? problem.params : JSON.stringify(problem.params || []),
+    argTypes: typeof problem.argTypes === 'string' ? problem.argTypes : JSON.stringify(problem.argTypes || []),
+    templates: typeof problem.templates === 'string' ? problem.templates : JSON.stringify(problem.templates || {}),
+    sampleTestCases: typeof problem.sampleTestCases === 'string' ? problem.sampleTestCases : JSON.stringify(problem.sampleTestCases || []),
+    systemTestCases: typeof problem.systemTestCases === 'string' ? problem.systemTestCases : JSON.stringify(problem.systemTestCases || []),
+    solutions: typeof problem.solutions === 'string' ? problem.solutions : JSON.stringify(problem.solutions || {})
+  };
+  await setDoc(doc(db, 'custom_problems', String(problem.id)), problemData);
 }
 
 async function createGlobalProblem(problem) {
-  if (useMysql) {
-    await dbPool.query(
-      `INSERT INTO problems (id, title, difficulty, difficultyText, category, acceptance, description, examples, constraints, funcName, params, argTypes, retType, templates, sampleTestCases, systemTestCases)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-      [
-        problem.id, problem.title, problem.difficulty, problem.difficultyText, problem.category, problem.acceptance, problem.description,
-        JSON.stringify(problem.examples), JSON.stringify(problem.constraints), problem.funcName,
-        JSON.stringify(problem.params), JSON.stringify(problem.argTypes), problem.retType,
-        JSON.stringify(problem.templates), JSON.stringify(problem.sampleTestCases), JSON.stringify(problem.systemTestCases)
-      ]
-    );
-  }
-  problems[problem.id] = problem;
-  fs.writeFileSync(path.join(__dirname, 'problems.json'), JSON.stringify(problems, null, 2), 'utf8');
+  const problemData = {
+    ...problem,
+    examples: typeof problem.examples === 'string' ? problem.examples : JSON.stringify(problem.examples || []),
+    constraints: typeof problem.constraints === 'string' ? problem.constraints : JSON.stringify(problem.constraints || []),
+    params: typeof problem.params === 'string' ? problem.params : JSON.stringify(problem.params || []),
+    argTypes: typeof problem.argTypes === 'string' ? problem.argTypes : JSON.stringify(problem.argTypes || []),
+    templates: typeof problem.templates === 'string' ? problem.templates : JSON.stringify(problem.templates || {}),
+    sampleTestCases: typeof problem.sampleTestCases === 'string' ? problem.sampleTestCases : JSON.stringify(problem.sampleTestCases || []),
+    systemTestCases: typeof problem.systemTestCases === 'string' ? problem.systemTestCases : JSON.stringify(problem.systemTestCases || []),
+  };
+  await setDoc(doc(db, 'problems', String(problem.id)), problemData);
 }
 
 async function getAllUsers() {
-  if (useMysql) {
-    const [rows] = await dbPool.query('SELECT * FROM users');
-    return rows.map(u => ({
-      ...u,
-      solved: typeof u.solved === 'string' ? JSON.parse(u.solved) : (u.solved || []),
-      solutions: typeof u.solutions === 'string' ? JSON.parse(u.solutions) : (u.solutions || {}),
-      customProblems: typeof u.customProblems === 'string' ? JSON.parse(u.customProblems) : (u.customProblems || []),
-      streak: u.streak || 0,
-      lastSolvedDate: u.lastSolvedDate || null
-    }));
-  }
-  return Object.values(users);
-}
-
-async function getUserByEmail(email) {
-  if (useMysql) {
-    const [rows] = await dbPool.query('SELECT * FROM users WHERE email = ?', [email.toLowerCase()]);
-    if (rows.length === 0) return null;
-    const u = rows[0];
+  const snapshot = await getDocs(collection(db, 'users'));
+  return snapshot.docs.map(doc => {
+    const u = doc.data();
     return {
       ...u,
       solved: typeof u.solved === 'string' ? JSON.parse(u.solved) : (u.solved || []),
@@ -318,223 +309,57 @@ async function getUserByEmail(email) {
       streak: u.streak || 0,
       lastSolvedDate: u.lastSolvedDate || null
     };
-  }
+  });
+}
+
+async function getUserByEmail(email) {
   const userKey = email.toLowerCase().replace(/[$.#]/g, '_');
-  return users[userKey] || null;
+  const docRef = doc(db, 'users', userKey);
+  const docSnap = await getDoc(docRef);
+  if (!docSnap.exists()) return null;
+  const u = docSnap.data();
+  return {
+    ...u,
+    solved: typeof u.solved === 'string' ? JSON.parse(u.solved) : (u.solved || []),
+    solutions: typeof u.solutions === 'string' ? JSON.parse(u.solutions) : (u.solutions || {}),
+    customProblems: typeof u.customProblems === 'string' ? JSON.parse(u.customProblems) : (u.customProblems || []),
+    streak: u.streak || 0,
+    lastSolvedDate: u.lastSolvedDate || null
+  };
 }
 
 async function upsertUser(user) {
-  if (useMysql) {
-    await dbPool.query(
-      `INSERT INTO users (email, password, name, username, solved, solutions, customProblems, lastSynced, streak, lastSolvedDate)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-       ON DUPLICATE KEY UPDATE
-         name = VALUES(name),
-         username = VALUES(username),
-         solved = VALUES(solved),
-         solutions = VALUES(solutions),
-         customProblems = VALUES(customProblems),
-         lastSynced = VALUES(lastSynced),
-         streak = VALUES(streak),
-         lastSolvedDate = VALUES(lastSolvedDate)`,
-      [
-        user.email.toLowerCase(), user.password || '', user.name, user.username,
-        JSON.stringify(user.solved || []), JSON.stringify(user.solutions || {}),
-        JSON.stringify(user.customProblems || []), user.lastSynced || new Date().toISOString(),
-        user.streak || 0, user.lastSolvedDate || null
-      ]
-    );
-  }
   const userKey = user.email.toLowerCase().replace(/[$.#]/g, '_');
-  users[userKey] = user;
-  fs.writeFileSync(usersFile, JSON.stringify(users, null, 2), 'utf8');
+  const userData = {
+    email: user.email.toLowerCase(),
+    password: user.password || '',
+    name: user.name,
+    username: user.username,
+    solved: typeof user.solved === 'string' ? user.solved : JSON.stringify(user.solved || []),
+    solutions: typeof user.solutions === 'string' ? user.solutions : JSON.stringify(user.solutions || {}),
+    customProblems: typeof user.customProblems === 'string' ? user.customProblems : JSON.stringify(user.customProblems || []),
+    lastSynced: user.lastSynced || new Date().toISOString(),
+    streak: user.streak || 0,
+    lastSolvedDate: user.lastSolvedDate || null
+  };
+  await setDoc(doc(db, 'users', userKey), userData, { merge: true });
 }
 
 async function updateCustomProblemSolutions(problemId, language, code) {
-  if (useMysql) {
-    const [rows] = await dbPool.query('SELECT solutions FROM custom_problems WHERE id = ?', [problemId]);
-    let solutions = {};
-    if (rows.length > 0) {
-      const s = rows[0].solutions;
-      solutions = typeof s === 'string' ? JSON.parse(s) : (s || {});
-    }
-    solutions[language] = code;
-    await dbPool.query('UPDATE custom_problems SET solutions = ? WHERE id = ?', [JSON.stringify(solutions), problemId]);
+  const docRef = doc(db, 'custom_problems', String(problemId));
+  const docSnap = await getDoc(docRef);
+  let solutions = {};
+  if (docSnap.exists()) {
+    const s = docSnap.data().solutions;
+    solutions = typeof s === 'string' ? JSON.parse(s) : (s || {});
   }
-  if (customProblems[problemId]) {
-    if (!customProblems[problemId].solutions) customProblems[problemId].solutions = {};
-    customProblems[problemId].solutions[language] = code;
-    saveCustomProblems();
-  }
-}
-
-// Seeding DB logic
-async function seedMysqlFromJSON() {
-  try {
-    const [existingProblems] = await dbPool.query('SELECT COUNT(*) as count FROM problems');
-    if (existingProblems[0].count === 0) {
-      console.log('[MySQL Seeding] Seeding default problems to MySQL from problems.json...');
-      for (const [id, p] of Object.entries(problems)) {
-        await dbPool.query(
-          `INSERT INTO problems (id, title, difficulty, difficultyText, category, acceptance, description, examples, constraints, funcName, params, argTypes, retType, templates, sampleTestCases, systemTestCases)
-           VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-          [
-            parseInt(id), p.title, p.difficulty, p.difficultyText, p.category || 'general', p.acceptance, p.description,
-            JSON.stringify(p.examples || []), JSON.stringify(p.constraints || []), p.funcName,
-            JSON.stringify(p.params || []), JSON.stringify(p.argTypes || []), p.retType,
-            JSON.stringify(p.templates || {}), JSON.stringify(p.sampleTestCases || []), JSON.stringify(p.systemTestCases || [])
-          ]
-        );
-      }
-    }
-
-    const [existingCustom] = await dbPool.query('SELECT COUNT(*) as count FROM custom_problems');
-    if (existingCustom[0].count === 0) {
-      console.log('[MySQL Seeding] Seeding custom problems to MySQL from custom_problems.json...');
-      for (const [id, p] of Object.entries(customProblems)) {
-        await dbPool.query(
-          `INSERT INTO custom_problems (id, title, difficulty, difficultyText, category, acceptance, description, examples, constraints, funcName, params, argTypes, retType, templates, sampleTestCases, systemTestCases, solutions)
-           VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-          [
-            id, p.title, p.difficulty, p.difficultyText, p.category || 'general', p.acceptance, p.description,
-            JSON.stringify(p.examples || []), JSON.stringify(p.constraints || []), p.funcName,
-            JSON.stringify(p.params || []), JSON.stringify(p.argTypes || []), p.retType,
-            JSON.stringify(p.templates || {}), JSON.stringify(p.sampleTestCases || []), JSON.stringify(p.systemTestCases || []),
-            JSON.stringify(p.solutions || {})
-          ]
-        );
-      }
-    }
-
-    const [existingUsers] = await dbPool.query('SELECT COUNT(*) as count FROM users');
-    if (existingUsers[0].count === 0) {
-      console.log('[MySQL Seeding] Seeding users to MySQL from users.json...');
-      for (const [key, u] of Object.entries(users)) {
-        await dbPool.query(
-          `INSERT INTO users (email, password, name, username, solved, solutions, customProblems, lastSynced, streak, lastSolvedDate)
-           VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-          [
-            u.email, u.password || '', u.name, u.username,
-            JSON.stringify(u.solved || []), JSON.stringify(u.solutions || {}),
-            JSON.stringify(u.customProblems || []), u.lastSynced || new Date().toISOString(),
-            u.streak || 0, u.lastSolvedDate || null
-          ]
-        );
-      }
-    }
-    console.log('[MySQL Seeding] Data migrations completed successfully.');
-  } catch (error) {
-    console.error('[MySQL Seeding Error] Seeding failed:', error);
-  }
+  solutions[language] = code;
+  await updateDoc(docRef, { solutions: JSON.stringify(solutions) });
 }
 
 // Start database check
 async function initDatabase() {
-  const DB_CONFIG = {
-    host: process.env.DB_HOST || 'localhost',
-    user: process.env.DB_USER || 'root',
-    password: process.env.DB_PASSWORD || 'root',
-    database: process.env.DB_NAME || 'codenova_db',
-    port: parseInt(process.env.DB_PORT || '3306')
-  };
-
-  try {
-    const initialConnection = await mysql.createConnection({
-      host: DB_CONFIG.host,
-      user: DB_CONFIG.user,
-      password: DB_CONFIG.password,
-      port: DB_CONFIG.port,
-      connectTimeout: 2000
-    });
-    await initialConnection.query(`CREATE DATABASE IF NOT EXISTS \`${DB_CONFIG.database}\``);
-    await initialConnection.end();
-
-    dbPool = mysql.createPool({
-      ...DB_CONFIG,
-      waitForConnections: true,
-      connectionLimit: 10,
-      queueLimit: 0
-    });
-
-    await dbPool.query('SELECT 1');
-    console.log(`[MySQL Success] Connected to MySQL database '${DB_CONFIG.database}'.`);
-    useMysql = true;
-
-    await dbPool.query(`
-      CREATE TABLE IF NOT EXISTS users (
-        email VARCHAR(255) PRIMARY KEY,
-        password VARCHAR(255) NOT NULL,
-        name VARCHAR(255) NOT NULL,
-        username VARCHAR(255) NOT NULL,
-        solved JSON,
-        solutions JSON,
-        customProblems JSON,
-        lastSynced VARCHAR(255),
-        streak INT DEFAULT 0,
-        lastSolvedDate VARCHAR(255)
-      )
-    `);
-    try { await dbPool.query('ALTER TABLE users ADD COLUMN streak INT DEFAULT 0'); } catch(e) {}
-    try { await dbPool.query('ALTER TABLE users ADD COLUMN lastSolvedDate VARCHAR(255)'); } catch(e) {}
-
-    await dbPool.query(`
-      CREATE TABLE IF NOT EXISTS problems (
-        id INT PRIMARY KEY,
-        title VARCHAR(255) NOT NULL,
-        difficulty VARCHAR(50) NOT NULL,
-        difficultyText VARCHAR(50) NOT NULL,
-        category VARCHAR(100),
-        acceptance VARCHAR(50),
-        description TEXT,
-        examples JSON,
-        constraints JSON,
-        funcName VARCHAR(255),
-        params JSON,
-        argTypes JSON,
-        retType VARCHAR(100),
-        templates JSON,
-        sampleTestCases JSON,
-        systemTestCases JSON
-      )
-    `);
-
-    await dbPool.query(`
-      CREATE TABLE IF NOT EXISTS custom_problems (
-        id VARCHAR(50) PRIMARY KEY,
-        title VARCHAR(255) NOT NULL,
-        difficulty VARCHAR(50) NOT NULL,
-        difficultyText VARCHAR(50) NOT NULL,
-        category VARCHAR(100),
-        acceptance VARCHAR(50),
-        description TEXT,
-        examples JSON,
-        constraints JSON,
-        funcName VARCHAR(255),
-        params JSON,
-        argTypes JSON,
-        retType VARCHAR(100),
-        templates JSON,
-        sampleTestCases JSON,
-        systemTestCases JSON,
-        solutions JSON
-      )
-    `);
-
-    await dbPool.query(`
-      CREATE TABLE IF NOT EXISTS login_history (
-        id INT AUTO_INCREMENT PRIMARY KEY,
-        email VARCHAR(255) NOT NULL,
-        loginTime VARCHAR(255) NOT NULL,
-        status VARCHAR(50) NOT NULL
-      )
-    `);
-
-    await seedMysqlFromJSON();
-  } catch (error) {
-    console.warn(`[MySQL Warning] Could not establish connection to MySQL database: ${error.message}`);
-    console.info(`[Fallback Info] Falling back to flat-file JSON database storage.`);
-    useMysql = false;
-  }
+  console.log('[Firebase Success] Backend is securely connected to Firebase Firestore!');
 }
 
 // 15 Problems schema matching types for C++ and Java code generation
@@ -1290,7 +1115,9 @@ inline bool binaryTreesEqual(TreeNode* a, TreeNode* b) {
     return a->val == b->val && binaryTreesEqual(a->left, b->left) && binaryTreesEqual(a->right, b->right);
 }
 
+#define main __user_main
 ${userCode}
+#undef main
 
 int main() {
   std::cout << "\\nRESULT_START:\\n{\\"status\\":\\"success\\",\\"results\\":[";
@@ -1588,6 +1415,197 @@ app.post('/api/auth/signup', async (req, res) => {
   }
 });
 
+// Helper to handle user creation/fetch for OAuth
+async function handleOAuthUserLogin(email, name) {
+  let user = await getUserByEmail(email);
+  if (!user) {
+    const randomSuffix = crypto.randomBytes(4).toString('hex');
+    const username = `user_${randomSuffix}`;
+    const password = crypto.randomBytes(16).toString('hex'); // High entropy secure password
+
+    const newUser = {
+      email: email.toLowerCase(),
+      password,
+      name,
+      username,
+      solved: [],
+      solutions: {},
+      customProblems: [],
+      streak: 0,
+      lastSolvedDate: null
+    };
+
+    const userKey = newUser.email.toLowerCase().replace(/[$.#]/g, '_');
+    await setDoc(doc(db, 'users', userKey), {
+      email: newUser.email,
+      password: newUser.password,
+      name: newUser.name,
+      username: newUser.username,
+      solved: JSON.stringify(newUser.solved),
+      solutions: JSON.stringify(newUser.solutions),
+      customProblems: JSON.stringify(newUser.customProblems),
+      lastSynced: new Date().toISOString(),
+      streak: newUser.streak,
+      lastSolvedDate: newUser.lastSolvedDate
+    }, { merge: true });
+    user = newUser;
+  }
+
+  await recordLoginEvent(email, 'success');
+
+  let solvedArr = [];
+  try {
+    solvedArr = typeof user.solved === 'string' ? JSON.parse(user.solved) : (user.solved || []);
+  } catch(e) {}
+  const xp = solvedArr.length * 10;
+  const rank = Math.max(1, 15000 - xp * 5);
+  
+  return {
+    name: user.name,
+    username: user.username,
+    email: user.email,
+    solved: solvedArr,
+    solutions: typeof user.solutions === 'string' ? JSON.parse(user.solutions) : (user.solutions || {}),
+    customProblems: typeof user.customProblems === 'string' ? JSON.parse(user.customProblems) : (user.customProblems || []),
+    bio: user.bio || "Passionate developer on a coding journey.",
+    streak: user.streak || 0,
+    lastSolvedDate: user.lastSolvedDate || null,
+    xp: xp,
+    rank: rank
+  };
+}
+
+// Google OAuth Login
+app.get('/api/auth/google', (req, res) => {
+  const url = googleClient.generateAuthUrl({
+    access_type: 'offline',
+    scope: ['https://www.googleapis.com/auth/userinfo.profile', 'https://www.googleapis.com/auth/userinfo.email']
+  });
+  res.redirect(url);
+});
+
+// Google OAuth Callback
+app.get('/api/auth/google/callback', async (req, res) => {
+  const { code } = req.query;
+  if (!code) {
+    return res.status(400).send('No code provided');
+  }
+
+  try {
+    const { tokens } = await googleClient.getToken(code);
+    googleClient.setCredentials(tokens);
+
+    // Verify ID Token to get user info
+    const ticket = await googleClient.verifyIdToken({
+      idToken: tokens.id_token,
+      audience: GOOGLE_CLIENT_ID
+    });
+    const payload = ticket.getPayload();
+    const { email, name } = payload;
+    
+    if (!email) {
+      return res.status(400).send('Email not provided by Google');
+    }
+
+    const profile = await handleOAuthUserLogin(email, name || 'Google User');
+
+    // Return HTML that sends the profile back to the opener window
+    res.send(`
+      <!DOCTYPE html>
+      <html>
+      <head><title>Authentication Successful</title></head>
+      <body>
+        <script>
+          if (window.opener) {
+            window.opener.postMessage({ type: 'oauth_success', profile: ${JSON.stringify(profile)} }, '*');
+            window.close();
+          } else {
+            localStorage.setItem('cn_profile', JSON.stringify(${JSON.stringify(profile)}));
+            window.location.href = '${process.env.FRONTEND_URL || ''}/dashboard.html';
+          }
+        </script>
+        <p>Authentication successful. You can close this window.</p>
+      </body>
+      </html>
+    `);
+  } catch (error) {
+    console.error('Google Auth Error:', error);
+    res.status(500).send('Google authentication failed: ' + (error.message || error.toString()));
+  }
+});
+
+// GitHub OAuth Login
+app.get('/api/auth/github', (req, res) => {
+  const redirectUri = `https://github.com/login/oauth/authorize?client_id=${GITHUB_CLIENT_ID}&scope=user:email`;
+  res.redirect(redirectUri);
+});
+
+// GitHub OAuth Callback
+app.get('/api/auth/github/callback', async (req, res) => {
+  const { code } = req.query;
+  if (!code) {
+    return res.status(400).send('No code provided');
+  }
+
+  try {
+    // 1. Exchange code for access token
+    const tokenResponse = await axios.post('https://github.com/login/oauth/access_token', {
+      client_id: GITHUB_CLIENT_ID,
+      client_secret: GITHUB_CLIENT_SECRET,
+      code
+    }, { headers: { accept: 'application/json' } });
+
+    const accessToken = tokenResponse.data.access_token;
+    if (!accessToken) {
+      return res.status(400).send('Failed to obtain access token');
+    }
+
+    // 2. Fetch user profile
+    const userResponse = await axios.get('https://api.github.com/user', {
+      headers: { Authorization: `token ${accessToken}` }
+    });
+
+    // 3. Fetch user emails (since primary email might be private)
+    const emailResponse = await axios.get('https://api.github.com/user/emails', {
+      headers: { Authorization: `token ${accessToken}` }
+    });
+    
+    const primaryEmailObj = emailResponse.data.find(e => e.primary) || emailResponse.data[0];
+    if (!primaryEmailObj) {
+      return res.status(400).send('No email associated with GitHub account');
+    }
+
+    const email = primaryEmailObj.email;
+    const name = userResponse.data.name || userResponse.data.login || 'GitHub User';
+
+    const profile = await handleOAuthUserLogin(email, name);
+
+    // 4. Return HTML that sends the profile back to the opener window
+    res.send(`
+      <!DOCTYPE html>
+      <html>
+      <head><title>Authentication Successful</title></head>
+      <body>
+        <script>
+          if (window.opener) {
+            window.opener.postMessage({ type: 'oauth_success', profile: ${JSON.stringify(profile)} }, '*');
+            window.close();
+          } else {
+            // Fallback if not opened in popup (save to localStorage directly and redirect)
+            localStorage.setItem('cn_profile', JSON.stringify(${JSON.stringify(profile)}));
+            window.location.href = '${process.env.FRONTEND_URL || ''}/dashboard.html';
+          }
+        </script>
+        <p>Authentication successful. You can close this window.</p>
+      </body>
+      </html>
+    `);
+  } catch (error) {
+    console.error('GitHub Auth Error:', error.response?.data || error.message);
+    res.status(500).send('GitHub authentication failed');
+  }
+});
+
 // User Login
 app.post('/api/auth/login', async (req, res) => {
   const { email, password } = req.body;
@@ -1777,16 +1795,7 @@ app.post('/api/admin/problems', requireAdminAuth, async (req, res) => {
   }
 
   let nextId = Object.keys(problems).length + 1;
-  if (useMysql) {
-    try {
-      const [rows] = await dbPool.query('SELECT MAX(id) as maxId FROM problems');
-      if (rows[0] && rows[0].maxId !== null) {
-        nextId = parseInt(rows[0].maxId) + 1;
-      }
-    } catch (e) {
-      console.error('Failed to resolve MAX(id) from MySQL:', e);
-    }
-  }
+
   const difficultyText = difficulty.charAt(0).toUpperCase() + difficulty.slice(1).toLowerCase();
 
   // Helper for python type generation
@@ -2114,8 +2123,21 @@ async function executeCode(language, code, testCases, funcName, problemId, callb
     const solutionFile = path.join(runDir, `Solution.java`);
     const mainFile = path.join(runDir, `Main.java`);
     
+    // Force user's class to be named Solution to match the runner expectations
+    let processedCode = code;
+    const classRegex = /public\s+class\s+(\w+)/g;
+    const match = classRegex.exec(code);
+    if (match) {
+      const className = match[1];
+      if (className !== 'Solution') {
+        processedCode = code.replace(new RegExp(`public\\s+class\\s+${className}`, 'g'), 'public class Solution');
+      }
+    } else {
+      processedCode = code.replace(/class\s+(\w+)/, 'class Solution');
+    }
+
     // Extract user imports and place them at the very top of the file
-    const lines = code.split('\n');
+    const lines = processedCode.split('\n');
     const imports = lines.filter(l => l.trim().startsWith('import '));
     const nonImports = lines.filter(l => !l.trim().startsWith('import '));
     const finalJavaCode = imports.join('\n') + '\n' + javaPrecludes + '\n' + nonImports.join('\n');

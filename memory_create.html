@@ -341,6 +341,7 @@
       box-shadow: 0 6px 15px rgba(168, 85, 247, 0.25);
     }
   </style>
+  <script src="config.js"></script>
 </head>
 <body>
 
@@ -845,7 +846,7 @@
       }
 
       // Send to server API
-      fetch('/api/custom-problems', {
+      fetch(API_BASE_URL + '/api/custom-problems', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

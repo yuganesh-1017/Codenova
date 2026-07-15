@@ -368,7 +368,7 @@ function syncProfileWithBackend() {
     difficulty: p.difficulty
   }));
 
-  fetch('/api/users/sync', {
+  fetch(API_BASE_URL + '/api/users/sync', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'

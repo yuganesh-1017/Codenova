@@ -138,6 +138,7 @@
       font-weight: 600;
     }
   </style>
+  <script src="config.js"></script>
 </head>
 <body>
   <!-- Top Navigation Header -->
@@ -318,7 +319,7 @@
   
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-      fetch('/api/problems')
+      fetch(API_BASE_URL + '/api/problems')
         .then(res => res.json())
         .then(problems => {
           calculateStats(problems);

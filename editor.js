@@ -119,7 +119,7 @@ document.addEventListener('DOMContentLoaded', () => {
   let problem = null;
 
   // 1. Fetch problem details from backend API
-  fetch(`/api/problems/${problemId}`)
+  fetch(`${API_BASE_URL}/api/problems/${problemId}`)
     .then(response => {
       if (!response.ok) throw new Error('Problem not found');
       return response.json();
@@ -418,7 +418,7 @@ document.addEventListener('DOMContentLoaded', () => {
       consoleOutput.innerHTML = `<span class="output-placeholder">Running test cases in backend sandbox...</span>`;
 
       // Make request to backend code runner
-      fetch('/api/run', {
+      fetch(API_BASE_URL + '/api/run', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -607,7 +607,7 @@ document.addEventListener('DOMContentLoaded', () => {
       submitBtn.disabled = true;
       submitBtn.style.opacity = '0.75';
 
-      fetch('/api/submit', {
+      fetch(API_BASE_URL + '/api/submit', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -755,7 +755,7 @@ document.addEventListener('DOMContentLoaded', () => {
   let allProblemsList = [];
 
   function loadSidebarProblems() {
-    fetch('/api/problems')
+    fetch(API_BASE_URL + '/api/problems')
       .then(res => res.json())
       .then(problems => {
         allProblemsList = problems;
@@ -904,7 +904,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Fetch and render dynamically
-    fetch(`/api/problems/${problemId}`)
+    fetch(`${API_BASE_URL}/api/problems/${problemId}`)
       .then(response => {
         if (!response.ok) throw new Error('Problem not found');
         return response.json();

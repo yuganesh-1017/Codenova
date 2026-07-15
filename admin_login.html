@@ -185,6 +185,7 @@
       color: white;
     }
   </style>
+  <script src="config.js"></script>
 </head>
 <body>
   <div class="login-container">
@@ -237,7 +238,7 @@
 
         const password = passwordInput.value;
 
-        fetch('/api/admin/login', {
+        fetch(API_BASE_URL + '/api/admin/login', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
