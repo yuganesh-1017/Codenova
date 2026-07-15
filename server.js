@@ -1474,11 +1474,9 @@ async function handleOAuthUserLogin(email, name) {
   };
 }
 
-// Google OAuth Login
 app.get('/api/auth/google', (req, res) => {
-  const protocol = req.headers['x-forwarded-proto'] || req.protocol;
-  const host = req.get('host');
-  const redirectUri = `${protocol}://${host}/api/auth/google/callback`;
+  const baseUrl = (process.env.BACKEND_URL || 'http://localhost:3001').replace(/\/+$/, '');
+  const redirectUri = `${baseUrl}/api/auth/google/callback`;
   
   const tempClient = new OAuth2Client(GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, redirectUri);
   const url = tempClient.generateAuthUrl({
@@ -1496,9 +1494,8 @@ app.get('/api/auth/google/callback', async (req, res) => {
   }
 
   try {
-    const protocol = req.headers['x-forwarded-proto'] || req.protocol;
-    const host = req.get('host');
-    const redirectUri = `${protocol}://${host}/api/auth/google/callback`;
+    const baseUrl = (process.env.BACKEND_URL || 'http://localhost:3001').replace(/\/+$/, '');
+    const redirectUri = `${baseUrl}/api/auth/google/callback`;
     const tempClient = new OAuth2Client(GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, redirectUri);
 
     const { tokens } = await tempClient.getToken(code);
