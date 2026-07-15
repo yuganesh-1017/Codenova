@@ -1,3 +1,5 @@
 // Global Configuration for Frontend
-// Replace this with your actual Render URL before deploying to Netlify
-const API_BASE_URL = 'https://codenova-0lgs.onrender.com';
+// Automatically uses local backend if running on localhost, otherwise uses Render backend
+const API_BASE_URL = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
+  ? '' 
+  : 'https://codenova-0lgs.onrender.com';
