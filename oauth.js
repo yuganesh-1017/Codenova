@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const top = window.screenY + (window.outerHeight - height) / 2;
 
       window.open(
-        `/api/auth/${provider}`,
+        `${typeof API_BASE_URL !== 'undefined' ? API_BASE_URL : ''}/api/auth/${provider}`,
         `${provider}Login`,
         `width=${width},height=${height},left=${left},top=${top}`
       );
@@ -37,8 +37,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Listen for message from popup
   window.addEventListener('message', (event) => {
-    // Only accept messages from same origin
-    if (event.origin !== window.location.origin) return;
+    // Only accept messages from same origin OR the backend API URL
+    const expectedOrigin = (typeof API_BASE_URL !== 'undefined' && API_BASE_URL) ? API_BASE_URL : window.location.origin;
+    if (event.origin !== window.location.origin && event.origin !== expectedOrigin) return;
 
     if (event.data && event.data.type === 'oauth_success') {
       const profile = event.data.profile;
