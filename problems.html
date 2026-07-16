@@ -14,6 +14,8 @@
   <link rel="stylesheet" href="dashboard.css?v=19">
   <link rel="stylesheet" href="problems.css">
   <script src="config.js"></script>
+
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
 </head>
 <body>
   <!-- Top Navigation Header -->
@@ -40,6 +42,7 @@
       <a href="problems.html" class="nav-item active">Problems</a>
       <a href="memory_create.html" class="nav-item">Memory Code</a>
       <a href="memory_storage.html" class="nav-item">Memory Storage</a>
+      <a href="solved.html" class="nav-item">Solved</a>
       <a href="stats.html" class="nav-item">Roadmap</a>
     </nav>
 
@@ -210,11 +213,13 @@
         .then(res => res.json())
         .then(data => {
           problemsList = data;
+          problemsList.sort((a, b) => Number(a.id) - Number(b.id));
           renderTable();
         })
         .catch(err => {
           console.warn('Failed to load problems, falling back to local database:', err);
           problemsList = FALLBACK_PROBLEMS;
+          problemsList.sort((a, b) => Number(a.id) - Number(b.id));
           renderTable();
         });
 
@@ -228,7 +233,7 @@
 
         tableBody.innerHTML = '';
 
-        problemsList.forEach(prob => {
+        problemsList.forEach((prob, index) => {
           // Filter matching
           const matchesSearch = prob.title.toLowerCase().includes(query) || prob.category.toLowerCase().includes(query);
           const matchesDiff = (selectedDiff === 'all' || prob.difficulty === selectedDiff);
@@ -240,7 +245,7 @@
             const tr = document.createElement('tr');
             
             tr.innerHTML = `
-              <td>${prob.id}</td>
+              <td>${index + 1}</td>
               <td class="problem-name">
                 <a href="editor.html?id=${prob.id}" style="display:inline-flex; align-items:center; gap:8px;">
                   ${isSolved ? `

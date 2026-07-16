@@ -1862,7 +1862,7 @@ app.post('/api/admin/problems', requireAdminAuth, async (req, res) => {
 
 // Generic process runner block
 function runProcess(command, runDir, callback) {
-  exec(command, { timeout: 3500, killSignal: 'SIGTERM' }, (error, stdout, stderr) => {
+  exec(command, { timeout: 1500, killSignal: 'SIGTERM' }, (error, stdout, stderr) => {
     // Delete temporary directory recursively
     try {
       deleteFolderRecursive(runDir);
@@ -1947,7 +1947,7 @@ function runConsoleIoCases(runCmd, testCases, runDir, callback) {
     const expectedStr = String(tc.expected).trim().replace(/\r\n/g, '\n');
 
     const startTime = process.hrtime();
-    const child = exec(runCmd, { timeout: 3500, killSignal: 'SIGTERM' }, (error, stdout, stderr) => {
+    const child = exec(runCmd, { timeout: 1500, killSignal: 'SIGTERM' }, (error, stdout, stderr) => {
       const diff = process.hrtime(startTime);
       const durationMs = (diff[0] * 1000) + (diff[1] / 1000000);
 

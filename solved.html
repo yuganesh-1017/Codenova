@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CodeNova | Memory Storage Library</title>
+  <title>CodeNova | Solved Problems</title>
   <!-- Google Fonts for Outfit and Inter -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -354,8 +354,8 @@
       <a href="dashboard.html" class="nav-item">Explore</a>
       <a href="problems.html" class="nav-item">Problems</a>
       <a href="memory_create.html" class="nav-item">Memory Code</a>
-      <a href="memory_storage.html" class="nav-item active">Memory Storage</a>
-      <a href="solved.html" class="nav-item">Solved</a>
+      <a href="memory_storage.html" class="nav-item">Memory Storage</a>
+      <a href="solved.html" class="nav-item active">Solved</a>
       <a href="stats.html" class="nav-item">Roadmap</a>
     </nav>
 
@@ -368,29 +368,11 @@
     <!-- Left Column: Challenges library -->
     <div class="storage-left-col">
       
-      <!-- Stats Cards -->
-      <div class="stats-summary-row">
-        <div class="stat-card">
-          <div class="stat-icon">🧠</div>
-          <div class="stat-details">
-            <h3 id="statTotal">0</h3>
-            <p>Challenges Forged</p>
-          </div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-icon" style="background:rgba(16,185,129,0.1); border-color:rgba(16,185,129,0.2);">🏆</div>
-          <div class="stat-details">
-            <h3 id="statSolved">0</h3>
-            <p>Challenges Solved</p>
-          </div>
-        </div>
-      </div>
-
       <!-- Library Panel -->
       <div class="library-panel">
         <div class="panel-header">
-          <h2>Memory Storage Library</h2>
-          <a href="memory_create.html" class="btn-create">+ Forge Challenge</a>
+          <h2>Solved Problems</h2>
+          
         </div>
 
         <div class="table-container" id="libraryTableContainer">
@@ -427,65 +409,52 @@
   </div>
 
   <script>
-    let customProblemsList = [];
+    let allProblemsList = [];
+    let solvedProblemsList = [];
     let selectedProblem = null;
     let activeLangTab = 'javascript';
 
     document.addEventListener('DOMContentLoaded', () => {
-      loadCustomProblems();
+      loadAllProblems();
     });
 
-    // 1. Fetch custom problems list
-    function loadCustomProblems() {
-      // Check if running on local file system (Offline/Local preview fallback)
-      if (window.location.protocol === 'file:') {
-        const localCustoms = JSON.parse(localStorage.getItem('custom_problems') || '{}');
-        customProblemsList = Object.values(localCustoms);
-        renderStorage();
-        return;
-      }
-
-      fetch(API_BASE_URL + '/api/custom-problems')
+    function loadAllProblems() {
+      const p1 = fetch(API_BASE_URL + '/api/problems')
         .then(res => res.json())
-        .then(data => {
-          customProblemsList = data;
-          renderStorage();
-        })
+        .catch(err => typeof FALLBACK_PROBLEMS !== 'undefined' ? FALLBACK_PROBLEMS : []);
+        
+      const p2 = fetch(API_BASE_URL + '/api/custom-problems')
+        .then(res => res.json())
         .catch(err => {
-          console.warn('Backend offline, loading custom problems from local storage fallback:', err);
           const localCustoms = JSON.parse(localStorage.getItem('custom_problems') || '{}');
-          customProblemsList = Object.values(localCustoms);
-          renderStorage();
+          return Object.values(localCustoms);
         });
+
+      Promise.all([p1, p2]).then(([standard, custom]) => {
+        allProblemsList = [...standard, ...custom];
+        const solved = getSolved();
+        solvedProblemsList = allProblemsList.filter(p => solved.includes(String(p.id)) || solved.includes(Number(p.id)));
+        renderStorage();
+      });
     }
 
-    // 2. Render storage listing & update summary statistics
     function renderStorage() {
       const tableBody = document.getElementById('libraryTableBody');
       const tableContainer = document.getElementById('libraryTableContainer');
 
-      // Update statistics
-      const solvedList = getSolved();
-      const totalCreated = customProblemsList.length;
-      const totalSolved = customProblemsList.filter(p => solvedList.includes(p.id)).length;
-
-      document.getElementById('statTotal').textContent = totalCreated;
-      document.getElementById('statSolved').textContent = totalSolved;
-
-      if (totalCreated === 0) {
+      if (solvedProblemsList.length === 0) {
         tableContainer.innerHTML = `
           <div class="placeholder-library">
             <span>🌌</span>
-            <h3>No Memory Challenges Forged Yet</h3>
-            <p style="margin-top:8px; font-size:13.5px;">Click the <strong>Forge Challenge</strong> button above to write your own coding tasks and inputs validation test suites.</p>
+            <h3>No Solved Problems Yet</h3>
+            <p style="margin-top:8px; font-size:13.5px;">Complete problems in the workspace to see your solutions here.</p>
           </div>
         `;
         return;
       }
 
       tableBody.innerHTML = '';
-      customProblemsList.forEach((prob, index) => {
-        const isSolved = solvedList.includes(prob.id);
+      solvedProblemsList.forEach((prob, index) => {
         const tr = document.createElement('tr');
         tr.className = 'problem-row';
         tr.dataset.id = prob.id;
@@ -494,17 +463,16 @@
           <td>${index + 1}</td>
           <td style="font-weight:600; color:#fff;">
             ${prob.title}
-            ${isSolved ? '<span style="color:var(--color-green); font-size:11px; margin-left:6px;">✔</span>' : ''}
+            <span style="color:var(--color-green); font-size:11px; margin-left:6px;">✔</span>
           </td>
-          <td><span class="badge diff-${prob.difficulty}">${prob.difficultyText}</span></td>
+          <td><span class="badge diff-${(prob.difficulty||'easy').toLowerCase()}">${prob.difficultyText || prob.difficulty}</span></td>
           <td>
-            <a href="editor.html?id=${prob.id}" class="btn-action-solve">Solve</a>
+            <a href="editor.html?id=${prob.id}" class="btn-action-solve">Solve Again</a>
           </td>
         `;
 
-        // Click row to show in rewind panel
         tr.addEventListener('click', (e) => {
-          if (e.target.classList.contains('btn-action-solve')) return; // let link handle
+          if (e.target.classList.contains('btn-action-solve')) return;
           
           document.querySelectorAll('.problem-row').forEach(row => row.classList.remove('active'));
           tr.classList.add('active');
@@ -517,21 +485,19 @@
       });
     }
 
-    // 3. Render Right Solution Rewind console
     function renderRewindConsole() {
       const rewindPanel = document.getElementById('rewindPanel');
       if (!selectedProblem) return;
 
-      const solvedList = getSolved();
-      const isSolved = solvedList.includes(selectedProblem.id);
-      const solutions = selectedProblem.solutions || {};
+      const cn_solutions = JSON.parse(localStorage.getItem('cn_solutions') || '{}');
+      const solutions = selectedProblem.solutions || cn_solutions[selectedProblem.id] || {};
 
-      let html = `
+      let renderHtml = `
         <div class="rewind-header">
           <h2>${selectedProblem.title}</h2>
           <div class="meta">
-            <span>Difficulty: <span class="badge diff-${selectedProblem.difficulty}" style="padding:2px 6px;">${selectedProblem.difficultyText}</span></span>
-            <span>Status: ${isSolved ? '<span style="color:var(--color-green); font-weight:600;">Solved</span>' : '<span style="color:var(--text-muted);">Unsolved</span>'}</span>
+            <span>Difficulty: <span class="badge diff-${(selectedProblem.difficulty||'easy').toLowerCase()}" style="padding:2px 6px;">${selectedProblem.difficultyText || selectedProblem.difficulty}</span></span>
+            <span>Status: <span style="color:var(--color-green); font-weight:600;">Solved</span></span>
           </div>
         </div>
 
@@ -546,12 +512,11 @@
           <!-- Dynamic code view -->
         </div>
 
-        <a href="editor.html?id=${selectedProblem.id}" class="btn-submit" style="text-align:center; padding:12px; font-size:14px; text-decoration:none;">Open in Workspace Editor</a>
+        <a href="editor.html?id=${selectedProblem.id}" class="btn-submit" style="text-align:center; padding:12px; font-size:14px; text-decoration:none; margin-top: 20px; display: block; border-radius: 8px; background: rgba(168,85,247,0.1); border: 1px solid rgba(168,85,247,0.3); color: var(--color-purple);">Open in Workspace Editor</a>
       `;
 
-      rewindPanel.innerHTML = html;
+      rewindPanel.innerHTML = renderHtml;
 
-      // Add event listeners to lang tabs
       rewindPanel.querySelectorAll('.lang-tab').forEach(tab => {
         tab.addEventListener('click', (e) => {
           activeLangTab = e.target.dataset.lang;
@@ -569,7 +534,6 @@
       const savedCode = solutions[activeLangTab];
 
       if (savedCode) {
-        // Escape HTML tags to prevent rendering errors
         const escapedCode = savedCode
           .replace(/&/g, "&amp;")
           .replace(/</g, "&lt;")
